@@ -32,3 +32,5 @@ Tyler is a movie enthusiast.  But because he has viewed so many films on his str
 - We work together collaboratively and cooperatively to meet the needs of our customers.
 - We hope to establish a safe and interactive space for our customers to help share their thoughts and ideas.
 - We value our people and their uniqueness across boundaries. 
+
+*Our film recommendation app will allow our customers to enjoy movie recommendations from friends and family. It fills their need of finding new film recommendations. Our app personalizes ratings and reviews based on your recommendations from others. It is going to be gender-neutral and have no commercial bias.*
