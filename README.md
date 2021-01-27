@@ -1,4 +1,4 @@
-# **FLIM CLUB PERSONA**
+# **FILM CLUB PERSONA**
 
 ![alt text](https://img.freepik.com/free-photo/a-man-in-a-bedroom-at-home-in-front-of-a-laptop-watching-movies-at-night_163305-16739.jpg?size=664&ext=jpg)
 
@@ -9,7 +9,7 @@
 - Economic Status   |   Middle Class ($50,000 - $74,999)
 - Employment Status |   Employed
 - Educational Level |   University
-- Maritial Status   |   Single
+- Marital Status   |   Single
 - Hobbies/Interests |   Movies, Anime, and Television Watching
 
 Tyler is a movie enthusiast.  But because he has viewed so many films on his streaming services he has run out of new material.  He also wishes to have a more honest opinion on what he might like given the corporate bias the streaming services have when they recommend their new material to him.  He also wants to connect with a growing social media community that shares similar interests and become part of a larger community. Tyler values his family members and close friends who like to spend time watching movies on a regular basis. He also values the recommendations/suggestions he receives from other users so that they can discuss/have friendly conversations about various topics relating to film and television.  
