@@ -1,0 +1,23 @@
+{% load static %}
+
+<html>
+<head>
+	<title>{% block title %}Film Club{% endblock %}</title>
+	
+	<link rel = "stylesheet" type = "text/css" href = "{% static 'css/base.css' %}">
+	
+	{% block css %}
+	{% endblock %}
+</head>
+<body>
+	{% block content %}
+	{% endblock %}
+	
+	<script src = "{% static 'js/jquery.js' %}"></script>
+	<script src = "{% static 'js/ajax.js' %}"></script>
+	<script src = "{% static 'js/base.js' %}"></script>
+	
+	{% block js %}
+	{% endblock %}
+</body>
+</html>
