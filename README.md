@@ -1,6 +1,16 @@
 # **FILM CLUB PERSONA**
 
 ![alt text](https://img.freepik.com/free-photo/a-man-in-a-bedroom-at-home-in-front-of-a-laptop-watching-movies-at-night_163305-16739.jpg?size=664&ext=jpg)
+## Description of Prototype
+
+1. Landing Screen - A screen with the film club logo and information about the product
+2. Login Screen - A screen where the user will enter their login credentials or select create account 
+3. New Account Screen - A screen where new users will enter information about  themselves and create a profile. The user will go through a new user process where they enter media they have viewed and their ratings of it.
+4. Home Screen - The screen users are directed too on sign in, this is where the recommendation feed lives. For the prototype the recommendations will be based on the users media selections. Users will have the option to comment on other users ratings of media.
+5. Movie Profile Screen - The users data on media they have viewed  and reviewed can be viewed, edited and deleted here.
+6. Upload Data Screen - the user can add new media to their profile here
+7. User Profile Screen - the user can view/edit/delete information from their personal profile
+8. Reset Password/Email Screen - users who forgot their passwords/emails can reset them here.
 
 ##  ABOUT ME: *THE PERSONA*
 - Name              |   Tyler Durdem
