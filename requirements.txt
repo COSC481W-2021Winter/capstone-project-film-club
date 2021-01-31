@@ -7,3 +7,5 @@ pytz==2020.5
 six==1.15.0
 sqlparse==0.4.1
 virtualenv==20.4.0
+django-crispy-forms==1.11.0
+django-allauth==0.44.0

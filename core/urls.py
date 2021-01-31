@@ -23,6 +23,7 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')), #enable Django auth app
     path('', views.index, name = 'index'), #Landing screen
     path('home/', views.home, name = 'index'), #Home screen
+    path("register/", views.register, name="register"), #New user signup screen
 ]
 
 #### URL'S INCLUDED BY USING DJANGO AUTH ####################
