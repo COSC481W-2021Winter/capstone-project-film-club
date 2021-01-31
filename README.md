@@ -1,6 +1,5 @@
-# **FILM CLUB PERSONA**
+# **FILM CLUB**
 
-![alt text](https://img.freepik.com/free-photo/a-man-in-a-bedroom-at-home-in-front-of-a-laptop-watching-movies-at-night_163305-16739.jpg?size=664&ext=jpg)
 ## Description of Prototype
 
 1. Landing Screen - A screen with the film club logo and information about the product
@@ -13,6 +12,9 @@
 8. Reset Password/Email Screen - users who forgot their passwords/emails can reset them here.
 
 ##  ABOUT ME: *THE PERSONA*
+
+![alt text](https://img.freepik.com/free-photo/a-man-in-a-bedroom-at-home-in-front-of-a-laptop-watching-movies-at-night_163305-16739.jpg?size=664&ext=jpg)
+
 - Name              |   Tyler Durdem
 - Sex               |   Male
 - Age               |   28
