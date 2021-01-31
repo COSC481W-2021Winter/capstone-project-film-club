@@ -1,7 +1,7 @@
 {% extends 'core/base.html' %}
 {% load static %}
 
-{% block title %}Landing{% endblock %}
+{% block title %}Home{% endblock %}
 
 {% block css %}
 
@@ -12,9 +12,14 @@
 {% block content %}
 	<div>
 		<h1>Film Club</h1>
+		{% if user.is_authenticated %}
+			<p>Hi {{ user.username }}!</p>
+			<p><a href="{% url 'logout' %}">Log Out</a></p>
+		{% else %}
 			<p>You are not logged in</p>
 			<a href="{% url 'login' %}">Log In</a>
 	</div>
+{% endif %}
 	
 {% endblock %}
 
