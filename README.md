@@ -4,7 +4,7 @@
 
 1. Landing Screen - A screen with the film club logo and information about the product
 2. Login Screen - A screen where the user will enter their login credentials or select create account 
-3. New Account Screen - A screen where new users will enter information about  themselves and create a profile. The user will go through a new user process where they enter media they have viewed and their ratings of it.
+3. New Account Screen - A screen where new users will enter information about  themselves and create a profile. The user will go through a new user process where they enter media categories they like to help create their profile. 
 4. Home Screen - The screen users are directed too on sign in, this is where the recommendation feed lives. For the prototype the recommendations will be based on the users media selections. 
 5. Movie Profile Screen - The users data on media they have viewed  and reviewed can be viewed, edited and deleted here.
 6. Upload Data Screen - the user can add new media to their profile here
