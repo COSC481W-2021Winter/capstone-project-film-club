@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import *
+from .models import Favorites # don't use * here it will break shit
 
 GENRE_CHOICES = (
     ('AC', 'Action'),
@@ -35,10 +35,6 @@ class GenresForm(forms.ModelForm):
     firstGenre = forms.CharField(label="What is your favorite genre?", widget=forms.Select(choices=GENRE_CHOICES))
     secondGenre = forms.CharField(label="What is your second favorite genre?", widget=forms.Select(choices=GENRE_CHOICES))
     thirdGenre = forms.CharField(label="What is your third favorite genre?", widget=forms.Select(choices=GENRE_CHOICES))
-
-    def __init__(self, user, *args, **kwargs):
-        self.user = user
-        super(GenresForm, self).__init__(*args, **kwargs)
 
     class Meta:
         model = Favorites

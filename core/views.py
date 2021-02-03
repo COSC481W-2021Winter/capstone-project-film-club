@@ -18,6 +18,7 @@ def home(request):
         # Data to return to template
     })
 
+#https://www.techwithtim.net/tutorials/django/user-registration/
 def register(response):
     if response.method == "POST":
         form = RegisterForm(response.POST)
@@ -29,10 +30,13 @@ def register(response):
     return render(response, "registration/register.html", {"form":form})
 
 def genres(request):
+    user = request.user
     if request.method == "POST": #Check if incoming request is submited form
         form = GenresForm(request.POST) #Decide what form to use form forms.py
         if form.is_valid(): #if this is a valid response
-            form.save() #Save to the database
+            genres = form.save(commit=False)
+            genres.user = request.user
+            genres.save() #Save to the database
             return redirect("/home") #redirect the user to the home page
     else: #this is not a submited form
         form = GenresForm(request.user) #set the form form forms.py
