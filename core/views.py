@@ -39,5 +39,5 @@ def genres(request):
             genres.save() #Save to the database
             return redirect("/home") #redirect the user to the home page
     else: #this is not a submited form
-        form = GenresForm(request.user) #set the form form forms.py
+        form = GenresForm() #set the form form forms.py
     return render(request, 'core/genres.html', {"form":form}) #return the correct form for page
