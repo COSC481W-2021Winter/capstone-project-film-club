@@ -24,6 +24,7 @@ urlpatterns = [
     path('', views.index, name = 'index'), #Landing screen
     path('home/', views.home, name = 'index'), #Home screen
     path("register/", views.register, name="register"), #New user signup screen
+    path("genres/", views.genres, name = "genres"), #Genre selection screen
 ]
 
 #### URL'S INCLUDED BY USING DJANGO AUTH ####################
