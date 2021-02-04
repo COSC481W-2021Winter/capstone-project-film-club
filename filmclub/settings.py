@@ -132,27 +132,16 @@ STATIC_URL = '/static/'
 LOGIN_REDIRECT_URL = '/home' #redirect users on sign in to the home page
 LOGOUT_REDIRECT_URL = '/' #redirect users to landing page when they sign out
 
-#https://whizzoe.medium.com/in-5-mins-set-up-google-login-to-sign-up-users-on-django-e71d5c38f5d5
-#Allow users to sign in with google accounts 
-# AUTHENTICATION_BACKENDS = ( 
-#     'django.contrib.auth.backends.ModelBackend',
-#     'allauth.account.auth_backends.AuthenticationBackend',
-# )
-
-#Allow us to recive user emails if they sign in with google 
-# SOCIALACCOUNT_PROVIDERS = {
-#     'google': {
-#         'SCOPE': [
-#             'profile',
-#             'email',
-#         ],
-#         'AUTH_PARAMS': {
-#             'access_type': 'online',
-#         }
-#     }
-# }
-
 #### CRISPY FORM SETTINGS ###
 CRISPY_TEMPLATE_PACK="bootstrap4"
 
 ###################################
+
+#### EMAIL SETTINGS ##############
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'filmclubbot@gmail.com' #sender's email-id 
+EMAIL_HOST_PASSWORD = '5zsVsSFT' #password associated with above email-id 
+################################################################

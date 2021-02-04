@@ -1,5 +1,20 @@
 # **FILM CLUB**
 
+# Requirements to run this project locally
+- Python 3, the project is being developed with Python 3.8.2
+- Pip
+
+# Commands to run the project
+- pip install virtualenv
+- virtualenv env
+- source env/bin/activate
+- pip install -r requirements.txt
+- python manage.py runserver
+
+# Other helpful commands
+- python manage.py makemigrations
+- python manage.py migrate
+
 ## Description of Prototype
 
 1. Landing Screen - A screen with the film club logo and information about the product
