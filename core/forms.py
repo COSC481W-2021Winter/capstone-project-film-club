@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, PasswordResetForm
 from django.contrib.auth.models import User
 from .models import Favorites # don't use * here it will break shit
 
@@ -40,4 +40,8 @@ class GenresForm(forms.ModelForm):
         model = Favorites
         fields = ["firstGenre", "secondGenre", "thirdGenre"]
 
+class PasswordReset(PasswordResetForm):
+    class Meta:
+        model = User
+        fields = ["email"]
 
