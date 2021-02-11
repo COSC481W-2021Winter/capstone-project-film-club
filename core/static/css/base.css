@@ -1,7 +1,21 @@
+:root{
+	--inner-width: 70%;
+	
+	--red: #a7414a;
+	--black: #282726;
+	--blue: #6a8a82;
+}
 *{
 	margin: 0;
 	padding: 0;
 }
 body{
 	font-family: Roboto-Regular;
+	
+	background-color: #fbfbfb;
+}
+
+a:visited, a:link, a:hover, a:active{
+	text-decoration: none;
+	color: inherit;
 }

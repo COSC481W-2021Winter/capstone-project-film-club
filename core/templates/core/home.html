@@ -1,30 +1,104 @@
-{% extends 'core/base.html' %}
+{% extends 'core/base_full.html' %}
 {% load static %}
 
 {% block title %}Home{% endblock %}
 
 {% block css %}
 
-	<script src = "{% static 'css/index.css'%}"></script>
+	<link rel = "stylesheet" type = "text/css" href = "{% static 'css/home.css'%}">
 
 {% endblock %}
 
 {% block content %}
-	<div>
-		<h1>Film Club</h1>
-		{% if user.is_authenticated %}
-			<p>Hi {{ user.username }}!</p>
-			<p><a href="{% url 'logout' %}">Log Out</a></p>
-		{% else %}
-			<p>You are not logged in</p>
-			<a href="{% url 'login' %}">Log In</a>
+	
+	<div id = "container">
+		<div class = "cont-section">
+			<div id = "user-container" class = "tile">
+				<div id = "user-cover">
+					<div id = "user-image">
+						
+					</div>
+				</div>
+				<div id = "user-info">
+					<p>{{ user.get_full_name }}</p>
+				</div>
+				<div id = "user-stats">
+					<div class = "user-stat">
+						<p class = "stat-label">Friends</p>
+						<p class = "stat-number">5</p>
+					</div>
+					<div class = "user-stat">
+						<p class = "stat-label"># Movies</p>
+						<p class = "stat-number">17</p>
+					</div>
+				</div>
+				<div id = "user-options">
+					<a href = "{% url 'core:profile' username=user.username %}">View Profile</p>
+				</div>
+			</div>
+		</div>
+		<div id = "main-feed" class = "cont-section">
+			<div id = "daily-recs" class = "slider tile">
+				<p class = "tile-title">Daily Recommendations</p>
+				<div class = "slider-items">
+					{% for movie in recommendations %}
+						
+						<div class = "rec-movie" style = "background-image: url({{ movie.poster_url }})">
+							
+						</div>
+						
+					{% endfor %}
+				</div>
+			</div>
+			<div id = "feed">
+				<div class = "review tile">
+					<div class = "tile-type">
+						Review (Example)
+					</div>
+					<div class = "review-header">
+						<div class = "user-image">
+							
+						</div>
+						<div class = "review-info">
+							<div class = "review-details">
+								<p class = "review-name">{{ user.get_full_name }}<p>
+								<p style = "margin: 0 4px">reviewed</p>
+								<p class = "review-title">Once Upon A Time...In Hollywood</p>
+							</div>
+							<div class = "review-date">
+								
+							</div>
+						</div>
+					</div>
+					<div class = "review-media">
+						<div class = "media-image">
+							
+						</div>
+						<div class = "media-details">
+							<p class = "media-title">Once Upon A Time...In Hollywood</p>
+							<p class = "media-description">Actor Rick Dalton gained fame and fortune by starring in a 1950s television Western, but is now struggling to find meaningful work in a Hollywood that he doesn't recognize anymore. He spends most of his time drinking and palling around with Cliff Booth, his easygoing best friend and longtime stunt double. Rick also happens to live next door to Roman Polanski and Sharon Tate -- the filmmaker and budding actress whose futures will forever be altered by members of the Manson Family.</p>
+						</div>
+					</div>
+					<div class = "review-options">
+						<div class = "review-option">
+							<p>Like</p>
+						</div>
+						<div class = "review-option">
+							<p>Comment</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class = "cont-section">
+			
+		</div>
 	</div>
-{% endif %}
 	
 {% endblock %}
 
 {% block js %}
 
-	<script src = "{% static 'js/index.js'%}"></script>
+	<script src = "{% static 'js/home.js'%}"></script>
 
 {% endblock %}

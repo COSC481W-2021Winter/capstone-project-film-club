@@ -18,12 +18,14 @@ from django.urls import path, include
 
 from . import views
 
+app_name = 'core'
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('accounts/', include('django.contrib.auth.urls')), #enable Django auth app
-    path('', views.index, name = 'index'), #Landing screen
-    path('home/', views.home, name = 'index'), #Home screen
-    path("register/", views.register, name="register"), #New user signup screen
+    path('accounts/', include('django.contrib.auth.urls')),  # Enable Django auth app
+    path('', views.home, name = 'home'),  # Home/landing screen
+    path('<str:username>/', views.profile, name = 'profile'),  # Profile screen
+    path("register/", views.register, name="register"),  # New user signup screen
 ]
 
 #### URL'S INCLUDED BY USING DJANGO AUTH ####################

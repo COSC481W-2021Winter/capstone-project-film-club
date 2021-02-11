@@ -129,7 +129,7 @@ STATIC_URL = '/static/'
 
 ##### Authentication stuff
 #SITE_ID = 1
-LOGIN_REDIRECT_URL = '/home' #redirect users on sign in to the home page
+LOGIN_REDIRECT_URL = '/' #redirect users on sign in to the home page
 LOGOUT_REDIRECT_URL = '/' #redirect users to landing page when they sign out
 
 #https://whizzoe.medium.com/in-5-mins-set-up-google-login-to-sign-up-users-on-django-e71d5c38f5d5

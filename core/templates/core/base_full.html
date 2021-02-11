@@ -1,0 +1,42 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}
+	{{ block.super }}
+{% endblock %}
+
+{% block full_content %}
+
+	<div id = "nav">
+		<div class = "nav-section">
+			<a class = "nav-link-cont" href = "{% url 'core:home' %}">
+				<div class = "nav-link selected">
+					Home
+				</div>
+			</a>
+			<a class = "nav-link-cont" href = "{% url 'core:home' %}">
+				<div class = "nav-link">
+					Discover
+				</div>
+			</a>
+		</div>
+		<div class = "nav-section">
+			<div id = "nav-user">
+				<div class = "user-image">
+					
+				</div>
+				<p class = "user-name">{{ user.get_full_name }}</p>
+			</div>
+		</div>
+	</div>
+	
+	{% block content %}
+	{% endblock %}
+	
+	<!-- FOOTER -->
+	
+{% endblock %}
+
+{% block js %}
+	{{ block.super }}
+{% endblock %}
