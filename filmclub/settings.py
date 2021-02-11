@@ -129,7 +129,7 @@ STATIC_URL = '/static/'
 
 ##### Authentication stuff
 #SITE_ID = 1
-LOGIN_REDIRECT_URL = '/home' #redirect users on sign in to the home page
+LOGIN_REDIRECT_URL = '/' #redirect users on sign in to the home page
 LOGOUT_REDIRECT_URL = '/' #redirect users to landing page when they sign out
 
 #### CRISPY FORM SETTINGS ###

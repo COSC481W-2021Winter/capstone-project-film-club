@@ -18,12 +18,14 @@ from django.urls import path, include
 from django.contrib.auth import views as auth_views
 from . import views
 
+app_name = 'core'
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('accounts/', include('django.contrib.auth.urls')), #enable Django auth app
-    path('', views.index, name = 'index'), #Landing screen
-    path('home/', views.home, name = 'index'), #Home screen
-    path("register/", views.register, name="register"), #New user signup screen
+    path('', views.index, name = 'index'), # Home/landing screen
+    path('<str:username>/', views.profile, name = 'profile'),  # Profile screen
+    path('accounts/', include('django.contrib.auth.urls')), # Enable Django auth app
+    path("register/", views.register, name="register"), # New user signup screen
     path("genres/", views.genres, name = "genres"), #Genre selection screen
     path("password-change/", auth_views.PasswordChangeView.as_view(template_name='registration/password-reset/change_password.html', success_url = '/'), name = "password_change"), #Password reset screen
     path('password-reset/', auth_views.PasswordResetView.as_view(template_name='registration/password-reset/password_reset.html', 
@@ -34,7 +36,6 @@ urlpatterns = [
     path('password-reset-confirm/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name='registration/password-reset/password_reset_confirm.html'), name='password_reset_confirm'),
     path('password-reset-complete/', auth_views.PasswordResetCompleteView.as_view(template_name='registration/password-reset/password_reset_complete.html'), name='password_reset_complete'),
     path("welcome/", views.welcome, name = "send welcome email"),
-    
 ]
 
 #### URL'S INCLUDED BY USING DJANGO AUTH ####################
