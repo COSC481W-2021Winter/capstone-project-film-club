@@ -1,14 +1,13 @@
 import requests
+
 from django.shortcuts import render, redirect, reverse
-from django.http import JsonResponse
-from django.utils import timezone
-from django.contrib.auth import authenticate, login 
-from django.conf import settings 
-from django.core.mail import send_mail 
+from django.contrib.auth import authenticate, login
+from django.core.mail import send_mail
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+
 from .forms import *
 from .models import *
-from django.core.checks import messages
-from django.contrib.auth.decorators import login_required
 
 # Home/Landing Screen
 def home(request):
@@ -32,6 +31,16 @@ def profile(request, username):
     return render(request, 'core/profile.html', {
         'profile': profile
     })
+
+def movie(request, id):
+    movie = get_movie(id)
+
+    if movie:
+        movie['poster_url'] = get_poster_url(movie)
+
+        return render(request, 'core/movie.html', {
+            'movie': movie
+        })
 
 #https://www.techwithtim.net/tutorials/django/user-registration/
 def register(request):
@@ -109,3 +118,15 @@ def get_recommendations(user):
             index += 1
 
     return recommendations
+
+def get_movie(id):
+    response = requests.get('https://api.themoviedb.org/3/discover/movie?api_key=a1a486ad19b99d238e92778b9ceb4bb4&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1')
+    results = response.json()['results']
+
+    if len(results) > 0:
+        return results[0]
+
+    return None
+
+def get_poster_url(movie):
+    return 'https://image.tmdb.org/t/p/w500' + movie['poster_path']
