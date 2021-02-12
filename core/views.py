@@ -38,6 +38,8 @@ def movie(request, id):
     if movie:
         movie['poster_url'] = get_poster_url(movie)
 
+        print(movie)
+
         return render(request, 'core/movie.html', {
             'movie': movie
         })
@@ -89,7 +91,7 @@ def reset(request):
             return redirect("/sent")
     else:
         form = PasswordReset(request.POST)
-    return render(request, 'registration/password_reset.html', {"form":form})
+    return render(request, 'registration/password_reset.html', {"form": form})
 
 def sent(request):
     return render(request, 'registration/password_reset_sent.html', {
@@ -120,11 +122,10 @@ def get_recommendations(user):
     return recommendations
 
 def get_movie(id):
-    response = requests.get('https://api.themoviedb.org/3/discover/movie?api_key=a1a486ad19b99d238e92778b9ceb4bb4&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1')
-    results = response.json()['results']
+    response = requests.get('https://api.themoviedb.org/3/movie/' + str(id) + '?api_key=a1a486ad19b99d238e92778b9ceb4bb4&language=en-US')
 
-    if len(results) > 0:
-        return results[0]
+    if response.status_code == 200:
+        return response.json()
 
     return None
 

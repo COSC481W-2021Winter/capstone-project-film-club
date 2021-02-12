@@ -63,17 +63,18 @@
 	border-radius: 100%;
 }
 
-.grid-container{
+.container{
 	--gap: 15px;
 	
 	width: var(--inner-width);
 	
+	margin: auto;
+	margin-top: var(--gap);
+}
+.container.grid{	
 	display: grid;
 	grid-template-columns: 2fr 5fr 2fr;
 	grid-gap: var(--gap);
-	
-	margin: auto;
-	margin-top: var(--gap);
 }
 .cont-section{
 	display: flex;

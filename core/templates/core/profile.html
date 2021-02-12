@@ -12,9 +12,9 @@
 
 {% block content %}
 
-	<div class = "grid-container">
+	<div class = "container grid">
 		<div class = "cont-section">
-			{% include 'core/blocks/tiles/user-container.html' with user=user %}
+			{% include 'core/blocks/tiles/user-container.html' with user=profile %}
 		</div>
 		<div class = "cont-section">
 			
@@ -28,6 +28,6 @@
 
 {% block js %}
 
-	<script src = "{% static 'js/home.js'%}"></script>
+	<script src = "{% static 'js/profile.js'%}"></script>
 
 {% endblock %}
