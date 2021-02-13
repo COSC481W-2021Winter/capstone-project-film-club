@@ -50,10 +50,16 @@ def register(request):
         form = RegisterForm(request.POST)
         if form.is_valid():
             new_user = form.save()
+
+            userprofile = UserProfile(user = new_user)
+            userprofile.save()
+
             new_user = authenticate(username=form.cleaned_data['username'],
                                     password=form.cleaned_data['password1'],
                                     )
+
             login(request, new_user)
+
             return redirect("/welcome")
     else:
         form = RegisterForm()
@@ -73,12 +79,12 @@ def welcome(request):
 def genres(request):
     user = request.user
     if request.method == "POST": #Check if incoming request is submited form
-        form = GenresForm(request.POST) #Decide what form to use form forms.py
+        form = GenresForm(request.POST, instance = request.user.userprofile) #Decide what form to use form forms.py
         if form.is_valid(): #if this is a valid response
             genres = form.save(commit=False)
             genres.user = request.user
             genres.save() #Save to the database
-            return redirect("/home") #redirect the user to the home page
+            return reverse('core:home') #redirect the user to the home page
     else: #this is not a submited form
         form = GenresForm() #set the form form forms.py
     return render(request, 'core/genres.html', {"form":form}) #return the correct form for page
@@ -103,15 +109,27 @@ def sent(request):
 def get_recommendations(user):
     recommendations = []
 
-    genres = [28, 12, 10752, 53]
+    num_recommendations = 4
 
-    for genre in genres:
+    genres = user.userprofile.genres.all()
+
+    if len(genres) == 0:
+        return recommendations
+
+    for x in range(num_recommendations):
+        print(x % len(genres))
+
+        genre = genres[x % len(genres)].api_id
+
         response = requests.get('https://api.themoviedb.org/3/discover/movie?api_key=a1a486ad19b99d238e92778b9ceb4bb4&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=' + str(genre))
         results = response.json()['results']
 
         index = 0
 
         while True:
+            if index >= len(results):
+                break
+
             if results[index] not in recommendations:
                 recommendations.append(results[index])
 
