@@ -1,0 +1,36 @@
+#movie-container{
+	flex-direction: row;
+	
+	padding: 15px;
+	
+	background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), var(--background-url);
+	background-position: center;
+	background-size: cover;
+	background-repeat: no-repeat;
+	
+	box-sizing: border-box;
+}
+
+#movie-poster{
+	width: fit-content;
+	height: 300px;
+}
+#movie-poster img{
+	height: 100%;
+}
+
+#movie-details{
+	display: flex;
+	flex-direction: column;
+	
+	margin-left: 15px;
+	
+	color: white;
+}
+#movie-title{
+	font-family: Roboto-Medium;
+	font-size: 40px;
+}
+#movie-desc{
+	font-size: 14px;
+}

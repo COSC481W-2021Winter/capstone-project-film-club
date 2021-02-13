@@ -4,6 +4,7 @@
 {% block title %}Home{% endblock %}
 
 {% block css %}
+	{{ block.super }}
 
 	<link rel = "stylesheet" type = "text/css" href = "{% static 'css/home.css'%}">
 
@@ -11,31 +12,9 @@
 
 {% block content %}
 	
-	<div id = "container">
+	<div class = "container grid">
 		<div class = "cont-section">
-			<div id = "user-container" class = "tile">
-				<div id = "user-cover">
-					<div id = "user-image">
-						
-					</div>
-				</div>
-				<div id = "user-info">
-					<p>{{ user.get_full_name }}</p>
-				</div>
-				<div id = "user-stats">
-					<div class = "user-stat">
-						<p class = "stat-label">Friends</p>
-						<p class = "stat-number">5</p>
-					</div>
-					<div class = "user-stat">
-						<p class = "stat-label"># Movies</p>
-						<p class = "stat-number">17</p>
-					</div>
-				</div>
-				<div id = "user-options">
-					<a href = "{% url 'core:profile' username=user.username %}">View Profile</p>
-				</div>
-			</div>
+			{% include 'core/blocks/tiles/user-container.html' with user=user show_view_button=True %}
 		</div>
 		<div id = "main-feed" class = "cont-section">
 			<div id = "daily-recs" class = "slider tile">
@@ -43,9 +22,11 @@
 				<div class = "slider-items">
 					{% for movie in recommendations %}
 						
-						<div class = "rec-movie" style = "background-image: url({{ movie.poster_url }})">
+						<a href = "{% url 'core:movie' id=movie.id %}">
+							<div class = "rec-movie" style = "background-image: url({{ movie.poster_url }})">
 							
-						</div>
+							</div>
+						</a>
 						
 					{% endfor %}
 				</div>

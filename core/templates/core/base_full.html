@@ -5,6 +5,12 @@
 	{{ block.super }}
 {% endblock %}
 
+{% block css %}
+
+	<link rel = "stylesheet" type = "text/css" href = "{% static 'css/base_full.css' %}">
+
+{% endblock %}
+
 {% block full_content %}
 
 	<div id = "nav">

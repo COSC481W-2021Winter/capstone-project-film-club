@@ -1,9 +1,10 @@
-{% extends 'core/base.html' %}
+{% extends 'core/base_full.html' %}
 {% load static %}
 
 {% block title %}Home{% endblock %}
 
 {% block css %}
+	{{ block.super }}
 
 	<link rel = "stylesheet" type = "text/css" href = "{% static 'css/profile.css'%}">
 
@@ -11,12 +12,22 @@
 
 {% block content %}
 
-	
+	<div class = "container grid">
+		<div class = "cont-section">
+			{% include 'core/blocks/tiles/user-container.html' with user=profile %}
+		</div>
+		<div class = "cont-section">
+			
+		</div>
+		<div class = "cont-section">
+			
+		</div>
+	</div>
 	
 {% endblock %}
 
 {% block js %}
 
-	<script src = "{% static 'js/home.js'%}"></script>
+	<script src = "{% static 'js/profile.js'%}"></script>
 
 {% endblock %}

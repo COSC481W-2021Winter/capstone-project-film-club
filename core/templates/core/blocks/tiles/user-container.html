@@ -1,0 +1,30 @@
+<div id = "user-container" class = "tile">
+	<div id = "user-cover">
+		<div id = "user-image">
+			
+		</div>
+	</div>
+	<div id = "user-info">
+		<p>{{ user.get_full_name }}</p>
+	</div>
+	<div id = "user-stats">
+		<div class = "user-stat">
+			<p class = "stat-label">Friends</p>
+			<p class = "stat-number">5</p>
+		</div>
+		<div class = "user-stat">
+			<p class = "stat-label"># Movies</p>
+			<p class = "stat-number">17</p>
+		</div>
+	</div>
+	
+	{% if show_view_button %}
+		
+		<a href = "{% url 'core:profile' username=user.username %}">
+			<div id = "user-options">
+				<p>View Profile</p>
+			</div>
+		</a>
+	
+	{% endif %}
+</div>
