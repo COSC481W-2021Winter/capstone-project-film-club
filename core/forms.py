@@ -1,7 +1,8 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, PasswordResetForm
 from django.contrib.auth.models import User
-from .models import UserProfile, Genre # don't use * here it will break shit
+
+from .models import UserProfile, Genre  # don't use * here it will break shit
 
 GENRE_CHOICES = (
     ('AC', 'Action'),
