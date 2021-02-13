@@ -5,18 +5,32 @@
 
 {% block css %}
 
-	<script src = "{% static 'css/index.css'%}"></script>
+	<script src = "{% static 'css/landing.css'%}"></script>
 
 {% endblock %}
 
 {% block content %}
-	<div>
+	<video autoplay muted loop id="myVideo">
+		<source src="{% static 'media/FilmLandingBackground.mp4'%}" type="video/mp4">
+		Your browser does not support HTML5 video.
+	</video>
+
+	<div class="content">
+		<img class="logo" src="{% static 'media/FilmClubLogo.png'%}" alt="FilmClubLogo">
+		<br><br>
+		<p>CREATED BY MOVIE LOVERS FOR MOVIE LOVERS</p>
+		<br>
+		<a href="{% url 'login' %}"><button id="myBtn">Log In</button></a> <a href="{% url 'register' %}"><button id="myBtn">Sign Up</button></a>
+		<a href="{% url 'password_reset' %}"><p>Forgot your password?</p></a>
+	</div>
+
+	<!-- <div>
 		<h1>Film Club</h1>
 			<p>You are not logged in</p>
 			<a href="{% url 'login' %}">Log In</a>
 			<a href="{% url 'register' %}">Signup</a>
 			<a href="{% url 'password_reset' %}">Reset your password</a>
-	</div>
+	</div> -->
 	
 {% endblock %}
 
