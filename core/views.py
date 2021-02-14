@@ -1,3 +1,5 @@
+import math
+
 import requests
 from django.http import JsonResponse
 
@@ -9,6 +11,8 @@ from django.contrib.auth.models import User
 
 from .forms import *
 from .models import *
+
+search_load_amount = 20
 
 # Home/Landing Screen
 def home(request):
@@ -70,6 +74,50 @@ def add_movie(request):
         pass
 
     return render(request, 'core/addmovie.html')
+
+def search(request):
+    data = {}
+
+    query = ''
+    page = 1
+
+    if request.method == 'GET':
+        if 'q' in request.GET:
+            query = request.GET['q']
+
+        if 'p' in request.GET:
+            page = int(request.GET['p'])
+
+        response = requests.get('https://api.themoviedb.org/3/search/movie?api_key=a1a486ad19b99d238e92778b9ceb4bb4&language=en-US&query=' + query + '&page=' + str(page) + '&include_adult=false')
+        raw_results = response.json()['results']
+
+        print('\n\n\n' + str(len(raw_results)))
+
+        results = []
+
+        for result in raw_results:
+            results.append(create_movie(result, from_search=True))
+
+    total_pages = math.ceil(len(results) / search_load_amount)
+
+    lower_bound = page - 4 if page - 4 > 0 else 1
+    upper_bound = page + 4 if page + 4 <= total_pages else total_pages
+
+    shown_lower = (page - 1) * search_load_amount
+    shown_upper = page * search_load_amount
+
+    data['query'] = query
+    data['page_num'] = page
+
+    data['total_pages'] = total_pages
+    data['bound'] = range(lower_bound, upper_bound + 1)
+    data['shown_lower'] = shown_lower + (1 if len(results) > 0 else 0)
+    data['shown_upper'] = shown_lower + len(results[shown_lower:shown_upper])
+    data['total_results'] = len(results)
+
+    data['results'] = results[shown_lower:shown_upper]
+
+    return render(request, 'core/search.html', data)
 
 # https://www.techwithtim.net/tutorials/django/user-registration/
 def register(request):
@@ -259,7 +307,8 @@ def get_movie(id):
 
     return None
 
-def create_movie(movie_json):
+
+def create_movie(movie_json, from_search = False):
     movie = Movie.objects.filter(api_id=movie_json['id'])
 
     if movie.exists():
@@ -269,8 +318,13 @@ def create_movie(movie_json):
                       poster_path=movie_json['poster_path'])
         movie.save()
 
-        for movie_genre in movie_json['genres']:
-            genre = Genre.objects.filter(api_id=movie_genre['id'])
+        movie_genres = movie_json['genres'] if 'genres' in movie_json else movie_json['genre_ids']
+
+        for movie_genre in movie_genres:
+            if from_search:
+                genre = Genre.objects.filter(api_id=movie_genre)
+            else:
+                genre = Genre.objects.filter(api_id=movie_genre['id'])
 
             if genre.exists():
                 genre = genre[0]

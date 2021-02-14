@@ -25,11 +25,10 @@
 					Discover
 				</div>
 			</a>
-			<a class = "nav-link-cont" href = "{% url 'core:add_movie' %}">
-				<div class = "nav-link">
-					Add Movie
-				</div>
-			</a>
+			<form id = "search-container" method = "GET" action = "/search">
+				<img src = "{% static 'img/icons/search-white-20.png' %}">
+				<input id = "search-box" type = "text" name = "q" value = "{{ query }}">
+			</form>
 		</div>
 		<div class = "nav-section">
 			<div id = "nav-user">

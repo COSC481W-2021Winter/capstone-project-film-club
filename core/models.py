@@ -20,14 +20,14 @@ class Movie(models.Model):
     description = models.CharField(max_length = 1000)
     user_added = models.BooleanField(default = False)
     api_id = models.IntegerField()
-    poster_path = models.CharField(max_length = 100, blank = True)
+    poster_path = models.CharField(max_length = 100, blank = True, null = True)
     genres = models.ManyToManyField('Genre', blank = True, related_name = 'movie_genres')
 
     def __str__(self):
         return self.title
 
     def get_poster_url(self):
-        return 'https://image.tmdb.org/t/p/w500' + self.poster_path
+        return None if self.poster_path is None else 'https://image.tmdb.org/t/p/w500' + self.poster_path
 
     def get_absolute_id(self):
         return self.pk if self.user_added else self.api_id
