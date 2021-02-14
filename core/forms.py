@@ -1,3 +1,4 @@
+import requests
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, PasswordResetForm
 from django.contrib.auth.models import User
@@ -58,19 +59,34 @@ class GenresForm(forms.ModelForm):
 
             for genre in GENRE_CHOICES:
                 if genre[0] == data['firstGenre']:
-                    genre_one = Genre.objects.filter(name = genre[1])[0]
+                    genre_test = Genre.objects.filter(name = genre[1])
+
+                    if genre_test:
+                        genre_one = genre_test[0]
+                    else:
+                        genre_check()
 
                     break
 
             for genre in GENRE_CHOICES:
                 if genre[0] == data['secondGenre']:
-                    genre_two = Genre.objects.filter(name=genre[1])[0]
+                    genre_test = Genre.objects.filter(name=genre[1])
+
+                    if genre_test:
+                        genre_two = genre_test[0]
+                    else:
+                        genre_check()
 
                     break
 
             for genre in GENRE_CHOICES:
                 if genre[0] == data['thirdGenre']:
-                    genre_three = Genre.objects.filter(name=genre[1])[0]
+                    genre_test = Genre.objects.filter(name=genre[1])
+
+                    if genre_test:
+                        genre_three = genre_test[0]
+                    else:
+                        genre_check()
 
                     break
 
@@ -90,3 +106,12 @@ class PasswordReset(PasswordResetForm):
         model = User
         fields = ["email"]
 
+def genre_check():
+    response = requests.get('https://api.themoviedb.org/3/genre/movie/list?api_key=a1a486ad19b99d238e92778b9ceb4bb4&language=en-US')
+    genres = response.json()['genres']
+
+    for genre in genres:
+        genre_db = Genre.objects.filter(api_id = genre['id'])
+
+        if not genre_db.exists():
+            new_genre = Genre(name = genre_db['name'], api_id = genre_db['id'])

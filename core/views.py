@@ -21,6 +21,12 @@ def home(request):
             # Data to return to template
         })
 
+    response = requests.get(
+        'https://api.themoviedb.org/3/genre/movie/list?api_key=a1a486ad19b99d238e92778b9ceb4bb4&language=en-US')
+    results = response.json()
+
+    print(results)
+
     recommendations = get_recommendations(request.user)
     recently_watched = list(request.user.userprofile.watched_movies.all())[-3:]
 
@@ -96,7 +102,7 @@ def search(request):
         results = []
 
         for result in raw_results:
-            results.append(create_movie(result, from_search=True))
+            results.append(create_movie(result))
 
     total_pages = math.ceil(len(results) / search_load_amount)
 
@@ -308,7 +314,7 @@ def get_movie(id):
     return None
 
 
-def create_movie(movie_json, from_search = False):
+def create_movie(movie_json):
     movie = Movie.objects.filter(api_id=movie_json['id'])
 
     if movie.exists():
@@ -320,8 +326,13 @@ def create_movie(movie_json, from_search = False):
 
         movie_genres = movie_json['genres'] if 'genres' in movie_json else movie_json['genre_ids']
 
+        alt_genre = False
+
+        if 'genre_ids' in movie_json:
+            alt_genre = True
+
         for movie_genre in movie_genres:
-            if from_search:
+            if alt_genre:
                 genre = Genre.objects.filter(api_id=movie_genre)
             else:
                 genre = Genre.objects.filter(api_id=movie_genre['id'])
