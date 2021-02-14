@@ -1,26 +1,40 @@
+{% load util %}
+
 <div id = "user-container" class = "tile">
+	<input id = "profile-username" type = "text" value = "{{ profile.username }}" hidden>
 	<div id = "user-cover">
 		<div id = "user-image">
 			
 		</div>
 	</div>
 	<div id = "user-info">
-		<p>{{ user.get_full_name }}</p>
+		<p>{{ profile.get_full_name }}</p>
 	</div>
+	
+	{% if user != profile %}
+	
+		{% is_friend user profile as friended %}
+	
+		<div id = "user-friend" class = "{% if friended %}friend{% endif %}">
+			<p class = "main-label">{% if friended %}Friends{% else %}Add Friend{% endif %}</p>
+			<p class = "second-label">Unfriend</p>
+		</div>
+		
+	{% endif %}
 	<div id = "user-stats">
 		<div class = "user-stat">
 			<p class = "stat-label">Friends</p>
-			<p class = "stat-number">5</p>
+			<p class = "stat-number">{{ profile.userprofile.friends.all|length }}</p>
 		</div>
 		<div class = "user-stat">
 			<p class = "stat-label"># Movies</p>
-			<p class = "stat-number">17</p>
+			<p class = "stat-number">{{ profile.userprofile.watched_movies.all|length }}</p>
 		</div>
 	</div>
 	
 	{% if show_view_button %}
 		
-		<a href = "{% url 'core:profile' username=user.username %}">
+		<a href = "{% url 'core:profile' username=profile.username %}">
 			<div id = "user-options">
 				<p>View Profile</p>
 			</div>

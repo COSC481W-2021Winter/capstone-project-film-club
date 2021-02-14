@@ -26,6 +26,8 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),  # Enable Django auth app
     path('register/', views.register, name='register'),  # New user signup screen
     path('genres/', views.genres, name = 'genres'),  # Genre selection screen
+    path('search', views.search, name = 'search'),  # Search screen
+    path('m/add', views.add_movie, name = 'add_movie'),  # Add movie profile screen?
     path('m/<int:id>', views.movie, name = 'movie'),  # Movie profile screen
 
     path("password-change/", auth_views.PasswordChangeView.as_view( # Password reset screen
@@ -43,6 +45,9 @@ urlpatterns = [
     path('password-reset-confirm/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name='registration/password-reset/password_reset_confirm.html'), name='password_reset_confirm'),
     path('password-reset-complete/', auth_views.PasswordResetCompleteView.as_view(template_name='registration/password-reset/password_reset_complete.html'), name='password_reset_complete'),
     path("welcome/", views.welcome, name = "send welcome email"),
+
+    path('watch/', views.watch, name = 'watch'),
+    path('friend/', views.friend, name = 'friend'),
 
     path('<str:username>/', views.profile, name='profile'),  # Profile screen
 ]

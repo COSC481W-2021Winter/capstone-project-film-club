@@ -1,0 +1,41 @@
+{% extends 'core/base_full.html' %}
+{% load static %}
+
+{% block title %}Search{% endblock %}
+
+{% block css %}
+	{{ block.super }}
+
+	<link rel = "stylesheet" type = "text/css" href = "{% static 'css/search.css'%}">
+
+{% endblock %}
+
+{% block content %}
+
+	<div class = "container column">
+		<p class = "tile-title">Results for '{{ query }}'</p>
+		<div id = "search-results" class = "tile">
+			{% for result in results %}
+				<a href = "{% url 'core:movie' id=result.get_absolute_id %}">
+				<div class = "search-movie">
+					<div class = "movie-poster">
+						<img src = "{{ result.get_poster_url }}">
+					</div>
+					<div class = "movie-details">
+						<p class = "movie-title">{{ result.title }}</p>
+						<p class = "movie-description">{{ result.description }}</p>
+					</div>
+				</div>
+				</a>
+				
+			{% endfor %}
+		</div>
+	</div>
+	
+{% endblock %}
+
+{% block js %}
+
+	
+
+{% endblock %}

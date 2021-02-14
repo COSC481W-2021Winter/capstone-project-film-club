@@ -14,7 +14,7 @@
 	
 	<div class = "container grid">
 		<div class = "cont-section">
-			{% include 'core/blocks/tiles/user-container.html' with user=user show_view_button=True %}
+			{% include 'core/blocks/tiles/user-container.html' with profile=user show_view_button=True %}
 		</div>
 		<div id = "main-feed" class = "cont-section">
 			<div id = "daily-recs" class = "slider tile">
@@ -22,8 +22,8 @@
 				<div class = "slider-items">
 					{% for movie in recommendations %}
 						
-						<a href = "{% url 'core:movie' id=movie.id %}">
-							<div class = "rec-movie" style = "background-image: url({{ movie.poster_url }})">
+						<a href = "{% url 'core:movie' id=movie.get_absolute_id %}">
+							<div class = "rec-movie" style = "background-image: url({{ movie.get_poster_url }})">
 							
 							</div>
 						</a>
@@ -72,7 +72,20 @@
 			</div>
 		</div>
 		<div class = "cont-section">
-			
+			<div class = "tile">
+				<p class = "tile-title">Recently Watched</p>
+				<div class = "slider-items" style = "--num-columns: 3">
+					{% for movie in recently_watched %}
+						
+						<a href = "{% url 'core:movie' id=movie.get_absolute_id %}">
+							<div class = "rec-movie" style = "background-image: url({{ movie.get_poster_url }})">
+							
+							</div>
+						</a>
+						
+					{% endfor %}
+				</div>
+			</div>
 		</div>
 	</div>
 	

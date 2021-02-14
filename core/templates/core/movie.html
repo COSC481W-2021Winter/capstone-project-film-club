@@ -1,7 +1,7 @@
 {% extends 'core/base_full.html' %}
 {% load static %}
 
-{% block title %}Home{% endblock %}
+{% block title %}{{ movie.title }}{% endblock %}
 
 {% block css %}
 	{{ block.super }}
@@ -12,22 +12,62 @@
 
 {% block content %}
 
-	<div class = "container">
-		<div id = "movie-container" class = "tile" style = "--background-url: url({{ movie.poster_url }})">
+	<div class = "container column">
+		<div id = "movie-container" class = "tile" style = "--background-url: url({{ movie.get_poster_url }})">
 			<div id = "movie-poster">
-				<img src = "{{ movie.poster_url }}">
+				<img src = "{{ movie.get_poster_url }}">
 			</div>
-			<div id = "movie-details">
-				<p id = "movie-title">{{ movie.title }}</p>
-				<p id = "movie-desc">{{ movie.overview }} </p>
+			<div id = "movie-body">
+				<div id = "movie-details">
+					<p id = "movie-title">{{ movie.title }}</p>
+					<p id = "movie-desc">{{ movie.description }} </p>
+				</div>
+				<div id = "movie-options">
+					<div id = "mark-watched" class = "movie-option {% if watched %}watched{% endif %}">
+						<img src = "{% static 'img/icons/eye-white-24.png' %}">
+					</div>
+				</div>
 			</div>
 		</div>
+		{% if reviewed %}
+		
+			<div id = "movie-review" class = "tile">
+				<div id = "review-score">
+					<p id = "score">{{ review.score }}</p>
+					<p>Your Score</p>
+				</div>
+				<div id = "review-details">
+					<p id = "review-title">{{ review.title }}</p>
+					<p id = "review-text">{{ review.text }}</p>
+				</div>
+			</div>
+		
+		{% else %}
+		
+			<div class = "tile">
+				<p class = "tile-title">Write A Review</p>
+				<form method = "POST" style = "display: flex; flex-direction: column;">
+					{% csrf_token %}
+				
+					<input type = "text" name = "title">
+					<input type = "number" name = "score" min = 1 max = 5 step = .5>
+					<textarea name = "text"></textarea>
+					<input type = "submit" value = "Post">
+				</form>
+			</div>
+		
+		{% endif %}
 	</div>
 	
 {% endblock %}
 
 {% block js %}
 
+	{{ movie.get_absolute_id|json_script:"movie_id" }}
+
+	<script>
+		var movie_id = JSON.parse(document.getElementById('movie_id').textContent);
+	</script>
 	<script src = "{% static 'js/movie.js'%}"></script>
 
 {% endblock %}
