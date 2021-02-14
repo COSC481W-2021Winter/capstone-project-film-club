@@ -4,6 +4,8 @@
 
 ### Custom ###
 .idea/
+.vscode/
+.DS_Store
 
 ### Django ###
 *.log
