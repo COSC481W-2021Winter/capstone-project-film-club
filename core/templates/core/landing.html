@@ -5,24 +5,32 @@
 
 {% block css %}
 
-	<script src = "{% static 'css/index.css'%}"></script>
+	<link rel="stylesheet" type="text/css" href="{% static 'css/landing.css'%}">
 
 {% endblock %}
 
 {% block full_content %}
+<video autoplay muted loop id="myVideo">
+	<source src="{% static 'videos/FilmLandingBackground.mp4'%}" type="video/mp4">
+	Your browser does not support HTML5 video.
+</video>
 
-	<div>
-		<h1>Film Club</h1>
-			<p>You are not logged in</p>
-			<a href="{% url 'core:login' %}">Log In</a>
-			<a href="{% url 'core:register' %}">Signup</a>
-			<a href="{% url 'core:password_reset' %}">Reset your password</a>
-	</div>
-	
-{% endblock %}
+<div class="content">
+	<img class="logo" src="{% static 'img/icons/logo/filmClubLogo.png'%}" alt="FilmClubLogo">
+	<br><br>
+	<p>CREATED BY MOVIE LOVERS FOR MOVIE LOVERS</p>
+	<br>
+	<a href="{% url 'core:login' %}"><button id="myBtn">Log In</button></a> <a href="{% url 'core:register' %}"><button
+			id="myBtn">Sign Up</button></a>
+	<br>
+	<a href="{% url 'core:password_reset' %}">
+		<p>Forgot your password?</p>
+	</a>
+</div>
+{% endblock %}}
 
 {% block js %}
 
-	<script src = "{% static 'js/index.js'%}"></script>
+<script src="{% static 'js/index.js'%}"></script>
 
 {% endblock %}
