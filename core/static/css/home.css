@@ -4,10 +4,12 @@
 	margin-bottom: var(--gap);
 }
 .slider-items{
+	--num-columns: 4;
+	
 	width: 100%;
 	
 	display: grid;
-	grid-template-columns: repeat(4, 1fr);
+	grid-template-columns: repeat(var(--num-columns), 1fr);
 }
 .rec-movie{
 	width: 100%;

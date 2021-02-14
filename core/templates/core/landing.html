@@ -31,6 +31,15 @@
 			<a href="{% url 'register' %}">Signup</a>
 			<a href="{% url 'password_reset' %}">Reset your password</a>
 	</div> -->
+{% block full_content %}
+
+	<div>
+		<h1>Film Club</h1>
+			<p>You are not logged in</p>
+			<a href="{% url 'core:login' %}">Log In</a>
+			<a href="{% url 'core:register' %}">Signup</a>
+			<a href="{% url 'core:password_reset' %}">Reset your password</a>
+	</div>
 	
 {% endblock %}
 

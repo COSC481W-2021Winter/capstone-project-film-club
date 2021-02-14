@@ -1,0 +1,29 @@
+#search-results{
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-gap: var(--gap);
+	
+	padding: var(--gap);
+}
+
+.search-movie{
+	height: 250px;
+	
+	display: flex;
+	
+	overflow: hidden;
+}
+.movie-poster img{
+	width: auto;
+	height: 100%;
+}
+.movie-details{
+	margin-left: var(--gap);
+}
+.movie-title{
+	font-family: Roboto-Medium;
+	font-size: 20px;
+}
+.movie-description{
+	font-size: 16px;
+}
