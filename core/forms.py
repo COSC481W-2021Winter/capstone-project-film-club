@@ -114,4 +114,4 @@ def genre_check():
         genre_db = Genre.objects.filter(api_id = genre['id'])
 
         if not genre_db.exists():
-            new_genre = Genre(name = genre_db['name'], api_id = genre_db['id'])
+            new_genre = Genre(name = genre['name'], api_id = genre['id'])
