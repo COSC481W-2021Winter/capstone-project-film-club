@@ -115,3 +115,4 @@ def genre_check():
 
         if not genre_db.exists():
             new_genre = Genre(name = genre['name'], api_id = genre['id'])
+            new_genre.save()
