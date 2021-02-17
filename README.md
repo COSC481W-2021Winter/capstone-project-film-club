@@ -1,21 +1,43 @@
 # **FILM CLUB**
 
-# Requirements to run this project locally
-- Python 3, the project is being developed with Python 3.8.2
+# Getting Started
+
+### Prerequisites
+
+- Python==3.8.2
+- Django==3.1.5
 - Pip
 
-# Commands to run the project
-- pip install virtualenv
-- virtualenv env
-- source env/bin/activate
-- pip install -r requirements.txt
-- python manage.py runserver
+### Installation
 
-# Other helpful commands
-- python manage.py makemigrations
-- python manage.py migrate
+1. Install virtualenv
+      ```
+      pip install virtualenv
+      ```
+2. Create a virtual environment
+      ```
+      virtualenv env
+      ```
+3. Start the virtual environment
+      ```
+      source env/bin/activate
+      ```
+4. Install requirements
+      ```
+      pip install -r requirements.txt
+      ```
+5. Migrate any changes
+      ```
+      python manage.py migrate
+      ```
+6. Run the server
+      ```
+      python manage.py runserver
+      ```
 
-## Description of Prototype
+After starting the server, you can access it at localhost:8000
+
+# Description of Prototype
 
 1. Landing Screen - A screen with the film club logo and information about the product
 2. Login Screen - A screen where the user will enter their login credentials or select create account 
@@ -26,7 +48,7 @@
 7. User Profile Screen - the user can view/edit/delete information from their personal profile
 8. Reset Password/Email Screen - users who forgot their passwords/emails can reset them here.
 
-##  ABOUT ME: *THE PERSONA*
+# ABOUT ME: *THE PERSONA*
 
 ![alt text](https://img.freepik.com/free-photo/a-man-in-a-bedroom-at-home-in-front-of-a-laptop-watching-movies-at-night_163305-16739.jpg?size=664&ext=jpg)
 
@@ -41,7 +63,7 @@
 
 Tyler is a movie enthusiast.  But because he has viewed so many films on his streaming services he has run out of new material.  He also wishes to have a more honest opinion on what he might like given the corporate bias the streaming services have when they recommend their new material to him.  He also wants to connect with a growing social media community that shares similar interests and become part of a larger community. Tyler values his family members and close friends who like to spend time watching movies on a regular basis. He also values the recommendations/suggestions he receives from other users so that they can discuss/have friendly conversations about various topics relating to film and television.  
 
-## SCREENING QUESTIONS
+# SCREENING QUESTIONS
 - What kind of movies are they watching?
 - How do you feel about sharing your movie recommendations with others?
 - Why did you decide to join our community?
@@ -53,7 +75,7 @@ Tyler is a movie enthusiast.  But because he has viewed so many films on his str
 - Do you currently have(or had in the past) a subscription to a streaming service?
 - What makes you want to watch a film?
 
-## APP VALUES
+# APP VALUES
 - We formulate relationships that make a fun and positive difference in our customers' lives.
 - We deliver an outstanding product and service that, together, brings premium value to our customers.
 - We work together collaboratively and cooperatively to meet the needs of our customers.
