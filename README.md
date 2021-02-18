@@ -4,11 +4,13 @@
 
 ### Prerequisites
 
-- Python==3.8.2
-- Django==3.1.5
+- [Python](https://www.python.org/)==3.8.2
+- [Django](https://www.djangoproject.com/)==3.1.5
 - Pip
 
 ### Installation
+
+Run the following commands in the root directory:
 
 1. Install virtualenv
       ```
@@ -36,6 +38,10 @@
       ```
 
 After starting the server, you can access it at localhost:8000
+
+# File Structure Standard
+
+Django is built to make the jump from installation to development as quick as possible. In doing this, Django does a lot of the work for you. For example, it organizes the entire project by default. The [Django tutorial](https://docs.djangoproject.com/en/3.1/intro/tutorial01/#creating-a-project) gives a brief overview of the file structure.
 
 # Description of Prototype
 
