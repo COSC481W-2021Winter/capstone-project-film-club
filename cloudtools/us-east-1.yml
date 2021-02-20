@@ -1,0 +1,28 @@
+global:
+  region: us-east-1
+  sync_base: ./
+  sync_dirs: [
+    'cloudformation'
+  
+  ]
+  sync_exclude: [
+    '.swp',
+    '.git',
+    '.swo'
+  ]
+  sync_dest_bucket: filmclubcloud
+  tags:
+    Project: AWS-Practice
+    Environment: Dev
+  parameters:
+    Project: AWS-Practice
+    Environment: Dev
+    CloudToolsBucket: filmclubcloud
+
+Top:
+  stack_name: top
+  CloudToolsBucket: filmclubcloud
+  template: ./cloudformation/top.yml
+  parameters:
+    Environment: Dev
+    CloudToolsBucket: filmclubcloud

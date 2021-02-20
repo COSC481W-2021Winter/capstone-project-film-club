@@ -8,6 +8,16 @@
 - [Django](https://www.djangoproject.com/)==3.1.5
 - Pip
 
+# Commands to run the project
+1. Develoment server
+    - pip install virtualenv
+    - virtualenv env
+    - source env/bin/activate
+    - pip install -r requirements.txt
+    - python manage.py runserver
+2. Using Docker-compose
+    - docker-compose up
+    - site can be reached at 0.0.0.0:1300
 ### Installation
 
 Run the following commands in the root directory:

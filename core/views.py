@@ -8,11 +8,14 @@ from django.contrib.auth import authenticate, login
 from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.views.decorators.cache import cache_page
+from django.core.cache.backends.base import DEFAULT_TIMEOUT
 
 from .forms import *
 from .models import *
 
 search_load_amount = 20
+CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
 
 # Home/Landing Screen
 def home(request):
@@ -81,6 +84,7 @@ def add_movie(request):
 
     return render(request, 'core/addmovie.html')
 
+@cache_page(CACHE_TTL)
 def search(request):
     data = {}
 
