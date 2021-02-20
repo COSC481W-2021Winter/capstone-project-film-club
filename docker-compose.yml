@@ -1,0 +1,46 @@
+version: '3.7'
+
+services:
+  nginx:
+    build: ./filmclub/nginx
+    ports:
+      - 1300:80
+    volumes:
+      - static_volume:/home/app/microservice/static
+    depends_on:
+      - web
+    restart: "on-failure"
+
+  web:
+    build: . #build the image for the web service from the dockerfile in parent directory
+    command: sh -c "python manage.py makemigrations &&
+                    python manage.py migrate &&
+                    python manage.py collectstatic --noinput &&
+                    gunicorn filmclub.wsgi:application --bind 0.0.0.0:${APP_PORT}"
+    volumes:
+      - .:/microservice:rw # map data and files from parent directory in host to microservice directory in docker container
+      - static_volume:/home/app/microservice/static
+    image: filmclub
+    expose:
+      - ${APP_PORT}
+    restart: "on-failure"
+    environment:
+      - REDIS_HOST=redis
+    links:
+      - redis:redis
+    depends_on:
+      - redis
+    
+
+  redis:
+    image: "redis:alpine"
+    volumes:
+      - redis_data:/data
+    restart: "on-failure"
+    ports:
+      - "6379:6379"
+
+
+volumes:
+  static_volume:
+  redis_data:
