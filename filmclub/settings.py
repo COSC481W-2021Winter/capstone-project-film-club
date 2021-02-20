@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '2dvokcf&(xvmbdyl_=@h$tpytl(_bvod_q6o(2x-wn0+mj&s7m'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0', '[::1]']
 #ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS').split(" ")
@@ -160,3 +160,16 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'filmclubbot@gmail.com' #sender's email-id 
 EMAIL_HOST_PASSWORD = '5zsVsSFT' #password associated with above email-id 
 ################################################################
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://redis:6379/",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient"
+        },
+        "KEY_PREFIX": "filmclub"
+    }
+}
+
+CACHE_TTL = 60 * 30
