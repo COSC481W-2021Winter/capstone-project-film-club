@@ -1,7 +1,9 @@
-from django.test import TestCase, Client
+from django.test import TestCase, Client, LiveServerTestCase
 from core.models import *
 from core.views import * 
 from django.urls import reverse
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
 # Create your tests here.
 
 ## Model Test
