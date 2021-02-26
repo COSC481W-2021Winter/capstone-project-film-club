@@ -1,0 +1,62 @@
+/*CSS For Register Page*/
+
+body {
+    background: rgba(0, 0, 0, 0.5); 
+}
+
+.content {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.5);
+    color: lightgray;
+    width: 45%;
+    padding: 20px;
+    text-align: center;
+}
+
+.btn {
+    background-color:#A37c27;
+    
+}
+
+.btn:hover {
+    background-color:#6a8a82;
+    
+}
+
+input{
+    color:white;
+}
+
+
+/* label color */
+.input-field label {
+    color: #A37c27;
+  }
+  /* label focus color */
+  .input-field input[type=text]:focus + label {
+    color: #A37c27;
+  }
+
+  /* label underline focus color */
+  .input-field input[type=text]:focus {
+    border-bottom: 1px solid #A37c27;
+    box-shadow: 0 1px 0 0 #A37c27;
+  }
+  /* valid color */
+  .input-field input[type=text].valid {
+    border-bottom: 1px solid #6a8a82;
+    box-shadow: 0 1px 0 0 #6a8a82;
+  }
+  /* invalid color */
+  .input-field input[type=text].invalid {
+    border-bottom: 1px solid #a7414a;
+    box-shadow: 0 1px 0 0 #a7414a;
+  }
+  /* icon prefix focus color */
+  .input-field .prefix.active {
+    color: #A37c27;
+  }
+
