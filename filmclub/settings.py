@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'core',
     "crispy_forms",
+    "materializecssform",
     #'django.contrib.sites', Enable these to add google sign in
     #'social_app',
     #'allauth',   
