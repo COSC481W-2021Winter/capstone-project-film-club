@@ -2,6 +2,7 @@ import requests
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, PasswordResetForm
 from django.contrib.auth.models import User
+from django.core.validators import validate_email
 
 from .models import UserProfile, Genre  # don't use * here it will break shit
 
@@ -27,7 +28,8 @@ GENRE_CHOICES = (
 )
 
 class RegisterForm(UserCreationForm):
-    email = forms.EmailField()
+
+    email = forms.EmailField(validators=[validate_email])
 
     class Meta:
         model = User
