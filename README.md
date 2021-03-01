@@ -40,7 +40,8 @@ Run the following commands in the root directory:
       ```
 5. Install SQLITEN (Optional on Most Systens)
       ```
-      One some Sytems SQLITE is not installed with the python.
+      On some sytems SQLITE is not installed with the python.
+      Please check if SQLITE is on your system.
       Please check waht you need to do to get SQLITE on your system.  
       ```
 7. Migrate any changes
