@@ -1,42 +1,57 @@
 {% load static %}
 
 <html>
+
 <head>
 	<title>{% block title %}Film Club{% endblock %}</title>
-	
-	<link rel = "stylesheet" type = "text/css" href = "{% static 'css/base.css'%}">
-	
+
+	<link rel="stylesheet" type="text/css" href="{% static 'css/base.css'%}">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.1/css/materialize.min.css"
+		integrity="sha256-qj3p6P1fJIV+Ndv7RW1ovZI2UhOuboj9GcODzcNFIN8=" crossorigin="anonymous" />
+
 	<style>
 		@font-face {
 			font-family: Roboto-Thin;
 			src: url({% static 'font/roboto/Roboto-Thin.ttf' %});
 		}
+
 		@font-face {
 			font-family: Roboto-Light;
 			src: url({% static 'font/roboto/Roboto-Light.ttf' %});
 		}
+
 		@font-face {
 			font-family: Roboto-Regular;
 			src: url({% static 'font/roboto/Roboto-Regular.ttf' %});
 		}
+
 		@font-face {
 			font-family: Roboto-Medium;
 			src: url({% static 'font/roboto/Roboto-Medium.ttf' %});
 		}
 	</style>
-	
+
 	{% block css %}
 	{% endblock %}
 </head>
+
 <body>
 	{% block full_content %}
 	{% endblock %}
-	
-	<script src = "{% static 'js/jquery.js' %}"></script>
-	<script src = "{% static 'js/ajax.js' %}"></script>
-	<script src = "{% static 'js/base.js' %}"></script>
-	
+
+	<script src="{% static 'js/jquery.js' %}"></script>
+	<script src="{% static 'js/ajax.js' %}"></script>
+	<script src="{% static 'js/base.js' %}"></script>
+
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+		integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.1/js/materialize.min.js"
+		integrity="sha256-SrBfGi+Zp2LhAvy9M1bWOCXztRU9Ztztxmu5BcYPcPE=" crossorigin="anonymous"></script>
+
 	{% block js %}
 	{% endblock %}
 </body>
+
 </html>
