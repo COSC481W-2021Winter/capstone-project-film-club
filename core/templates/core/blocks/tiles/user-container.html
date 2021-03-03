@@ -8,7 +8,7 @@
 		</div>
 	</div>
 	<div id = "user-info">
-		<p>{{ profile.get_full_name }}</p>
+		<p id = "user-full-name">{{ profile.get_full_name }}</p>
 	</div>
 	
 	{% if user != profile %}
@@ -24,11 +24,11 @@
 	<div id = "user-stats">
 		<div class = "user-stat">
 			<p class = "stat-label">Friends</p>
-			<p class = "stat-number">{{ profile.userprofile.friends.all|length }}</p>
+			<p id = "num-friends" class = "stat-number">{{ profile.userprofile.friends.all|length }}</p>
 		</div>
 		<div class = "user-stat">
 			<p class = "stat-label"># Movies</p>
-			<p class = "stat-number">{{ profile.userprofile.watched_movies.all|length }}</p>
+			<p id = "num-movies" class = "stat-number">{{ profile.userprofile.watched_movies.all|length }}</p>
 		</div>
 	</div>
 	

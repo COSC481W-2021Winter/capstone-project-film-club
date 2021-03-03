@@ -8,6 +8,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.select import Select
+# Create your tests here.
 
 class GenreTestCase(TestCase):
     def setUp(self):
@@ -18,6 +19,8 @@ class GenreTestCase(TestCase):
         self.assertEqual(test.__str__(), 'CO')
 
 # View Test
+
+
 class HomeTestCase(TestCase):
     def test_search_view(self):
             client = Client()
@@ -68,7 +71,6 @@ class GenresTestCase(LiveServerTestCase):
         Url = self.live_server_url + '/genre'
 
         self.assertNotEquals(self.live_server_url, Url)
-        
 class MoviePageTest(LiveServerTestCase):
     def setUp(self):
         self.selenium = webdriver.Chrome()
@@ -406,4 +408,3 @@ class RegisterTestCase(LiveServerTestCase):
         time.sleep(1)
 
         assert 'favorite movie genres' in selenium.page_source, "Passwords aren't the same shouldn't continue to next page"
-

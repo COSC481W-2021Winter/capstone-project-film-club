@@ -85,6 +85,11 @@
 						
 					{% endfor %}
 				</div>
+				{% if recently_watched|length == 0 %}
+				
+					<p id = "no-recent" class = "tile-subtitle">You haven't watched any movies recently.</p>
+				
+				{% endif %}
 			</div>
 		</div>
 	</div>
