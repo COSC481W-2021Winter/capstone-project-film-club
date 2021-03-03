@@ -104,13 +104,13 @@
 	margin: auto;
 	margin-top: var(--gap);
 }
-.container .tile:not(:first-child){
+.container > .tile:not(:first-child){
 	margin-left: var(--gap);
 }
 .container.column{
 	flex-direction: column;
 }
-.container.column .tile:not(:first-child){
+.container.column > .tile:not(:first-child){
 	margin-left: 0;
 	margin-top: var(--gap);
 }
@@ -158,6 +158,11 @@
 	
 	font-family: Roboto-Medium;
 	font-size: 16px;
+}
+.tile-subtitle{
+	padding: var(--tile-padding);
+	
+	font-size: 12px;
 }
 
 #user-container{
@@ -283,6 +288,126 @@
 }
 #user-options:hover{
 	text-decoration: underline;
+}
+
+.review{
+	//border-color: var(--blue);
+}
+.review:not(:first-child){
+	margin-top: var(--gap);
+}
+.review-header{
+	width: 100%;
+	
+	display: flex;
+	align-items: center;
+	
+	padding: var(--tile-padding);
+	
+	box-sizing: border-box;
+}
+.tile .user-image{
+	width: 40px;
+	height: 40px;
+	
+	background-color: #ddd;
+	
+	border-radius: 100%;
+}
+.review-info{
+	display: flex;
+	flex-direction: column;
+	
+	margin-left: 10px;
+}
+.review-details{
+	display: flex;
+	align-items: baseline;
+	
+	font-size: 14px;
+	
+	color: #888;
+}
+.review-name, .review-title{
+	font-family: Roboto-Medium;
+	font-size: 16px;
+	
+	color: black;
+}
+.review-media{
+	display: flex;
+	
+	padding: 0 var(--tile-padding) 0 var(--tile-padding);
+	
+	box-sizing: border-box;
+}
+.media-image{
+	width: 110px;
+	height: 150px;
+	
+	background-color: var(--black);
+}
+.media-details{
+	height: 150px;
+	
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	
+	padding: 10px;
+	
+	border-width: 1px 1px 1px;
+	border-color: #aaa;
+	border-style: solid;
+	
+	box-sizing: border-box;
+}
+.media-title{
+	font-family: Roboto-Medium;
+	font-size: 16px;
+}
+.media-description{
+	width: calc(100%);
+	
+	display: inline-block;
+	
+	margin-top: 4px;
+	
+	font-size: 14px;
+	text-overflow: ellipsis;
+	
+	color: #777;
+	
+	overflow: hidden;
+}
+.review-options{
+	display: flex;
+	
+	margin-top: 15px;
+	
+	border-top: 1px solid #ddd;
+	
+	box-sizing: border-box;
+}
+.review-option{
+	width: 100%;
+	
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	
+	padding: 12px 0;
+	
+	font-family: Roboto-Medium;
+	font-size: 12px;
+	text-transform: uppercase;
+	
+	color: #777;
+	
+	cursor: pointer;
+}
+.review-option:hover{
+	color: black;
 }
 
 select {

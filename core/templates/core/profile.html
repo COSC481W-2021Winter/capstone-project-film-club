@@ -17,7 +17,47 @@
 			{% include 'core/blocks/tiles/user-container.html' with profile=profile %}
 		</div>
 		<div class = "cont-section">
+			{% for review in reviews %}
 			
+				<div class = "review tile">
+				<div class = "tile-type">
+					Review (Example)
+				</div>
+				<div class = "review-header">
+					<div class = "user-image">
+						
+					</div>
+					<div class = "review-info">
+						<div class = "review-details">
+							<p class = "review-name">{{ review.user.get_full_name }}<p>
+							<p style = "margin: 0 4px">reviewed</p>
+							<p class = "review-title">{{ review.title }}</p>
+						</div>
+						<div class = "review-date">
+							
+						</div>
+					</div>
+				</div>
+				<div class = "review-media">
+					<div class = "media-image">
+						
+					</div>
+					<div class = "media-details">
+						<p class = "media-title">{{ review.movie.title }}</p>
+						<p class = "media-description">{{ review.movie.description }}</p>
+					</div>
+				</div>
+				<div class = "review-options">
+					<div class = "review-option">
+						<p>Like</p>
+					</div>
+					<div class = "review-option">
+						<p>Comment</p>
+					</div>
+				</div>
+			</div>
+			
+			{% endfor %}
 		</div>
 		<div class = "cont-section">
 			

@@ -41,8 +41,11 @@ def home(request):
 def profile(request, username):
     profile = User.objects.get(username = username)
 
+    reviews = Review.objects.filter(user = profile)
+
     return render(request, 'core/profile.html', {
-        'profile': profile
+        'profile': profile,
+        'reviews': reviews
     })
 
 def movie(request, id):
