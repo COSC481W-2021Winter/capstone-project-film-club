@@ -284,3 +284,7 @@
 #user-options:hover{
 	text-decoration: underline;
 }
+
+select {
+	display: inline;
+}
