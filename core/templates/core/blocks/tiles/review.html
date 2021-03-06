@@ -1,0 +1,37 @@
+<div class = "review tile">
+	<div class = "tile-type">
+		Review
+	</div>
+	<div class = "review-header">
+		<div class = "user-image">
+			
+		</div>
+		<div class = "review-info">
+			<div class = "review-details">
+				<p class = "review-name">{{ review.user.username }}<p>
+				<p style = "margin: 0 4px">reviewed</p>
+				<p class = "review-title">{{ review.movie.title }}</p>
+			</div>
+			<div class = "review-date">
+				
+			</div>
+		</div>
+	</div>
+	<div class = "review-media">
+		<div class = "media-image" style = "background-image: url({{ review.movie.poster_url }})">
+			
+		</div>
+		<div class = "media-details">
+			<p class = "media-title">{{ review.movie.title }}</p>
+			<p class = "media-description">{{ review.movie.description }}</p>
+		</div>
+	</div>
+	<div class = "review-options">
+		<div class = "review-option">
+			<p>Like</p>
+		</div>
+		<div class = "review-option">
+			<p>Comment</p>
+		</div>
+	</div>
+</div>

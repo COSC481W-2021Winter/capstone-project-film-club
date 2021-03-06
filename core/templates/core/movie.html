@@ -62,6 +62,7 @@
 {% endblock %}
 
 {% block js %}
+	{{ block.super }}
 
 	{{ movie.get_absolute_id|json_script:"movie_id" }}
 

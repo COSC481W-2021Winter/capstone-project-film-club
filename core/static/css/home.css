@@ -1,5 +1,6 @@
 #daily-recs{
 	width: 100%;
+	height: max-content;
 	
 	margin-bottom: var(--gap);
 }
@@ -22,4 +23,42 @@
 	background-repeat: no-repeat;
 	
 	box-sizing: border-box;
+}
+
+#feed{
+	margin-bottom: var(--gap);
+}
+
+#load-more{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	
+	padding: 10px 15px;
+	margin-bottom: var(--gap);
+	
+	font-family: Roboto-Medium;
+	font-size: 14px;
+	text-transform: uppercase;
+	color: #888;
+	
+	box-sizing: border-box;
+	
+	transition: all .1s ease;
+	
+	cursor: pointer;
+}
+#load-more:hover{
+	color: white;
+	
+	background-color: var(--red);
+	
+	border-color: var(--red);
+}
+#end-feed{
+	align-self: center;
+	
+	margin-bottom: var(--gap);
+	
+	font-size: 12px;
 }

@@ -1,3 +1,4 @@
+import json
 import math
 
 import requests
@@ -15,6 +16,8 @@ from .forms import *
 from .models import *
 
 search_load_amount = 20
+home_reviews_amount = 5
+
 CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
 
 # Home/Landing Screen
@@ -28,14 +31,17 @@ def home(request):
         'https://api.themoviedb.org/3/genre/movie/list?api_key=a1a486ad19b99d238e92778b9ceb4bb4&language=en-US')
     results = response.json()
 
-    print(results)
-
     recommendations = get_recommendations(request.user)
     recently_watched = list(request.user.userprofile.watched_movies.all())[-3:]
+    reviews = json.loads(get_home_reviews(request).content)
+    reviews = json.loads(get_home_reviews(request).content)
+
+    print(reviews)
 
     return render(request, 'core/home.html', {
         'recommendations': recommendations,
-        'recently_watched': recently_watched
+        'recently_watched': recently_watched,
+        'reviews': reviews['reviews']
     })
 
 def profile(request, username):
@@ -80,12 +86,6 @@ def movie(request, id):
             'review': review,
             'reviewed': reviewed
         })
-
-def add_movie(request):
-    if request.POST:
-        pass
-
-    return render(request, 'core/addmovie.html')
 
 @cache_page(CACHE_TTL)
 def search(request):
@@ -274,6 +274,31 @@ def friend(request):
     return JsonResponse({
         'success': False
     })
+
+def get_home_reviews(request, page = 1):
+    reviews_json = []
+
+    reviews = Review.objects.filter(user__userprofile__friends = request.user).all()[(page - 1) * home_reviews_amount:page * home_reviews_amount]
+
+    for review in reviews:
+        review_json = {
+            'user': {
+                'username': review.user.username,
+            },
+            'movie': {
+                'title': review.movie.title,
+                'description': review.movie.description,
+                'poster_url': get_poster_url(review.movie)
+            }
+        }
+
+        reviews_json.append(review_json)
+
+    return JsonResponse({
+        'reviews': reviews_json,
+        'page': page + 1,
+        'more_to_load': len(reviews) == page * home_reviews_amount
+    }, safe = False)
 
 # Functions
 
