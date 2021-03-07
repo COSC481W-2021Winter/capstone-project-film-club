@@ -195,6 +195,29 @@
 	
 	font-family: Roboto-Medium;
 }
+#edit-name{
+	display: flex;
+}
+#edit-name:hover .browser-default, #edit-name:focus-within > .browser-default{
+	border: 1px solid #ccc;
+}
+#edit-name input{
+	padding: 1px;
+	margin: 0 var(--tile-padding) 0 1px;
+	
+	font-family: Roboto-Medium;
+	font-size: 16px;
+	
+	border: 1px solid transparent;
+	outline: none;
+	
+	box-sizing: border-box;
+}
+#edit-name input:nth-child(2){
+	margin: 0 1px 0 var(--tile-padding);
+	
+	text-align: right;
+}
 #username-container{
 	display: flex;
 	align-items: baseline;
