@@ -8,7 +8,10 @@
 		</div>
 	</div>
 	<div id = "user-info">
-		<p id = "user-full-name">{{ profile.get_full_name }}</p>
+		<p id = "user-full-name">
+			{{ profile.get_full_name }}
+		</p>
+		<span id = "username-container">@<p id = "user-username">{{ profile.username }}</p></span>
 	</div>
 	
 	{% if user != profile %}

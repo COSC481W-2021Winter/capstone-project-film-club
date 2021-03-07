@@ -188,11 +188,25 @@
 }
 #user-info{
 	display: flex;
-	justify-content: center;
+	align-items: center;
+	flex-direction: column;
 	
 	margin-top: calc(var(--user-image-size) / 2 + 10px);
 	
 	font-family: Roboto-Medium;
+}
+#username-container{
+	display: flex;
+	align-items: baseline;
+	
+	font-family: Roboto-Regular;
+	font-size: 10px;
+	color: #777;
+	
+	line-height: 12px;
+}
+#user-username{
+	font-size: 12px;
 }
 #user-friend{
 	width: fit-content;
