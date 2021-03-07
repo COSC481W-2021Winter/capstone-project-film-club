@@ -28,6 +28,11 @@
 			<form id = "search-container" method = "GET" action = "/search">
 				<img src = "{% static 'img/icons/search-white-20.png' %}">
 				<input id = "search-box" type = "text" name = "q" value = "{{ query }}">
+
+				<select name="search_user_or_movie" id="movie_or_users">
+					<option value="Movies">Search Movies</option>
+					<option value="Users">Search Users</option>
+				</select>
 			</form>
 		</div>
 		<div class = "nav-section">
