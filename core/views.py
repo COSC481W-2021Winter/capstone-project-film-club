@@ -51,9 +51,9 @@ def profile(request, username):
 def movie(request, id):
     movie = get_movie(id)
     review = None
-
+    friends = request.user.userprofile.friends.filter(pk = movie.pk)
     reviewed = False
-
+    fstring = "None of your friends have watched this"
     if movie:
         if request.POST:
             title = request.POST.get('title')
@@ -73,12 +73,15 @@ def movie(request, id):
                 review = review[0]
 
                 reviewed = True
-
+        if friends.count() > 0:
+            fstring = ""
+            fstring = friend[0].username + "has watched this"
         return render(request, 'core/movie.html', {
             'movie': movie,
             'watched': request.user.userprofile.watched_movies.filter(pk = movie.pk).exists(),
             'review': review,
-            'reviewed': reviewed
+            'reviewed': reviewed,
+            'fstring': fstring
         })
 
 def add_movie(request):
@@ -87,7 +90,6 @@ def add_movie(request):
 
     return render(request, 'core/addmovie.html')
 
-@cache_page(CACHE_TTL)
 def search(request):
     data = {}
 
