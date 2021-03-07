@@ -1,29 +1,35 @@
+{% load util %}
+
 <div class = "review tile">
 	<div class = "tile-type">
 		Review
 	</div>
-	<div class = "review-header">
+	<div class = "tile-header">
 		<div class = "user-image">
 			
 		</div>
-		<div class = "review-info">
-			<div class = "review-details">
+		<div class = "review-user-info">
+			<div class = "review-user-details">
 				<p class = "review-name">{{ review.user.username }}<p>
 				<p style = "margin: 0 4px">reviewed</p>
-				<p class = "review-title">{{ review.movie.title }}</p>
+				<a href = "{% url 'core:movie' id=review.movie.id|add:'0' %}"><p class = "movie-title">{{ review.movie.title }}</p></a>
+				<p class = "review-added">{{ review.added }}</p>
 			</div>
 			<div class = "review-date">
 				
 			</div>
 		</div>
 	</div>
-	<div class = "review-media">
-		<div class = "media-image" style = "background-image: url({{ review.movie.poster_url }})">
-			
+	<div class = "review-main">
+		<div class = "review-media">
+			<a href = "{% url 'core:movie' id=review.movie.id|add:'0' %}"><img class = "review-image" src = "{{ review.movie.poster_url }}"></a>
+			<div class = "review-score">
+				{{ review.score }}
+			</div>
 		</div>
-		<div class = "media-details">
-			<p class = "media-title">{{ review.movie.title }}</p>
-			<p class = "media-description">{{ review.movie.description }}</p>
+		<div class = "review-details">
+			<p class = "review-title">{{ review.title }}</p>
+			<p class = "review-body">{{ review.text }}</p>
 		</div>
 	</div>
 	<div class = "review-options">

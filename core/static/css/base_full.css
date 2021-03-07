@@ -296,7 +296,7 @@
 .review:not(:first-child){
 	margin-top: var(--gap);
 }
-.review-header{
+.tile-header{
 	width: 100%;
 	
 	display: flex;
@@ -314,13 +314,13 @@
 	
 	border-radius: 100%;
 }
-.review-info{
+.review-user-info{
 	display: flex;
 	flex-direction: column;
 	
 	margin-left: 10px;
 }
-.review-details{
+.review-user-details{
 	display: flex;
 	align-items: baseline;
 	
@@ -328,60 +328,18 @@
 	
 	color: #888;
 }
-.review-name, .review-title{
+.review-name, .movie-title{
 	font-family: Roboto-Medium;
 	font-size: 16px;
 	
 	color: black;
 }
-.review-media{
-	display: flex;
+.review-added{
+	margin-left: 4px;
 	
-	padding: 0 var(--tile-padding) 0 var(--tile-padding);
-	
-	box-sizing: border-box;
+	font-size: 12px;
 }
-.media-image{
-	width: 110px;
-	height: 150px;
-	
-	background-color: #555;
-	background-position: center;
-	background-size: cover;
-	background-repeat: no-repeat;
-}
-.media-details{
-	height: 150px;
-	
-	display: flex;
-	flex-direction: column;
-	flex: 1;
-	
-	padding: 10px;
-	
-	border-width: 1px 1px 1px 0;
-	border-color: #aaa;
-	border-style: solid;
-	
-	box-sizing: border-box;
-}
-.media-title{
-	font-family: Roboto-Medium;
-	font-size: 16px;
-}
-.media-description{
-	width: calc(100%);
-	
-	display: inline-block;
-	
-	font-size: 14px;
-	text-overflow: ellipsis;
-	line-height: 16px;
-	
-	color: #777;
-	
-	overflow: hidden;
-}
+
 .review-options{
 	display: flex;
 	
@@ -410,6 +368,72 @@
 }
 .review-option:hover{
 	color: black;
+}
+
+.review-main{
+	display: flex;
+	
+	padding: 0 var(--tile-padding);
+	
+	box-sizing: border-box;
+	
+	overflow: hidden;
+}
+.review-media{
+	width: 80px;
+	
+	display: flex;
+	flex-direction: column;
+}
+.review-image{
+	width: 100%;
+	height: auto;
+}
+.review-header{
+	display: flex;
+}
+.review-score{
+	width: 80px;
+	height: 80px;
+	
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	
+	margin-top: 4px;
+	
+	font-family: Roboto-Medium;
+	font-size: 20px;
+	color: white;
+	
+	background-color: var(--green);
+	
+	border-bottom: 4px solid rgba(0, 0, 0, .3);
+	
+	box-sizing: border-box;
+}
+.review-details{
+	display: flex;
+	flex-direction: column;
+	
+	padding-top: 5px;
+	margin-left: 10px;
+}
+.review-movie-title{
+	font-family: Roboto-Medium;
+	font-size: 10px;
+	text-transform: uppercase;
+	color: #777;
+}
+.review-title{
+	font-family: Roboto-Medium;
+	font-size: 20px;
+	line-height: 20px;
+}
+.review-body{
+	margin-top: 5px;
+	
+	overflow: hidden;
 }
 
 select {

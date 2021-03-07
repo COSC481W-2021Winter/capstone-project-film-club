@@ -23,7 +23,10 @@ $(document).ready(function(){
 					tempReview.find('.review-title').text(review.movie.title);
 					tempReview.find('.media-title').text(review.movie.title);
 					tempReview.find('.media-description').text(review.movie.description);
-					tempReview.find('.media-image').css('background-image', 'url(' + review.movie.poster_url  + ')');
+					tempReview.find('.review-added').text(review.added);
+					tempReview.find('.review-score').text(review.score);
+					tempReview.find('.review-body').text(review.text);
+					tempReview.find('.review-image').prop('src', review.movie.poster_url);
 					
 					$('#feed').append(tempReview);
 				}

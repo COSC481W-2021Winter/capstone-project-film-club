@@ -34,7 +34,7 @@
 			<div id = "feed">
 				{% for review in reviews %}
 					
-					{% include 'core/blocks/tiles/review.html' %}
+					{% include 'core/blocks/tiles/review.html' with review=review %}
 				
 				{% endfor %}
 			</div>
