@@ -73,12 +73,16 @@ def movie(request, id):
                 review = review[0]
 
                 reviewed = True
+        similar_movies = get_similar(id)
+
+
 
         return render(request, 'core/movie.html', {
             'movie': movie,
             'watched': request.user.userprofile.watched_movies.filter(pk = movie.pk).exists(),
             'review': review,
-            'reviewed': reviewed
+            'reviewed': reviewed,
+            'similar_movies': similar_movies
         })
 
 def add_movie(request):
@@ -309,6 +313,20 @@ def get_recommendations(user):
             index += 1
 
     return recommendations
+def get_similar(id):
+    similar_movies = []
+
+    response = requests.get('https://api.themoviedb.org/3/movie/' + str(id) + '/similar' + '?api_key=a1a486ad19b99d238e92778b9ceb4bb4&language=en-US')
+    results = response.json()['results']
+    index = 0
+    while index < 4:
+        similar_movies.append(create_movie(results[index]))
+        index += 1
+
+    return similar_movies
+
+
+
 
 def get_movie(id):
     response = requests.get('https://api.themoviedb.org/3/movie/' + str(id) + '?api_key=a1a486ad19b99d238e92778b9ceb4bb4&language=en-US')
