@@ -28,12 +28,17 @@
 			<form id = "search-container" method = "GET" action = "/search">
 				<img src = "{% static 'img/icons/search-white-20.png' %}">
 				<input id = "search-box" type = "text" name = "q" value = "{{ query }}">
+
+				<select name="search_user_or_movie" id="movie_or_users">
+					<option value="Movies">Search Movies</option>
+					<option value="Users">Search Users</option>
+				</select>
 			</form>
 		</div>
 		<div class = "nav-section">
 			<div id = "nav-user">
 				<div class = "user-image">
-					
+					<img src="{{ request.user.userprofile.profile_pic.url }}" style="border-radius: 50%; width: 100%; height: 100%;">	
 				</div>
 				<p class = "user-name">{{ user.get_full_name }}</p>
 			</div>

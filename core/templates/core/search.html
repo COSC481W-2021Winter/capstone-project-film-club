@@ -15,6 +15,18 @@
 	<div class = "container column">
 		<p class = "tile-title">Results for '{{ query }}'</p>
 		<div id = "search-results" class = "tile">
+			
+			
+
+			<label>{{ res_top }}</label>
+			<!--
+			{% for r in res_u %}
+
+			<label>{{ r }}</label>
+			
+			{% endfor %}
+			-->
+		
 			{% for result in results %}
 				<a href = "{% url 'core:movie' id=result.get_absolute_id %}">
 				<div class = "search-movie">

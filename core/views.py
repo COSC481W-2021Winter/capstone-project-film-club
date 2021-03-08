@@ -17,6 +17,13 @@ from .models import *
 search_load_amount = 20
 CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
 
+##INFO FOR MOVIES API##
+#Docs https://www.themoviedb.org/
+#Search for movies https://api.themoviedb.org/3/search/movie?api_key=a1a486ad19b99d238e92778b9ceb4bb4&language=en-US&query=Star%20Wars&page=1&include_adult=false
+#Search for Tv https://api.themoviedb.org/3/search/tv?api_key=a1a486ad19b99d238e92778b9ceb4bb4&language=en-US&page=1&include_adult=false
+#Search for actor https://api.themoviedb.org/3/search/person?api_key=a1a486ad19b99d238e92778b9ceb4bb4&language=en-US&page=1&include_adult=false
+#API functions we could maybe use: Get details, Get details, Get Popular
+
 # Home/Landing Screen
 def home(request):
     if not request.user.is_authenticated:  # Show landing page only when user is not logged in
@@ -40,7 +47,8 @@ def home(request):
 
 def profile(request, username):
     profile = User.objects.get(username = username)
-
+    # Add the information from the register form...
+    # form = Register
     reviews = Review.objects.filter(user = profile)
 
     return render(request, 'core/profile.html', {
@@ -51,9 +59,9 @@ def profile(request, username):
 def movie(request, id):
     movie = get_movie(id)
     review = None
-
+    friends = request.user.userprofile.friends.filter(pk = movie.pk)
     reviewed = False
-
+    fstring = "None of your friends have watched this"
     if movie:
         if request.POST:
             title = request.POST.get('title')
@@ -73,9 +81,12 @@ def movie(request, id):
                 review = review[0]
 
                 reviewed = True
+                
         similar_movies = get_similar(id)
 
-
+        if friends.count() > 0:
+            fstring = ""
+            fstring = friend[0].username + "has watched this"
 
         return render(request, 'core/movie.html', {
             'movie': movie,
@@ -83,6 +94,7 @@ def movie(request, id):
             'review': review,
             'reviewed': reviewed,
             'similar_movies': similar_movies
+            'fstring': fstring
         })
 
 def add_movie(request):
@@ -91,12 +103,50 @@ def add_movie(request):
 
     return render(request, 'core/addmovie.html')
 
-@cache_page(CACHE_TTL)
 def search(request):
+
     data = {}
 
     query = ''
     page = 1
+
+    if request.method == 'GET':
+        if 'search_user_or_movie' in request.GET:
+            search_user_or_movie = str(request.GET['search_user_or_movie'])
+
+            if search_user_or_movie == "Users":
+                if 'q' in request.GET:
+                    query = request.GET['q']
+                    data['query'] = request.GET['q']
+                    #out_put = User.objects.get(username="asch")
+                    try:
+                        out_put = User.objects.get(username=str(query))
+                        data['res_u'] = User.objects.all()
+                        data['res_top'] = out_put
+                        return render(request, 'core/search.html', data)
+                    except:
+                        return render(request, 'core/search.html', data)
+                    
+                    #out_put = User.objects.get(username=)
+                
+                
+                #data['res'] = UserProfile.objects.all() #querey set can not be made into json
+                #data['res_u'] = User.objects.all()
+                #trey
+                #data['res_u'] = 
+                
+                #out_put = User.objects.get(username="asch")
+                #out_put_list = []
+                #data['res_m'] = out_put_list.append(out_put)
+                
+                
+                #data['res_m'] = Movie.objects.all()
+                data['query'] = request.GET['q']
+                data['res_top'] = out_put
+                #data['res_top'] = User.objects.get(first_name='Alex')
+                #return render(request, 'core/search.html', data)
+
+    
 
     if request.method == 'GET':
         if 'q' in request.GET:
@@ -114,6 +164,16 @@ def search(request):
 
         for result in raw_results:
             results.append(create_movie(result))
+
+    '''
+    return_data_for_users_one = User.objects.all()
+    return_data_for_users = UserProfile.objects.all()
+    '''
+    #print(return_data_for_users)
+
+    #return_data_for_users = Movie.objects.all()
+    #user = User.objects.get(username='asc')
+    #return_data_for_users = UserProfile.objects.all()
 
     total_pages = math.ceil(len(results) / search_load_amount)
 
@@ -139,25 +199,27 @@ def search(request):
 # https://www.techwithtim.net/tutorials/django/user-registration/
 def register(request):
     if request.method == "POST":
-        form = RegisterForm(request.POST)
+        register_form = RegisterForm(request.POST)
+        profile_pic_form = ProfilePicForm(request.POST, request.FILES)
 
-        if form.is_valid():
-            new_user = form.save()
+        if register_form.is_valid() or profile_pic_form.is_valid():
+            new_user = register_form.save()
 
-            userprofile = UserProfile(user = new_user)
+            userprofile = UserProfile(user = new_user, profile_pic = profile_pic_form.cleaned_data['profile_pic'])
             userprofile.save()
 
-            new_user = authenticate(username=form.cleaned_data['username'],
-                                    password=form.cleaned_data['password1'],
+            new_user = authenticate(username=register_form.cleaned_data['username'],
+                                    password=register_form.cleaned_data['password1'],
                                     )
 
             login(request, new_user)
 
             return redirect("/welcome")
     else:
-        form = RegisterForm()
+        register_form = RegisterForm()
+        profile_pic_form = ProfilePicForm()
 
-    return render(request, "registration/register.html", {"form":form})
+    return render(request, "registration/register.html", {"register_form":register_form, "profile_pic_form": profile_pic_form})
 
 @login_required
 def welcome(request):
