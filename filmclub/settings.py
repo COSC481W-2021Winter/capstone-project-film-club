@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'core',
     "crispy_forms",
     "materializecssform",
+    "betterforms"
 
 ]
 
@@ -136,7 +137,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+# MEDIA_URL = '/images/'
+MEDIA_URL = '/media/'
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+# MEDIA_ROOT = os.path.join(BASE_DIR, "static/images")
 
 ##### Authentication stuff
 #SITE_ID = 1

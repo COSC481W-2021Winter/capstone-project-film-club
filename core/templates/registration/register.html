@@ -17,10 +17,12 @@
 	<img src="{% static 'img/icons/logo/filmClubLogo.png'%}" alt="FilmClubLogo" style="border-radius: 50%; width: 150px;">
 	<h5>Create an account</h5>
 	<br>
-	<form method="POST" class="form-group">
+	<form method="POST" class="multipart/form-data">
 		{% csrf_token %}
 		<!-- {{ form|crispy }} -->
-		{{ form|materializecss}}
+		{{ register_form|materializecss}}
+		{% csrf_token %}
+		{{ profile_pic_form|materializecss}}
 		<button type="submit" name="register" id="id_register" class="btn btn-success">Register</button>
 	</form>
 </div>
