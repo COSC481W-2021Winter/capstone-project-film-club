@@ -139,9 +139,6 @@ def register(request):
         register_form = RegisterForm(request.POST)
         profile_pic_form = ProfilePicForm(request.POST, request.FILES)
 
-        print(register_form)
-        print(profile_pic_form)
-
         if register_form.is_valid() or profile_pic_form.is_valid():
             new_user = register_form.save()
 
