@@ -17,6 +17,13 @@ from .models import *
 search_load_amount = 20
 CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
 
+##INFO FOR MOVIES API##
+#Docs https://www.themoviedb.org/
+#Search for movies https://api.themoviedb.org/3/search/movie?api_key=a1a486ad19b99d238e92778b9ceb4bb4&language=en-US&query=Star%20Wars&page=1&include_adult=false
+#Search for Tv https://api.themoviedb.org/3/search/tv?api_key=a1a486ad19b99d238e92778b9ceb4bb4&language=en-US&page=1&include_adult=false
+#Search for actor https://api.themoviedb.org/3/search/person?api_key=a1a486ad19b99d238e92778b9ceb4bb4&language=en-US&page=1&include_adult=false
+#API functions we could maybe use: Get details, Get details, Get Popular
+
 # Home/Landing Screen
 def home(request):
     if not request.user.is_authenticated:  # Show landing page only when user is not logged in
