@@ -38,11 +38,17 @@ Run the following commands in the root directory:
       ```
       pip install -r requirements.txt
       ```
-5. Migrate any changes
+5. Install SQLITEN (Optional on Most Systens)
+      ```
+      On some sytems SQLITE is not installed with the python.
+      Please check if SQLITE is on your system.
+      Please check waht you need to do to get SQLITE on your system.  
+      ```
+7. Migrate any changes
       ```
       python manage.py migrate
       ```
-6. Run the server
+7. Run the server
       ```
       python manage.py runserver
       ```
