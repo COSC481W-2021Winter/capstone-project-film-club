@@ -28,12 +28,8 @@ GENRE_CHOICES = (
     ('WE', 'Western'),
 )
 
-class ProfilePicForm(forms.ModelForm):
+class ProfilePicForm(forms.Form):
     profile_pic = forms.ImageField()
-
-    class Meta:
-        model = UserProfile
-        fields = ["profile_pic"]
 
 class RegisterForm(UserCreationForm):
 

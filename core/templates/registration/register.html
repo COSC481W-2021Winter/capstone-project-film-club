@@ -17,7 +17,7 @@
 	<img src="{% static 'img/icons/logo/filmClubLogo.png'%}" alt="FilmClubLogo" style="border-radius: 50%; width: 150px;">
 	<h5>Create an account</h5>
 	<br>
-	<form method="POST" class="multipart/form-data">
+	<form method="POST" enctype="multipart/form-data">
 		{% csrf_token %}
 		<!-- {{ form|crispy }} -->
 		{{ register_form|materializecss}}
