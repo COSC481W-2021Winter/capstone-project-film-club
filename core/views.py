@@ -99,10 +99,49 @@ def add_movie(request):
     return render(request, 'core/addmovie.html')
 
 def search(request):
+
     data = {}
 
     query = ''
     page = 1
+
+    if request.method == 'GET':
+        if 'search_user_or_movie' in request.GET:
+            search_user_or_movie = str(request.GET['search_user_or_movie'])
+
+            if search_user_or_movie == "Users":
+                if 'q' in request.GET:
+                    query = request.GET['q']
+                    data['query'] = request.GET['q']
+                    #out_put = User.objects.get(username="asch")
+                    try:
+                        out_put = User.objects.get(username=str(query))
+                        data['res_u'] = User.objects.all()
+                        data['res_top'] = out_put
+                        return render(request, 'core/search.html', data)
+                    except:
+                        return render(request, 'core/search.html', data)
+                    
+                    #out_put = User.objects.get(username=)
+                
+                
+                #data['res'] = UserProfile.objects.all() #querey set can not be made into json
+                #data['res_u'] = User.objects.all()
+                #trey
+                #data['res_u'] = 
+                
+                #out_put = User.objects.get(username="asch")
+                #out_put_list = []
+                #data['res_m'] = out_put_list.append(out_put)
+                
+                
+                #data['res_m'] = Movie.objects.all()
+                data['query'] = request.GET['q']
+                data['res_top'] = out_put
+                #data['res_top'] = User.objects.get(first_name='Alex')
+                #return render(request, 'core/search.html', data)
+
+    
 
     if request.method == 'GET':
         if 'q' in request.GET:
@@ -120,6 +159,16 @@ def search(request):
 
         for result in raw_results:
             results.append(create_movie(result))
+
+    '''
+    return_data_for_users_one = User.objects.all()
+    return_data_for_users = UserProfile.objects.all()
+    '''
+    #print(return_data_for_users)
+
+    #return_data_for_users = Movie.objects.all()
+    #user = User.objects.get(username='asc')
+    #return_data_for_users = UserProfile.objects.all()
 
     total_pages = math.ceil(len(results) / search_load_amount)
 
