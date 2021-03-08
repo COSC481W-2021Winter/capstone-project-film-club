@@ -47,7 +47,8 @@ def home(request):
 
 def profile(request, username):
     profile = User.objects.get(username = username)
-
+    # Add the information from the register form...
+    # form = Register
     reviews = Review.objects.filter(user = profile)
 
     return render(request, 'core/profile.html', {
@@ -144,25 +145,27 @@ def search(request):
 # https://www.techwithtim.net/tutorials/django/user-registration/
 def register(request):
     if request.method == "POST":
-        form = RegisterForm(request.POST)
+        register_form = RegisterForm(request.POST)
+        profile_pic_form = ProfilePicForm(request.POST, request.FILES)
 
-        if form.is_valid():
-            new_user = form.save()
+        if register_form.is_valid() or profile_pic_form.is_valid():
+            new_user = register_form.save()
 
-            userprofile = UserProfile(user = new_user)
+            userprofile = UserProfile(user = new_user, profile_pic = profile_pic_form.cleaned_data['profile_pic'])
             userprofile.save()
 
-            new_user = authenticate(username=form.cleaned_data['username'],
-                                    password=form.cleaned_data['password1'],
+            new_user = authenticate(username=register_form.cleaned_data['username'],
+                                    password=register_form.cleaned_data['password1'],
                                     )
 
             login(request, new_user)
 
             return redirect("/welcome")
     else:
-        form = RegisterForm()
+        register_form = RegisterForm()
+        profile_pic_form = ProfilePicForm()
 
-    return render(request, "registration/register.html", {"form":form})
+    return render(request, "registration/register.html", {"register_form":register_form, "profile_pic_form": profile_pic_form})
 
 @login_required
 def welcome(request):
