@@ -13,16 +13,17 @@
 
 {% block full_content %}
 
-	<div class="content">
-		<img src="{% static 'img/icons/logo/filmClubLogo.png'%}" alt="FilmClubLogo" style="border-radius: 50%; width: 150px;">
-		<h5>Create an account</h5>
-		<br>
-		<form method="POST" class="form-group">
-			{% csrf_token %}
-			<!-- {{ form|crispy }} -->
-			{{ form|materializecss}}
-			<button name = "register" type="submit" class="btn btn-success">Register</button>
-		</form>
-	</div>
-	
+<div class="content">
+	<img src="{% static 'img/icons/logo/filmClubLogo.png'%}" alt="FilmClubLogo" style="border-radius: 50%; width: 150px;">
+	<h5>Create an account</h5>
+	<br>
+	<form method="POST" enctype="multipart/form-data">
+		{% csrf_token %}
+		<!-- {{ form|crispy }} -->
+		{{ register_form|materializecss}}
+		{% csrf_token %}
+		{{ profile_pic_form|materializecss}}
+		<button type="submit" name="register" id="id_register" class="btn btn-success">Register</button>
+	</form>
+</div>
 {% endblock %}

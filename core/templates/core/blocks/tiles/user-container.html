@@ -4,7 +4,7 @@
 	<input id = "profile-username" type = "text" value = "{{ profile.username }}" hidden>
 	<div id = "user-cover">
 		<div id = "user-image">
-			
+			<img src="{{ request.user.userprofile.profile_pic.url }}" style="border-radius: 50%; width: 100%; height: 100%;">
 		</div>
 	</div>
 	<div id = "user-info">

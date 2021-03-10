@@ -2,8 +2,10 @@ import requests
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, PasswordResetForm
 from django.contrib.auth.models import User
+from django.core.validators import validate_email
 
 from .models import UserProfile, Genre  # don't use * here it will break shit
+# from betterforms. import MultiModelForm
 
 GENRE_CHOICES = (
     ('AC', 'Action'),
@@ -26,12 +28,16 @@ GENRE_CHOICES = (
     ('WE', 'Western'),
 )
 
+class ProfilePicForm(forms.Form):
+    profile_pic = forms.ImageField()
+
 class RegisterForm(UserCreationForm):
-    email = forms.EmailField()
+
+    email = forms.EmailField(validators=[validate_email])
 
     class Meta:
         model = User
-        fields = ["username", "email", "password1", "password2"]
+        fields = ["first_name", "last_name", "username", "email", "password1", "password2"]
 
 class GenresForm(forms.ModelForm):
     firstGenre = forms.CharField(label="What is your favorite genre?", widget=forms.Select(choices=GENRE_CHOICES))
