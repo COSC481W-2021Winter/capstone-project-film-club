@@ -2,7 +2,7 @@ import json
 import math
 import requests
 
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect, reverse
 from django.contrib.auth import authenticate, login
 from django.core.mail import send_mail
@@ -63,6 +63,20 @@ def profile(request, username):
         'profile': profile,
         'reviews': reviews_json
     })
+
+def edit_profile(request, username):
+    if request.method == 'POST':
+        if 'first-name' in request.POST and 'last-name' in request.POST:
+            first_name = request.POST.get('first-name')
+            last_name = request.POST.get('last-name')
+
+            if len(first_name) > 0 and len(last_name) > 0:
+                request.user.first_name = first_name
+                request.user.last_name = last_name
+
+                request.user.save()
+
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
 def movie(request, id):
     movie = get_movie(id)

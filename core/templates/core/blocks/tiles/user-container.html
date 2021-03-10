@@ -8,7 +8,25 @@
 		</div>
 	</div>
 	<div id = "user-info">
-		<p id = "user-full-name">{{ profile.get_full_name }}</p>
+		{% if user == profile %}
+			
+			<form id = "edit-name" method = "POST" action = "{% url 'core:edit_profile' profile.username %}">
+				{% csrf_token %}
+			
+				<input class = "browser-default" type = "text" name = "first-name" value = "{{ profile.first_name }}">
+				<input class = "browser-default" type = "text" name = "last-name" value = "{{ profile.last_name }}">
+				<input type="submit" style="display: none">
+			</form>
+			
+		{% else %}
+			
+			<p id = "user-full-name">
+				{{ profile.get_full_name }}
+			</p>
+			
+		{% endif %}
+		
+		<span id = "username-container">@<p id = "user-username">{{ profile.username }}</p></span>
 	</div>
 	
 	{% if user != profile %}
