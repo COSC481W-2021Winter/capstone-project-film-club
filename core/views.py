@@ -1,8 +1,8 @@
+import json
 import math
-
 import requests
-from django.http import JsonResponse
 
+from django.http import JsonResponse
 from django.shortcuts import render, redirect, reverse
 from django.contrib.auth import authenticate, login
 from django.core.mail import send_mail
@@ -13,8 +13,11 @@ from django.core.cache.backends.base import DEFAULT_TIMEOUT
 
 from .forms import *
 from .models import *
+from .templatetags import util
 
 search_load_amount = 20
+home_reviews_amount = 5
+
 CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
 
 ##INFO FOR MOVIES API##
@@ -35,25 +38,30 @@ def home(request):
         'https://api.themoviedb.org/3/genre/movie/list?api_key=a1a486ad19b99d238e92778b9ceb4bb4&language=en-US')
     results = response.json()
 
-    print(results)
-
     recommendations = get_recommendations(request.user)
     recently_watched = list(request.user.userprofile.watched_movies.all())[-3:]
+    reviews = json.loads(get_home_reviews(request).content)
 
     return render(request, 'core/home.html', {
         'recommendations': recommendations,
-        'recently_watched': recently_watched
+        'recently_watched': recently_watched,
+        'reviews': reviews['reviews']
     })
 
 def profile(request, username):
+    reviews_json = []
+
     profile = User.objects.get(username = username)
     # Add the information from the register form...
     # form = Register
     reviews = Review.objects.filter(user = profile)
 
+    for review in reviews:
+        reviews_json.append(get_review_json(review))
+
     return render(request, 'core/profile.html', {
         'profile': profile,
-        'reviews': reviews
+        'reviews': reviews_json
     })
 
 def movie(request, id):
@@ -96,12 +104,6 @@ def movie(request, id):
             'similar_movies': similar_movies
             'fstring': fstring
         })
-
-def add_movie(request):
-    if request.POST:
-        pass
-
-    return render(request, 'core/addmovie.html')
 
 def search(request):
 
@@ -341,6 +343,20 @@ def friend(request):
         'success': False
     })
 
+def get_home_reviews(request, page = 1):
+    reviews_json = []
+
+    reviews = Review.objects.filter(user__userprofile__friends = request.user).all()[(page - 1) * home_reviews_amount:page * home_reviews_amount]
+
+    for review in reviews:
+        reviews_json.append(get_review_json(review))
+
+    return JsonResponse({
+        'reviews': reviews_json,
+        'page': page + 1,
+        'more_to_load': len(reviews) == page * home_reviews_amount
+    }, safe = False)
+
 # Functions
 
 def get_recommendations(user):
@@ -400,6 +416,22 @@ def get_movie(id):
 
     return None
 
+def get_review_json(review):
+    return {
+            'user': {
+                'username': review.user.username,
+            },
+            'movie': {
+                'id': review.movie.get_absolute_id(),
+                'title': review.movie.title,
+                'description': review.movie.description,
+                'poster_url': get_poster_url(review.movie)
+            },
+            'score': review.score,
+            'title': review.title,
+            'text': review.text,
+            'added': util.get_normal_time(str(review.added))
+        }
 
 def create_movie(movie_json):
     movie = Movie.objects.filter(api_id=movie_json['id'])
