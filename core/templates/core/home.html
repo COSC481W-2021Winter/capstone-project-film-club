@@ -32,44 +32,16 @@
 				</div>
 			</div>
 			<div id = "feed">
-				<div class = "review tile">
-					<div class = "tile-type">
-						Review (Example)
-					</div>
-					<div class = "review-header">
-						<div class = "user-image">
-							
-						</div>
-						<div class = "review-info">
-							<div class = "review-details">
-								<p class = "review-name">{{ user.get_full_name }}<p>
-								<p style = "margin: 0 4px">reviewed</p>
-								<p class = "review-title">Once Upon A Time...In Hollywood</p>
-							</div>
-							<div class = "review-date">
-								
-							</div>
-						</div>
-					</div>
-					<div class = "review-media">
-						<div class = "media-image">
-							
-						</div>
-						<div class = "media-details">
-							<p class = "media-title">Once Upon A Time...In Hollywood</p>
-							<p class = "media-description">Actor Rick Dalton gained fame and fortune by starring in a 1950s television Western, but is now struggling to find meaningful work in a Hollywood that he doesn't recognize anymore. He spends most of his time drinking and palling around with Cliff Booth, his easygoing best friend and longtime stunt double. Rick also happens to live next door to Roman Polanski and Sharon Tate -- the filmmaker and budding actress whose futures will forever be altered by members of the Manson Family.</p>
-						</div>
-					</div>
-					<div class = "review-options">
-						<div class = "review-option">
-							<p>Like</p>
-						</div>
-						<div class = "review-option">
-							<p>Comment</p>
-						</div>
-					</div>
-				</div>
+				{% for review in reviews %}
+					
+					{% include 'core/blocks/tiles/review.html' with review=review %}
+				
+				{% endfor %}
 			</div>
+			<div id = "load-more" class = "tile">
+				Load More
+			</div>
+			<p id = "end-feed" style = "display: none">Nothing more to load</p>
 		</div>
 		<div class = "cont-section">
 			<div class = "tile">
@@ -94,10 +66,15 @@
 		</div>
 	</div>
 	
+	<div id = "review-html" style = "display: none">{% include 'core/blocks/tiles/review.html' %}</div>
+	
 {% endblock %}
 
 {% block js %}
 
 	<script src = "{% static 'js/home.js'%}"></script>
+	<script>
+	
+	</script>
 
 {% endblock %}

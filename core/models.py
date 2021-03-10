@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 class UserProfile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     genres = models.ManyToManyField('Genre', blank = True, related_name = 'genres')
+    profile_pic = models.ImageField(default='person_icon.png', null=True, blank=True, upload_to="users/")
     watched_movies = models.ManyToManyField('Movie', blank = True, related_name = 'watched_movies')
     friends = models.ManyToManyField(User, blank = True, related_name = 'friends')
 
@@ -38,3 +39,4 @@ class Review(models.Model):
     title = models.CharField(max_length = 200)
     text = models.TextField()
     score = models.FloatField()
+    added = models.DateTimeField(auto_now_add = True)

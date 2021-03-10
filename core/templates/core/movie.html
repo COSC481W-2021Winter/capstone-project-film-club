@@ -7,6 +7,7 @@
 	{{ block.super }}
 
 	<link rel = "stylesheet" type = "text/css" href = "{% static 'css/movie.css'%}">
+	<link rel = "stylesheet" type = "text/css" href = "{% static 'css/search.css'%}">
 
 {% endblock %}
 
@@ -29,6 +30,7 @@
 				</div>
 			</div>
 		</div>
+		<p id ="friendwatch">{{fstring}}</p>
 		{% if reviewed %}
 		
 			<div id = "movie-review" class = "tile">
@@ -58,10 +60,30 @@
 		
 		{% endif %}
 	</div>
+	<div class = "container column">
+				<p class = "tile-title">Similar Movies</p>
+				<div id = "search-results" class = "tile">
+					{% for movie in similar_movies %}
+						<a href = "{% url 'core:movie' id=movie.get_absolute_id %}">
+							<div class = "search-movie">
+					<div class = "movie-poster">
+						<img src = "{{ movie.get_poster_url }}">
+					</div>
+					<div class = "movie-details">
+						<p class = "movie-title">{{ movie.title }}</p>
+						<p class = "movie-description">{{ movie.description }}</p>
+					</div>
+				</div>
+				</a>
+
+					{% endfor %}
+				</div>
+			</div>
 	
 {% endblock %}
 
 {% block js %}
+	{{ block.super }}
 
 	{{ movie.get_absolute_id|json_script:"movie_id" }}
 

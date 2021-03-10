@@ -27,9 +27,9 @@ urlpatterns = [
     path('register/', views.register, name='register'),  # New user signup screen
     path('genres/', views.genres, name = 'genres'),  # Genre selection screen
     path('search', views.search, name = 'search'),  # Search screen
-    path('m/add', views.add_movie, name = 'add_movie'),  # Add movie profile screen?
-    path('m/<int:id>', views.movie, name = 'movie'),  # Movie profile screen
+    path('m/<int:id>/', views.movie, name = 'movie'),  # Movie profile screen
     path("welcome/", views.welcome, name = "send welcome email"),
+    path('reviews/<int:page>/', views.get_home_reviews, name = 'home_reviews'),
     path('<str:username>/', views.profile, name='profile'),  # Profile screen
     path('accounts/', include('django.contrib.auth.urls')),  # Enable Django auth app
 
