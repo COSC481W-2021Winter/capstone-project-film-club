@@ -115,7 +115,7 @@ def movie(request, id):
             'watched': request.user.userprofile.watched_movies.filter(pk = movie.pk).exists(),
             'review': review,
             'reviewed': reviewed,
-            'similar_movies': similar_movies
+            'similar_movies': similar_movies,
             'fstring': fstring
         })
 

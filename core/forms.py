@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.core.validators import validate_email
 
 from .models import UserProfile, Genre  # don't use * here it will break shit
-# from betterforms. import MultiModelForm
+#from betterforms import MultiModelForm
 
 GENRE_CHOICES = (
     ('AC', 'Action'),
