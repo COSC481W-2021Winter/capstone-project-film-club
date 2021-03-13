@@ -218,10 +218,15 @@ def register(request):
         register_form = RegisterForm(request.POST)
         profile_pic_form = ProfilePicForm(request.POST, request.FILES)
 
-        if register_form.is_valid() or profile_pic_form.is_valid():
+        if register_form.is_valid() and profile_pic_form.is_valid():
             new_user = register_form.save()
 
-            userprofile = UserProfile(user = new_user, profile_pic = profile_pic_form.cleaned_data['profile_pic'])
+            if profile_pic_form.is_valid():
+                pic = profile_pic_form.cleaned_data['profile_pic']
+                if not pic:
+                    pic = 'users/person_icon.png'
+
+            userprofile = UserProfile(user = new_user, profile_pic = pic)
             userprofile.save()
 
             new_user = authenticate(username=register_form.cleaned_data['username'],

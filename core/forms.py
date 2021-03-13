@@ -29,15 +29,20 @@ GENRE_CHOICES = (
 )
 
 class ProfilePicForm(forms.Form):
-    profile_pic = forms.ImageField()
+    profile_pic = forms.ImageField(required=False)
 
 class RegisterForm(UserCreationForm):
-
+    first_name = forms.CharField(max_length=128, required=True)
+    last_name = forms.CharField(max_length=128, required=True)
     email = forms.EmailField(validators=[validate_email])
 
     class Meta:
         model = User
         fields = ["first_name", "last_name", "username", "email", "password1", "password2"]
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['username'].widget.attrs.pop("autofocus", None)
 
 class GenresForm(forms.ModelForm):
     firstGenre = forms.CharField(label="What is your favorite genre?", widget=forms.Select(choices=GENRE_CHOICES))
