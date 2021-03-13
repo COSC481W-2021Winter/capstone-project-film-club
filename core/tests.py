@@ -8,6 +8,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.select import Select
+from selenium.webdriver.common.by import By
 
 # Model Test
 
@@ -256,10 +257,13 @@ class RegisterTestCase(LiveServerTestCase):
 
         time.sleep(1)
 
+        assert 'First name' in selenium.page_source, "First name should be displayed"
+        assert 'Last name' in selenium.page_source, "Last name should be displayed"
         assert 'Username' in selenium.page_source, "Username should be displayed"
         assert 'Email' in selenium.page_source, "Email should be displayed"
         assert 'Password' in selenium.page_source, "Password should be displayed"
         assert 'Password confirmation' in selenium.page_source, "Password Confirm should be displayed"
+        assert 'Profile pic' in selenium.page_source, "Profile pic should be displayed"
         assert 'Register' in selenium.page_source, "Register Button should be displayed"
 
     # Verify if the functionality of register form works
@@ -272,17 +276,23 @@ class RegisterTestCase(LiveServerTestCase):
             EC.presence_of_element_located((By.TAG_NAME, 'body')))
 
         # find the form element
+        firstName = selenium.find_element_by_id('id_first_name')
+        lastName = selenium.find_element_by_id('id_last_name')
         username = selenium.find_element_by_id('id_username')
         email = selenium.find_element_by_id('id_email')
         password1 = selenium.find_element_by_id('id_password1')
         password2 = selenium.find_element_by_id('id_password2')
+        profilePic = selenium.find_element_by_id('id_profile_pic')
         submit = selenium.find_element_by_id('id_register')
 
         # Fill the form with data
+        firstName.send_keys('Hello')
+        lastName.send_keys('World')
         username.send_keys('unary')
         email.send_keys('contact@yusuf.im')
         password1.send_keys('y13hsj*d')
         password2.send_keys('y13hsj*d')
+        profilePic.send_keys('/Users/suprajakalva/Desktop/smile.jpeg')
 
         # submitting the form by clicking on submit
         submit.click()
@@ -300,17 +310,23 @@ class RegisterTestCase(LiveServerTestCase):
             EC.presence_of_element_located((By.TAG_NAME, 'body')))
 
         # find the form element
+        firstName = selenium.find_element_by_id('id_first_name')
+        lastName = selenium.find_element_by_id('id_last_name')
         username = selenium.find_element_by_id('id_username')
         email = selenium.find_element_by_id('id_email')
         password1 = selenium.find_element_by_id('id_password1')
         password2 = selenium.find_element_by_id('id_password2')
+        profilePic = selenium.find_element_by_id('id_profile_pic')
         submit = selenium.find_element_by_id('id_register')
 
         # Fill the form with data
+        firstName.send_keys('Hello')
+        lastName.send_keys('World')
         username.send_keys('unary')
         email.send_keys('contact@yusuf.im')
         password1.send_keys('y13hsj*d')
         password2.send_keys('y13hsj*d')
+        profilePic.send_keys('/Users/suprajakalva/Desktop/smile.jpeg') 
 
         # submitting the form
         # password2.submit()
@@ -328,6 +344,8 @@ class RegisterTestCase(LiveServerTestCase):
             EC.presence_of_element_located((By.TAG_NAME, 'body')))
 
         # find the form element
+        firstName = selenium.find_element_by_id('id_first_name')
+        lastName = selenium.find_element_by_id('id_last_name')
         username = selenium.find_element_by_id('id_username')
         email = selenium.find_element_by_id('id_email')
         password1 = selenium.find_element_by_id('id_password1')
@@ -336,6 +354,10 @@ class RegisterTestCase(LiveServerTestCase):
 
         # Check if validations messages show up for everything
         submit.click()
+        assert firstName.get_attribute(
+            "validationMessage") == "Please fill out this field.", "FirstName is filled."
+        assert lastName.get_attribute(
+            "validationMessage") == "Please fill out this field.", "LastName is filled."
         assert username.get_attribute(
             "validationMessage") == "Please fill out this field.", "Username is filled."
         assert email.get_attribute(
@@ -345,6 +367,32 @@ class RegisterTestCase(LiveServerTestCase):
         assert password2.get_attribute(
             "validationMessage") == "Please fill out this field.", "Pass2 is filled."
 
+        # Check if validations messages show up for everything except firstname
+        firstName.send_keys('Hello')
+        submit.click()
+        assert lastName.get_attribute(
+            "validationMessage") == "Please fill out this field.", "LastName is filled."
+        assert username.get_attribute(
+            "validationMessage") == "Please fill out this field.", "Username is filled."
+        assert email.get_attribute(
+            "validationMessage") == "Please fill out this field.", "Email is filled."
+        assert password1.get_attribute(
+            "validationMessage") == "Please fill out this field.", "Pass1 is filled."
+        assert password2.get_attribute(
+            "validationMessage") == "Please fill out this field.", "Pass2 is filled."
+        
+        # Check if validations messages show up for everything except username
+        lastName.send_keys('World')
+        submit.click()
+        assert username.get_attribute(
+            "validationMessage") == "Please fill out this field.", "Username is filled."
+        assert email.get_attribute(
+            "validationMessage") == "Please fill out this field.", "Email is filled."
+        assert password1.get_attribute(
+            "validationMessage") == "Please fill out this field.", "Pass1 is filled."
+        assert password2.get_attribute(
+            "validationMessage") == "Please fill out this field.", "Pass2 is filled."
+        
         # Check if validations messages show up for everything except username
         username.send_keys('unary')
         submit.click()
@@ -384,12 +432,16 @@ class RegisterTestCase(LiveServerTestCase):
             EC.presence_of_element_located((By.TAG_NAME, 'body')))
 
         # find the form element
+        firstName = selenium.find_element_by_id('id_first_name')
+        lastName = selenium.find_element_by_id('id_last_name')
         username = selenium.find_element_by_id('id_username')
         email = selenium.find_element_by_id('id_email')
         password1 = selenium.find_element_by_id('id_password1')
         password2 = selenium.find_element_by_id('id_password2')
         submit = selenium.find_element_by_id('id_register')
 
+        firstName.send_keys('')
+        lastName.send_keys('')
         username.send_keys('')
         email.send_keys('')
         password1.send_keys('')
@@ -397,6 +449,10 @@ class RegisterTestCase(LiveServerTestCase):
 
         # Check if validations messages show up for everything
         submit.click()
+        assert firstName.get_attribute(
+            "validationMessage") == "Please fill out this field.", "FirstName is filled."
+        assert lastName.get_attribute(
+            "validationMessage") == "Please fill out this field.", "LastName is filled."
         assert username.get_attribute(
             "validationMessage") == "Please fill out this field.", "Username is filled."
         assert email.get_attribute(
@@ -417,6 +473,8 @@ class RegisterTestCase(LiveServerTestCase):
             EC.presence_of_element_located((By.TAG_NAME, 'body')))
 
         # ------------------TEST USERNAME------------------ #
+        selenium.find_element_by_id('id_first_name').send_keys('Hello')
+        selenium.find_element_by_id('id_last_name').send_keys('World')
         selenium.find_element_by_id('id_email').send_keys('contact@yusuf.im')
 
         fake_usernames = ["$Smezy", "%!mezy",
@@ -449,6 +507,8 @@ class RegisterTestCase(LiveServerTestCase):
 
         # ------------------TEST EMAIL------------------ #
         selenium.find_element_by_id('id_username').send_keys('S.mezy@')
+        selenium.find_element_by_id('id_first_name').send_keys('Hello')
+        selenium.find_element_by_id('id_last_name').send_keys('World')
 
         fake_emails = ["max", "max.com", "max@", "max@ds.", "max@ds.com"]
         for i in range(len(fake_emails)):
@@ -478,6 +538,8 @@ class RegisterTestCase(LiveServerTestCase):
             EC.presence_of_element_located((By.TAG_NAME, 'body')))
 
         # ------------------TEST PASSWORD------------------ #
+        selenium.find_element_by_id('id_first_name').send_keys('Hello')
+        selenium.find_element_by_id('id_last_name').send_keys('World')
         selenium.find_element_by_id('id_username').send_keys('smile')
         selenium.find_element_by_id('id_email').send_keys('smile@game.org')
         fake_passwords = ["max", "deaf", "12345", "smile", "h$56sile4"]
@@ -505,6 +567,8 @@ class RegisterTestCase(LiveServerTestCase):
             EC.presence_of_element_located((By.TAG_NAME, 'body')))
 
         # find the form element
+        selenium.find_element_by_id('id_first_name').send_keys('Hello')
+        selenium.find_element_by_id('id_last_name').send_keys('World')
         selenium.find_element_by_id('id_username').send_keys("unary")
         selenium.find_element_by_id('id_email').send_keys('contact@yusuf.im')
         selenium.find_element_by_id('id_password1').send_keys('y13hsj*d')
@@ -522,6 +586,68 @@ class RegisterTestCase(LiveServerTestCase):
         time.sleep(1)
 
         assert 'favorite movie genres' in selenium.page_source, "Passwords aren't the same shouldn't continue to next page"
+    
+    # Test First Name
+    def test_first_name_register(self):
+        selenium = self.selenium
+        # Opening the link we want to test
+        selenium.get(self.live_server_url + '/register')
+        WebDriverWait(self.selenium, 10).until(
+            EC.presence_of_element_located((By.TAG_NAME, 'body')))
+
+        # ------------------TEST EMAIL------------------ #
+        selenium.find_element_by_id('id_last_name').send_keys('World')
+        selenium.find_element_by_id('id_username').send_keys('S.mezy@')
+        selenium.find_element_by_id('id_email').send_keys('max@ds.com')
+
+        fake_first_names = ["", "Max"]
+        for i in range(len(fake_first_names)):
+            selenium.find_element_by_id('id_first_name').send_keys(fake_first_names[i])
+            selenium.find_element_by_id('id_password1').send_keys('y13hsj*d')
+            selenium.find_element_by_id('id_password2').send_keys('y13hsj*d')
+            selenium.find_element_by_id('id_register').click()
+
+            time.sleep(1)
+
+            if (i < (len(fake_first_names)-1)):
+                assert "" in selenium.find_element_by_id('id_first_name').get_attribute(
+                    "validationMessage"), "First Name is filled."
+                selenium.find_element_by_id('id_first_name').clear()
+                selenium.find_element_by_id('id_password1').clear()
+                selenium.find_element_by_id('id_password2').clear()
+            else:
+                assert "favorite movie genres" in selenium.page_source, "Should be on the next page."
+    
+    # Test Last Name
+    def test_last_name_register(self):
+        selenium = self.selenium
+        # Opening the link we want to test
+        selenium.get(self.live_server_url + '/register')
+        WebDriverWait(self.selenium, 10).until(
+            EC.presence_of_element_located((By.TAG_NAME, 'body')))
+
+        # ------------------TEST EMAIL------------------ #
+        selenium.find_element_by_id('id_first_name').send_keys('Hello')
+        selenium.find_element_by_id('id_username').send_keys('S.mezy@')
+        selenium.find_element_by_id('id_email').send_keys('max@ds.com')
+
+        fake_last_names = ["", "World"]
+        for i in range(len(fake_last_names)):
+            selenium.find_element_by_id('id_last_name').send_keys(fake_last_names[i])
+            selenium.find_element_by_id('id_password1').send_keys('y13hsj*d')
+            selenium.find_element_by_id('id_password2').send_keys('y13hsj*d')
+            selenium.find_element_by_id('id_register').click()
+
+            time.sleep(1)
+
+            if (i < (len(fake_last_names)-1)):
+                assert "" in selenium.find_element_by_id('id_last_name').get_attribute(
+                    "validationMessage"), "First Name is filled."
+                selenium.find_element_by_id('id_last_name').clear()
+                selenium.find_element_by_id('id_password1').clear()
+                selenium.find_element_by_id('id_password2').clear()
+            else:
+                assert "favorite movie genres" in selenium.page_source, "Should be on the next page."
 
 
 
