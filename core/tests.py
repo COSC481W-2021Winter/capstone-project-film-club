@@ -1,4 +1,7 @@
+import os
+
 from django.test import TestCase, Client, LiveServerTestCase
+from django.core.files.uploadedfile import SimpleUploadedFile
 from core.models import *
 from core.views import *
 import time
@@ -8,6 +11,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.select import Select
+
+from . import views
 
 # Model Test
 
@@ -128,10 +133,31 @@ class MoviePageTest(LiveServerTestCase):
 
 class HomePageProfileTestCase(LiveServerTestCase):
     def setUp(self):
+        settings.DEBUG = True
+
         self.selenium = webdriver.Chrome()
 
-        self.signup()
-        self.pick_genres()
+        for x in range(5):
+            self.signup(x)
+
+        other_users = User.objects.all().exclude(username = 'Test1234')
+
+        self.user = User.objects.get(username = 'Test1234')
+
+        for user in other_users:
+            for x in range(3):
+                movie = Movie(title='Test Movie' + str(x), description='literally not a real movie ' + str(x),
+                               api_id=(x + 10) * 5, poster_path='/image.png')
+
+                movie.save()
+
+                review = Review(user=user, movie=movie, title='Test Review',
+                                text='literally not a real review', score=1)
+
+                review.save()
+
+            self.user.userprofile.friends.add(user)
+            user.userprofile.friends.add(self.user)
 
         super(HomePageProfileTestCase, self).setUp()
 
@@ -140,44 +166,35 @@ class HomePageProfileTestCase(LiveServerTestCase):
 
         super(HomePageProfileTestCase, self).tearDown()
 
-    def signup(self):
+    def signup(self, num):
         selenium = self.selenium
         selenium.get(self.live_server_url + '/register')
 
+        temp_username = 'Test123' + str(num)
+
         username = selenium.find_element_by_id('id_username')
+        first_name = selenium.find_element_by_id('id_first_name')
+        last_name = selenium.find_element_by_id('id_last_name')
         email = selenium.find_element_by_id('id_email')
         password1 = selenium.find_element_by_id('id_password1')
         password2 = selenium.find_element_by_id('id_password2')
+        profile_pic = selenium.find_element_by_xpath("//input[@type='file']")
 
         submit = selenium.find_element_by_name('register')
 
-        username.send_keys('Test123')
+        username.send_keys(temp_username)
+        first_name.send_keys('Test123')
+        last_name.send_keys(str(num))
         email.send_keys('test123@test.com')
         password1.send_keys('homepagepass')
         password2.send_keys('homepagepass')
+        profile_pic.send_keys(os.getcwd() + '\\core\\static\\img\\icons\\logo\\filmClubLogo.png')
 
         submit.send_keys(Keys.RETURN)
 
-        self.user = User.objects.get(username='Test123')
+        user = User.objects.get(username=temp_username)
 
         assert 'favorite movie genre' in selenium.page_source
-
-    def pick_genres(self):
-        selenium = self.selenium
-
-        genre2 = Select(selenium.find_element_by_id('id_secondGenre'))
-        genre3 = Select(selenium.find_element_by_id('id_thirdGenre'))
-
-        submit = selenium.find_element_by_name('submit')
-
-        # genre2.select_by_index(2)
-        # genre3.select_by_index(3)
-
-        submit.send_keys(Keys.RETURN)
-
-        # print(selenium.page_source)
-
-        # assert 'Daily Recommendations' in selenium.page_source
 
     def test_home_page(self):
         selenium = self.selenium
@@ -193,8 +210,28 @@ class HomePageProfileTestCase(LiveServerTestCase):
             except:
                 assert len(recently_watched) > 0
 
+        reviews = selenium.find_elements_by_class_name('review')
+
+        num_reviews = len(reviews) - 1  # Review HTML is stored in the home page HTML so this is picking that up too (have to subtract one to get real number)
+
         assert len(num_friends.text) > 0
         assert len(num_movies.text) > 0
+        assert num_reviews == views.home_reviews_amount
+
+        ordered_reviews = Review.objects.filter(user__userprofile__friends = self.user).order_by('-added').all()[:views.home_reviews_amount]
+
+        ordered_titles = []
+        home_titles = []
+
+        for review in ordered_reviews:
+            ordered_titles.append(review.title)
+
+        for review in reviews:
+            title = review.find_elements_by_class_name('review-title')[0]
+
+            home_titles.append(title.text)
+
+        assert ordered_titles == home_titles[:views.home_reviews_amount]
 
     def test_profile(self):
         selenium = self.selenium
@@ -215,14 +252,18 @@ class HomePageProfileTestCase(LiveServerTestCase):
         review1.save()
         review2.save()
 
-        selenium.get(self.live_server_url + '/Test123')
+        selenium.get(self.live_server_url + '/Test1234')
 
-        full_name = selenium.find_element_by_id('user-full-name').text
+        first_name_input = selenium.find_element_by_name('first-name')
+        last_name_input = selenium.find_element_by_name('last-name')
+        name_submit = selenium.find_element_by_id('name-submit')
+
+        full_name = first_name_input.get_attribute('value') + ' ' + last_name_input.get_attribute('value')
         reviews = selenium.find_elements_by_class_name('review')
 
         for review in reviews:
             movie = Movie.objects.filter(
-                title=review.find_elements_by_class_name('media-title')[0].text)
+                title=review.find_elements_by_class_name('movie-title')[0].text)
 
             assert movie.exists()
 
@@ -231,6 +272,18 @@ class HomePageProfileTestCase(LiveServerTestCase):
             assert review.exists()
 
         assert self.user.get_full_name() == full_name
+
+        first_name_input.clear()
+        last_name_input.clear()
+
+        first_name_input.send_keys('Edited')
+        last_name_input.send_keys('Name')
+
+        selenium.find_element_by_id('edit-name').submit()
+
+        selenium.get(self.live_server_url)
+
+        assert User.objects.get(username = 'Test1234').get_full_name() == 'Edited Name'
 
 # Register Test
 

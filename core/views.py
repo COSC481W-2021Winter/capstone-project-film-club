@@ -54,7 +54,7 @@ def profile(request, username):
     profile = User.objects.get(username = username)
     # Add the information from the register form...
     # form = Register
-    reviews = Review.objects.filter(user = profile)
+    reviews = Review.objects.filter(user = profile).order_by('-added')
 
     for review in reviews:
         reviews_json.append(get_review_json(review))
@@ -115,7 +115,7 @@ def movie(request, id):
             'watched': request.user.userprofile.watched_movies.filter(pk = movie.pk).exists(),
             'review': review,
             'reviewed': reviewed,
-            'similar_movies': similar_movies
+            'similar_movies': similar_movies,
             'fstring': fstring
         })
 
@@ -218,7 +218,7 @@ def register(request):
         register_form = RegisterForm(request.POST)
         profile_pic_form = ProfilePicForm(request.POST, request.FILES)
 
-        if register_form.is_valid() or profile_pic_form.is_valid():
+        if register_form.is_valid() and profile_pic_form.is_valid():
             new_user = register_form.save()
 
             userprofile = UserProfile(user = new_user, profile_pic = profile_pic_form.cleaned_data['profile_pic'])
@@ -360,7 +360,7 @@ def friend(request):
 def get_home_reviews(request, page = 1):
     reviews_json = []
 
-    reviews = Review.objects.filter(user__userprofile__friends = request.user).all()[(page - 1) * home_reviews_amount:page * home_reviews_amount]
+    reviews = Review.objects.filter(user__userprofile__friends = request.user).order_by('-added').all()[(page - 1) * home_reviews_amount:page * home_reviews_amount]
 
     for review in reviews:
         reviews_json.append(get_review_json(review))
