@@ -1,4 +1,4 @@
-FROM python:3.8.3-alpine
+FROM python:3.8-alpine
 
 ENV MICRO_SERVICE=/home/app/microservice
 #RUN addgroup -S $APP_USER && adduser -S $APP_USER -G $APP_USER
@@ -15,6 +15,10 @@ WORKDIR /$MICRO_SERVICE
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
+#Fix missing zlib
+RUN apk add zlib-dev jpeg-dev
+ENV LIBRARY_PATH=/lib:/usr/lib
+
 # install psycopg2 dependencies
 RUN apk update \
     && apk add --virtual build-deps gcc python3-dev musl-dev \
@@ -22,8 +26,10 @@ RUN apk update \
     && apk add postgresql-dev gcc python3-dev musl-dev \
     && apk del build-deps \
     && apk --no-cache add musl-dev linux-headers g++
+
 # install dependencies
 RUN pip install --upgrade pip
+
 # copy project
 COPY . $MICRO_SERVICE
 RUN pip install -r requirements.txt
