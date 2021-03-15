@@ -149,10 +149,11 @@ class MoviePageTest(LiveServerTestCase):
 
         assert "Willy Wonka" in selenium.page_source
         assert "Write A Review" in selenium.page_source
-
+	assert "None of your friends have watched this" in selenium.page_source
+        ##add friends
         reviewbox.send_keys('Great movie! Gene Wilder is great!')
         submitreview.send_keys(Keys.RETURN)
-
+	assert "John doe has watched this" in selenium.page_source
         assert 'Great movie! Gene Wilder is great!' in selenium.page_source
         markwatch = reviewbox = selenium.find_element_by_id("mark-watched")
         markwatch.send_keys(Keys.RETURN)
