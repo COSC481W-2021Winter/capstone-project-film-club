@@ -32,8 +32,8 @@ class ProfilePicForm(forms.Form):
     profile_pic = forms.ImageField(required=False)
 
 class RegisterForm(UserCreationForm):
-    first_name = forms.CharField(max_length=128, required=True)
-    last_name = forms.CharField(max_length=128, required=True)
+    first_name = forms.CharField(max_length=50, required=True)
+    last_name = forms.CharField(max_length=50, required=True)
     email = forms.EmailField(validators=[validate_email])
 
     class Meta:
