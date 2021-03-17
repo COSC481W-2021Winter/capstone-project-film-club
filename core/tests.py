@@ -341,7 +341,6 @@ class MoviePageTest(LiveServerTestCase):
         email = selenium.find_element_by_id('id_email')
         password1 = selenium.find_element_by_id('id_password1')
         password2 = selenium.find_element_by_id('id_password2')
-        profilePic = selenium.find_element_by_id('id_profile_pic')
         submit = selenium.find_element_by_id('id_register')
 
         firstName.send_keys('Test')
@@ -350,7 +349,6 @@ class MoviePageTest(LiveServerTestCase):
         email.send_keys('test123@test.com')
         password1.send_keys('moviepass')
         password2.send_keys('moviepass')
-        profilePic.send_keys('C:/Users/Tom Erickson/Desktop/Seratonin.PNG')
         submit.click()
     def test_home_page(self):
         selenium = self.selenium
