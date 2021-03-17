@@ -328,12 +328,10 @@ class MoviePageTest(LiveServerTestCase):
         self.signup()
 
         super(MoviePageTest, self).setUp()
-
     def tearDown(self):
         self.selenium.quit()
 
         super(MoviePageTest, self).tearDown()
-
     def signup(self):
         selenium = self.selenium
         selenium.get(self.live_server_url + '/register')
@@ -353,13 +351,11 @@ class MoviePageTest(LiveServerTestCase):
         submit.send_keys(Keys.RETURN)
 
         assert 'favorite movie genre' in selenium.page_source
-
     def test_home_page(self):
         selenium = self.selenium
         selenium.get(self.live_server_url + '/m/252')
         reviewbox = selenium.find_element_by_name("text")
         submitreview = selenium.find_element_by_name("Post")
-
         assert "Willy Wonka" in selenium.page_source
         assert "Write A Review" in selenium.page_source
 	assert "None of your friends have watched this" in selenium.page_source
