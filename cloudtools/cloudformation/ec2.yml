@@ -35,6 +35,15 @@ Resources:
   WebServerEC2Instance:
     Type: AWS::EC2::Instance
     Properties:
+      UserData:
+        !Base64 |
+        #!/bin/bash
+        yum -y update
+        yum -y groupinstall "Develoment tools" 
+        yum -y install docker
+        git clone https://github.com/COSC481W-2021Winter/capstone-project-film-club.git
+        cd capstone-project-film-club
+        docker-compose up --build
       InstanceType: t2.micro
       ImageId:
         Fn::FindInMap:
