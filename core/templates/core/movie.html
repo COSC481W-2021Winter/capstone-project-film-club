@@ -1,5 +1,6 @@
 {% extends 'core/base_full.html' %}
 {% load static %}
+{% load util %}
 
 {% block title %}{{ movie.title }}{% endblock %}
 
@@ -14,7 +15,7 @@
 {% block content %}
 
 	<div class = "container column">
-		<div id = "movie-container" class = "tile" style = "--background-url: url({{ movie.get_poster_url }})">
+		<div id = "movie-container" class = "tile" style = "border: none; --background-url: url({{ movie.get_poster_url }})">
 			<div id = "movie-poster">
 				<img src = "{{ movie.get_poster_url }}">
 			</div>
@@ -31,7 +32,57 @@
 			</div>
 		</div>
 		<p id ="friendwatch">{{fstring}}</p>
-		{% if reviewed %}
+		<div id = "review-container">
+			<div id = "aggregate-container">
+				<div id = "aggregate-score" style = "background-color: {% get_review_color aggregate.score %}">
+					{{ aggregate.score }}
+				</div>
+				<div id = "aggregate-breakdown">
+					<div class = "score-category" style = "--score-color: {{ aggregate.breakdown.5.color }}">
+						<p class = "category-label">5</p>
+						<div class = "category-visual" style = "--proportion: {{ aggregate.breakdown.5.proportion }}%;">
+							
+						</div>
+						<p class = "category-amount">{{ aggregate.breakdown.5.amount }}</p>
+					</div>
+					<div class = "score-category" style = "--score-color: {{ aggregate.breakdown.4.color }}">
+						<p class = "category-label">4</p>
+						<div class = "category-visual" style = "--proportion: {{ aggregate.breakdown.4.proportion }}%;">
+							
+						</div>
+						<p class = "category-amount">{{ aggregate.breakdown.4.amount }}</p>
+					</div>
+					<div class = "score-category" style = "--score-color: {{ aggregate.breakdown.3.color }};">
+						<p class = "category-label">3</p>
+						<div class = "category-visual" style = "--proportion: {{ aggregate.breakdown.3.proportion }}%;">
+							
+						</div>
+						<p class = "category-amount">{{ aggregate.breakdown.3.amount }}</p>
+					</div>
+					<div class = "score-category" style = "--score-color: {{ aggregate.breakdown.2.color }};">
+						<p class = "category-label">2</p>
+						<div class = "category-visual" style = "--proportion: {{ aggregate.breakdown.2.proportion }}%;">
+							
+						</div>
+						<p class = "category-amount">{{ aggregate.breakdown.2.amount }}</p>
+					</div>
+					<div class = "score-category" style = "--score-color: {{ aggregate.breakdown.1.color }};">
+						<p class = "category-label">1</p>
+						<div class = "category-visual" style = "--proportion: {{ aggregate.breakdown.1.proportion }}%;">
+							
+						</div>
+						<p class = "category-amount">{{ aggregate.breakdown.1.amount }}</p>
+					</div>
+				</div>
+			</div>
+			<div id = "self-review">
+				
+			</div>
+			<div id = "community-reviews">
+				
+			</div>
+		</div>
+		<!--{% if reviewed %}
 		
 			<div id = "movie-review" class = "tile">
 				<div id = "review-score">
@@ -58,9 +109,9 @@
 				</form>
 			</div>
 		
-		{% endif %}
+		{% endif %}-->
 	</div>
-	<div class = "container column">
+	<!--<div class = "container column">
 				<p class = "tile-title">Similar Movies</p>
 				<div id = "search-results" class = "tile">
 					{% for movie in similar_movies %}
@@ -78,7 +129,7 @@
 
 					{% endfor %}
 				</div>
-			</div>
+			</div>-->
 	
 {% endblock %}
 

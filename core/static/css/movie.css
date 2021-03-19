@@ -128,3 +128,107 @@
 	font-family: Roboto-Medium;
 	font-size: 24px;
 }
+
+#review-container{
+	display: grid;
+	grid-template-areas: "aggregate self 	  self	  	self 	  self	   "
+						 "community community community community community";
+	grid-gap: var(--tile-padding);
+	
+	margin-top: var(--tile-padding);
+}
+
+#aggregate-container{
+	grid-area: aggregate;
+	
+	display: flex;
+	
+	box-sizing: border-box;
+}
+#aggregate-score{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	
+	padding: 20px;
+	
+	font-family: Roboto-Medium;
+	font-size: 32px;
+	color: white;
+	
+	box-sizing: border-box;
+}
+#aggregate-breakdown{
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	
+	margin-left: 5px;
+	
+	box-sizing: border-box;
+}
+.score-category{
+	display: flex;
+	align-items: center;
+}
+.category-label, .category-amount{
+	width: 20px;
+	
+	text-align: center;
+}
+.category-label{
+	font-family: Roboto-Medium;
+	font-size: 14px;
+}
+.category-visual{
+	height: 6px;
+	
+	flex: 1;
+	
+	position: relative;
+	
+	margin: 0 5px;
+	
+	background-color: #ddd;
+	
+	border-radius: 3px;
+	
+	overflow: hidden;
+}
+.category-visual:before{
+	content: '';
+	
+	width: var(--proportion);
+	min-width: 6px;
+	height: 100%;
+	
+	position: absolute;
+	top: 0;
+	left: 0;
+	
+	background-color: var(--score-color);
+	
+	border-radius: 3px;
+}
+.category-amount{
+	font-size: 14px;
+}
+
+#self-review{
+	grid-area: self;
+	
+	background-color: green;
+	
+	padding: 10px;
+	
+	box-sizing: border-box;
+}
+#community-reviews{
+	grid-area: community;
+	
+	background-color: blue;
+	
+	padding: 10px;
+	
+	box-sizing: border-box;
+}

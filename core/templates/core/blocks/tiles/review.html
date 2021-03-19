@@ -23,7 +23,7 @@
 	<div class = "review-main">
 		<div class = "review-media">
 			<a href = "{% url 'core:movie' id=review.movie.id|add:'0' %}"><img class = "review-image" src = "{{ review.movie.poster_url }}"></a>
-			<div class = "review-score">
+			<div class = "review-score" style = "background-color: {% get_review_color review.score %}">
 				{{ review.score }}
 			</div>
 		</div>
