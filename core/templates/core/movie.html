@@ -33,103 +33,99 @@
 		</div>
 		<p id ="friendwatch">{{fstring}}</p>
 		<div id = "review-container">
-			<div id = "aggregate-container">
-				<div id = "aggregate-score" style = "background-color: {% get_review_color aggregate.score %}">
-					{{ aggregate.score }}
-				</div>
-				<div id = "aggregate-breakdown">
-					<div class = "score-category" style = "--score-color: {{ aggregate.breakdown.5.color }}">
-						<p class = "category-label">5</p>
-						<div class = "category-visual" style = "--proportion: {{ aggregate.breakdown.5.proportion }}%;">
-							
-						</div>
-						<p class = "category-amount">{{ aggregate.breakdown.5.amount }}</p>
+			<div id = "aggregate-container" class = "tile">
+				<p class = "tile-inline-title">Community Score</p>
+				<div id = "score-wrapper">
+					<div id = "aggregate-score" style = "background-color: {% get_review_color aggregate.score %}">
+						{{ aggregate.score }}
 					</div>
-					<div class = "score-category" style = "--score-color: {{ aggregate.breakdown.4.color }}">
-						<p class = "category-label">4</p>
-						<div class = "category-visual" style = "--proportion: {{ aggregate.breakdown.4.proportion }}%;">
-							
+					<div id = "aggregate-breakdown">
+						<div class = "score-category" style = "--score-color: {{ aggregate.breakdown.5.color }}">
+							<p class = "category-label">5</p>
+							<div class = "category-visual" style = "--proportion: {{ aggregate.breakdown.5.proportion }}%;">
+								
+							</div>
+							<p class = "category-amount">{{ aggregate.breakdown.5.amount }}</p>
 						</div>
-						<p class = "category-amount">{{ aggregate.breakdown.4.amount }}</p>
-					</div>
-					<div class = "score-category" style = "--score-color: {{ aggregate.breakdown.3.color }};">
-						<p class = "category-label">3</p>
-						<div class = "category-visual" style = "--proportion: {{ aggregate.breakdown.3.proportion }}%;">
-							
+						<div class = "score-category" style = "--score-color: {{ aggregate.breakdown.4.color }}">
+							<p class = "category-label">4</p>
+							<div class = "category-visual" style = "--proportion: {{ aggregate.breakdown.4.proportion }}%;">
+								
+							</div>
+							<p class = "category-amount">{{ aggregate.breakdown.4.amount }}</p>
 						</div>
-						<p class = "category-amount">{{ aggregate.breakdown.3.amount }}</p>
-					</div>
-					<div class = "score-category" style = "--score-color: {{ aggregate.breakdown.2.color }};">
-						<p class = "category-label">2</p>
-						<div class = "category-visual" style = "--proportion: {{ aggregate.breakdown.2.proportion }}%;">
-							
+						<div class = "score-category" style = "--score-color: {{ aggregate.breakdown.3.color }};">
+							<p class = "category-label">3</p>
+							<div class = "category-visual" style = "--proportion: {{ aggregate.breakdown.3.proportion }}%;">
+								
+							</div>
+							<p class = "category-amount">{{ aggregate.breakdown.3.amount }}</p>
 						</div>
-						<p class = "category-amount">{{ aggregate.breakdown.2.amount }}</p>
-					</div>
-					<div class = "score-category" style = "--score-color: {{ aggregate.breakdown.1.color }};">
-						<p class = "category-label">1</p>
-						<div class = "category-visual" style = "--proportion: {{ aggregate.breakdown.1.proportion }}%;">
-							
+						<div class = "score-category" style = "--score-color: {{ aggregate.breakdown.2.color }};">
+							<p class = "category-label">2</p>
+							<div class = "category-visual" style = "--proportion: {{ aggregate.breakdown.2.proportion }}%;">
+								
+							</div>
+							<p class = "category-amount">{{ aggregate.breakdown.2.amount }}</p>
 						</div>
-						<p class = "category-amount">{{ aggregate.breakdown.1.amount }}</p>
+						<div class = "score-category" style = "--score-color: {{ aggregate.breakdown.1.color }};">
+							<p class = "category-label">1</p>
+							<div class = "category-visual" style = "--proportion: {{ aggregate.breakdown.1.proportion }}%;">
+								
+							</div>
+							<p class = "category-amount">{{ aggregate.breakdown.1.amount }}</p>
+						</div>
 					</div>
 				</div>
 			</div>
-			<div id = "self-review">
+			<div id = "self-review" class = "tile">
+				{% if reviewed %}
+					
+					<p class = "tile-inline-title">Your Review</p>
 				
+					{% include 'core/blocks/tiles/review.html' with review=review barebones=True %}
+				
+				{% else %}
+				
+					<p class = "tile-inline-title">Write a Review</p>
+					<form id = "post-review" method = "POST">
+						{% csrf_token %}
+					
+						<input id = "post-review-title" type = "text" name = "title" placeholder = "Title">
+						<input id = "post-review-score" type = "number" name = "score" placeholder = "Score (1-5 in .5 increments)" min = 1 max = 5 step = .5>
+						<textarea id = "post-review-text" name = "text" placeholder = "Body"></textarea>
+						<input id = "post-review-submit" type = "submit" value = "Post">
+					</form>
+				
+				{% endif %}
 			</div>
 			<div id = "community-reviews">
 				
 			</div>
 		</div>
-		<!--{% if reviewed %}
-		
-			<div id = "movie-review" class = "tile">
-				<div id = "review-score">
-					<p id = "score">{{ review.score }}</p>
-					<p>Your Score</p>
-				</div>
-				<div id = "review-details">
-					<p id = "review-title">{{ review.title }}</p>
-					<p id = "review-text">{{ review.text }}</p>
-				</div>
-			</div>
-		
-		{% else %}
-		
-			<div class = "tile">
-				<p class = "tile-title">Write A Review</p>
-				<form method = "POST" style = "display: flex; flex-direction: column;">
-					{% csrf_token %}
-				
-					<input type = "text" name = "title">
-					<input type = "number" name = "score" min = 1 max = 5 step = .5>
-					<textarea name = "text"></textarea>
-					<input type = "submit" value = "Post">
-				</form>
-			</div>
-		
-		{% endif %}-->
 	</div>
-	<!--<div class = "container column">
-				<p class = "tile-title">Similar Movies</p>
-				<div id = "search-results" class = "tile">
-					{% for movie in similar_movies %}
-						<a href = "{% url 'core:movie' id=movie.get_absolute_id %}">
-							<div class = "search-movie">
-					<div class = "movie-poster">
-						<img src = "{{ movie.get_poster_url }}">
-					</div>
-					<div class = "movie-details">
-						<p class = "movie-title">{{ movie.title }}</p>
-						<p class = "movie-description">{{ movie.description }}</p>
-					</div>
-				</div>
-				</a>
+	<div class = "container column">
+		<div class = "tile">
+			<p class = "tile-title">Similar Movies</p>
+			<div id = "search-results" style = "padding-top: 0;">
+				{% for movie in similar_movies %}
+				
+					<a href = "{% url 'core:movie' id=movie.get_absolute_id %}">
+						<div class = "search-movie">
+							<div class = "movie-poster">
+								<img src = "{{ movie.get_poster_url }}">
+							</div>
+							<div class = "movie-details">
+								<p class = "movie-title">{{ movie.title }}</p>
+								<p class = "movie-description">{{ movie.description }}</p>
+							</div>
+						</div>
+					</a>
 
-					{% endfor %}
-				</div>
-			</div>-->
+				{% endfor %}
+			</div>
+		</div>
+	</div>
 	
 {% endblock %}
 

@@ -131,8 +131,9 @@
 
 #review-container{
 	display: grid;
-	grid-template-areas: "aggregate self 	  self	  	self 	  self	   "
-						 "community community community community community";
+	grid-template-areas: "aggregate self	  self 		self"
+						 "community community community community";
+	grid-template-columns: 1fr 1fr 1fr 1fr;
 	grid-gap: var(--tile-padding);
 	
 	margin-top: var(--tile-padding);
@@ -141,9 +142,19 @@
 #aggregate-container{
 	grid-area: aggregate;
 	
+	min-width: 250px;
+	
 	display: flex;
 	
+	padding: var(--tile-padding);
+	
 	box-sizing: border-box;
+}
+#score-wrapper{
+	width: 100%;
+	height: max-content;
+	
+	display: flex;
 }
 #aggregate-score{
 	display: flex;
@@ -155,6 +166,8 @@
 	font-family: Roboto-Medium;
 	font-size: 32px;
 	color: white;
+	
+	border-bottom: 4px solid rgba(0, 0, 0, .3);
 	
 	box-sizing: border-box;
 }
@@ -217,18 +230,59 @@
 #self-review{
 	grid-area: self;
 	
-	background-color: green;
-	
-	padding: 10px;
+	padding: var(--tile-padding);
 	
 	box-sizing: border-box;
 }
 #community-reviews{
 	grid-area: community;
 	
-	background-color: blue;
+	box-sizing: border-box;
+}
+
+#post-review{
+	display: flex;
+	flex-direction: column;
+}
+#post-review > *:not(#post-review-title){
+	margin-top: var(--tile-padding);
+}
+
+#post-review-title, #post-review-score, #post-review-text, #post-review-submit{
+	padding: 8px;
 	
-	padding: 10px;
+	border: 1px solid #ddd;
+	outline: none;
 	
 	box-sizing: border-box;
+}
+#post-review-title:focus, #post-review-score:focus, #post-review-text:focus{
+	border-color: var(--red);
+}
+#post-review-score{
+	width: 200px;
+}
+#post-review-text{
+	height: 100px;
+	
+	font-family: Roboto-Regular;
+	
+	resize: vertical;
+}
+#post-review-submit{
+	align-self: flex-end;
+	
+	padding: 8px 40px;
+	
+	font-family: Roboto-Medium;
+	text-transform: uppercase;
+	
+	cursor: pointer;
+	
+	transition: all .1s ease;
+}
+#post-review-submit:hover{
+	background-color: var(--red);
+	
+	color: white;
 }
