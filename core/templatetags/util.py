@@ -22,10 +22,13 @@ def get_review_color(score):
     if score == '' or score is None:
         return ''
 
-    score = int(score)
+    try:
+        score = int(score)
 
-    for color_pair in colors:
-        if score >= color_pair[1]:
-            return color_pair[0]
+        for color_pair in colors:
+            if score >= color_pair[1]:
+                return color_pair[0]
+    except:
+        pass
 
-    return color_pair[2][0]
+    return '#aaa'

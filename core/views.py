@@ -128,32 +128,37 @@ def movie(request, id):
         four_count = movie_reviews.filter(score__range = (4, 4.5)).count()
         five_count = movie_reviews.filter(score = 5).count()
 
-        aggregate['score'] = movie_reviews.aggregate(Sum('score'))['score__sum'] / movie_reviews.count()
+        review_count = movie_reviews.count() if movie_reviews.count() > 0 else 1
+
+        if movie_reviews.count() > 0:
+            aggregate['score'] = movie_reviews.aggregate(Sum('score'))['score__sum'] / review_count
+        else:
+            aggregate['score'] = 'N/A'
 
         aggregate['breakdown'] = {
             '1': {
                 'amount': one_count,
-                'proportion': float(one_count) / movie_reviews.count() * 100,
+                'proportion': float(one_count) / review_count * 100,
                 'color': util.get_review_color(1)
             },
             '2': {
                 'amount': two_count,
-                'proportion': float(two_count) / movie_reviews.count() * 100,
+                'proportion': float(two_count) / review_count * 100,
                 'color': util.get_review_color(2)
             },
             '3': {
                 'amount': three_count,
-                'proportion': float(three_count) / movie_reviews.count() * 100,
+                'proportion': float(three_count) / review_count * 100,
                 'color': util.get_review_color(3)
             },
             '4': {
                 'amount': four_count,
-                'proportion': float(four_count) / movie_reviews.count() * 100,
+                'proportion': float(four_count) / review_count * 100,
                 'color': util.get_review_color(4)
             },
             '5': {
                 'amount': five_count,
-                'proportion': float(five_count) / movie_reviews.count() * 100,
+                'proportion': float(five_count) / review_count * 100,
                 'color': util.get_review_color(5)
             },
         }
