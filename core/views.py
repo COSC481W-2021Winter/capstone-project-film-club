@@ -128,9 +128,9 @@ def movie(request, id):
         four_count = movie_reviews.filter(score__range = (4, 4.5)).count()
         five_count = movie_reviews.filter(score = 5).count()
 
-        review_count = movie_reviews.count() if movie_reviews.count() > 0 else 1
+        review_count = movie_reviews.count() if movie_reviews.exists() else 1
 
-        if movie_reviews.count() > 0:
+        if movie_reviews.exists():
             aggregate['score'] = movie_reviews.aggregate(Sum('score'))['score__sum'] / review_count
         else:
             aggregate['score'] = 'N/A'
