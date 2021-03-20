@@ -16,6 +16,46 @@ from selenium.common.exceptions import NoSuchElementException
 
 from . import views
 
+class ParentTestCase(LiveServerTestCase):
+    def setUp(self):
+        self.selenium = webdriver.Chrome()
+        self.signup()
+        self.pick_genres()
+
+    def tearDown(self):
+        self.selenium.quit()
+        super(LogoutTestCase, self).tearDown()
+
+    def signup(self):
+        selenium = self.selenium
+        selenium.get(self.live_server_url + '/register')
+        firstName = selenium.find_element_by_id('id_first_name')
+        lastName = selenium.find_element_by_id('id_last_name')
+        username = selenium.find_element_by_id('id_username')
+        email = selenium.find_element_by_id('id_email')
+        password1 = selenium.find_element_by_id('id_password1')
+        password2 = selenium.find_element_by_id('id_password2')
+        submit = selenium.find_element_by_id('id_register')
+
+        firstName.send_keys('Test')
+        lastName.send_keys('Tester')
+        username.send_keys('Test123')
+        email.send_keys('test123@test.com')
+        password1.send_keys('moviepass')
+        password2.send_keys('moviepass')
+        submit.click()
+
+    def pick_genres(self):
+        selenium = self.selenium
+        genre1 = Select(selenium.find_element_by_id('id_firstGenre'))
+        genre2 = Select(selenium.find_element_by_id('id_secondGenre'))
+        genre3 = Select(selenium.find_element_by_id('id_thirdGenre'))
+        submit = selenium.find_element_by_class_name('btn')
+        submit.send_keys(Keys.RETURN)
+        Url = self.live_server_url + '/genre'
+        self.assertNotEquals(self.live_server_url, Url)
+
+
 
 class UserSearchTestCase(LiveServerTestCase):
     def setUp(self):
@@ -119,45 +159,7 @@ class UserSearchTestCase(LiveServerTestCase):
         
         assert len(selenium.find_elements_by_tag_name("label")) > 0
 
-class LogoutTestCase(LiveServerTestCase):
-    def setUp(self):
-        self.selenium = webdriver.Chrome()
-        self.signup()
-        self.pick_genres()
-
-    def tearDown(self):
-        self.selenium.quit()
-        super(LogoutTestCase, self).tearDown()
-
-    def signup(self):
-        selenium = self.selenium
-        selenium.get(self.live_server_url + '/register')
-        firstName = selenium.find_element_by_id('id_first_name')
-        lastName = selenium.find_element_by_id('id_last_name')
-        username = selenium.find_element_by_id('id_username')
-        email = selenium.find_element_by_id('id_email')
-        password1 = selenium.find_element_by_id('id_password1')
-        password2 = selenium.find_element_by_id('id_password2')
-        submit = selenium.find_element_by_id('id_register')
-
-        firstName.send_keys('Test')
-        lastName.send_keys('Tester')
-        username.send_keys('Test123')
-        email.send_keys('test123@test.com')
-        password1.send_keys('moviepass')
-        password2.send_keys('moviepass')
-        submit.click()
-
-    def pick_genres(self):
-        selenium = self.selenium
-        genre1 = Select(selenium.find_element_by_id('id_firstGenre'))
-        genre2 = Select(selenium.find_element_by_id('id_secondGenre'))
-        genre3 = Select(selenium.find_element_by_id('id_thirdGenre'))
-        submit = selenium.find_element_by_class_name('btn')
-        submit.send_keys(Keys.RETURN)
-        Url = self.live_server_url + '/genre'
-        self.assertNotEquals(self.live_server_url, Url)
-
+class LogoutTestCase(ParentTestCase):
     def test_logout(self):
         selenium = self.selenium
         logout = selenium.find_element_by_id('logout')
