@@ -12,6 +12,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.select import Select
 from selenium.webdriver.common.by import By
+from selenium.common.exceptions import NoSuchElementException
 
 from . import views
 
@@ -122,28 +123,32 @@ class LogoutTestCase(LiveServerTestCase):
     def setUp(self):
         self.selenium = webdriver.Chrome()
         self.signup()
-        self.test_pick_genres()
-    
+        self.pick_genres()
+
     def tearDown(self):
         self.selenium.quit()
-        super(GenresTestCase, self).tearDown()
+        super(LogoutTestCase, self).tearDown()
 
     def signup(self):
         selenium = self.selenium
         selenium.get(self.live_server_url + '/register')
+        firstName = selenium.find_element_by_id('id_first_name')
+        lastName = selenium.find_element_by_id('id_last_name')
         username = selenium.find_element_by_id('id_username')
         email = selenium.find_element_by_id('id_email')
         password1 = selenium.find_element_by_id('id_password1')
         password2 = selenium.find_element_by_id('id_password2')
-        submit = selenium.find_element_by_class_name('btn')
+        submit = selenium.find_element_by_id('id_register')
+
+        firstName.send_keys('Test')
+        lastName.send_keys('Tester')
         username.send_keys('Test123')
         email.send_keys('test123@test.com')
-        password1.send_keys('homepagepass')
-        password2.send_keys('homepagepass')
-        submit.send_keys(Keys.RETURN)
-        assert 'favorite movie genre' in selenium.page_source
+        password1.send_keys('moviepass')
+        password2.send_keys('moviepass')
+        submit.click()
 
-    def test_pick_genres(self):
+    def pick_genres(self):
         selenium = self.selenium
         genre1 = Select(selenium.find_element_by_id('id_firstGenre'))
         genre2 = Select(selenium.find_element_by_id('id_secondGenre'))
@@ -156,23 +161,17 @@ class LogoutTestCase(LiveServerTestCase):
     def test_logout(self):
         selenium = self.selenium
         logout = selenium.find_element_by_id('logout')
+        selenium.implicitly_wait(10)
         logout.send_keys(Keys.RETURN)
-        if self.selenium.find_element_by_id('myBtn'):
-            self.AssertTrue()
-        else:
-            self.AssertFalse()
+        try:
+            self.selenium.find_element_by_id('myBtn')
+            selenium.AssertTrue(True)
+        except NoSuchElementException:
+            print("Not found")
 
 
 
-       
-
-
-
-class HomePageTestCase(LiveServerTestCase):
-    
-    
-    
-    
+class HomePageTestCase(LiveServerTestCase): 
     def setUp(self):
         self.selenium = webdriver.Chrome()
         self.signup()
