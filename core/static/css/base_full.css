@@ -202,6 +202,8 @@
 	border: 1px solid #ccc;
 }
 #edit-name input{
+	width: 120px; 
+	
 	padding: 1px;
 	margin: 0 var(--tile-padding) 0 1px;
 	
