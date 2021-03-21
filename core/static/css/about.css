@@ -1,0 +1,50 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    color:white;
+    background-color: #282726; /* For browsers that do not support gradients */
+    
+  }
+  
+  .about-us-banner {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://pixy.org/src/6/63622.jpg");
+    height: 50%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+  }
+  
+  .about-us-banner-text {
+    text-align: center;
+    position: absolute;
+    font-family: 'Courier New', monospace;
+    letter-spacing: 7px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #6A8A82;
+    
+  }
+  
+  .card {
+    box-shadow: 0 4px 8px 0 rgba(167, 65, 74, 1.0);
+    background-image: linear-gradient( to right, #A37C27, rgba(231, 226, 226, 0.801));
+    max-width: 80%;
+    margin: auto;
+    text-align: center;
+  }
+  
+  .title {
+    text-align:center;
+    padding:10px;
+    color: #A7414A;
+    font-family: Arial, sans-serif;}
+  
+  .description {
+    padding:30px;
+    justify-content: space-evenly; 
+    color:#563838;
+    font-family: Arial Narrow, sans-serif;
+    letter-spacing: 1.2px;
+  }
