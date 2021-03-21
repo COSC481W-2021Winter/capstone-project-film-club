@@ -135,6 +135,7 @@ def movie(request, id):
         else:
             aggregate['score'] = 'N/A'
 
+        aggregate['total'] = review_count
         aggregate['breakdown'] = {
             '1': {
                 'amount': one_count,
@@ -162,14 +163,6 @@ def movie(request, id):
                 'color': util.get_review_color(5)
             },
         }
-
-        print(aggregate)
-        print('\n\n\n')
-        print(movie_reviews)
-        print(movie_reviews.count())
-        print('5: ' + str(five_count))
-        print('4: ' + str(four_count))
-        print('\n\n\n')
 
         return render(request, 'core/movie.html', {
             'movie': movie,

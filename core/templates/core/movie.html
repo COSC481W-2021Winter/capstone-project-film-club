@@ -34,7 +34,7 @@
 		<p id ="friendwatch">{{fstring}}</p>
 		<div id = "review-container">
 			<div id = "aggregate-container" class = "tile">
-				<p class = "tile-inline-title">Community Score</p>
+				<p class = "tile-inline-title">Community Score <span id = "review-count">{{ aggregate.total }} review{% if aggregate.total > 1 %}s{% endif %}</span></p>
 				<div id = "score-wrapper">
 					<div id = "aggregate-score" style = "background-color: {% get_review_color aggregate.score %}">
 						{{ aggregate.score }}
