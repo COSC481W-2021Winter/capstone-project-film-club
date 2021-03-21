@@ -160,14 +160,26 @@ class UserSearchTestCase(LiveServerTestCase):
         assert len(selenium.find_elements_by_tag_name("label")) > 0
 
 class LogoutTestCase(ParentTestCase):
+    def setUp(self):
+        super().setUp()
+
+    def tearDown(self):
+        super().tearDown()
+
+    def signup(self):
+        super().signup()
+
+    def pick_genres(self):
+        super().pick_genres()
+
     def test_logout(self):
         selenium = self.selenium
         logout = selenium.find_element_by_id('logout')
-        selenium.implicitly_wait(10)
+        selenium.implicitly_wait(1)
         logout.send_keys(Keys.RETURN)
         try:
             self.selenium.find_element_by_id('myBtn')
-            selenium.AssertTrue(True)
+            selenium.AssertTrue(True,True)
         except NoSuchElementException:
             print("Not found")
 
