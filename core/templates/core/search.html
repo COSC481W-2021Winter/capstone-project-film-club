@@ -18,8 +18,21 @@
 			
 			
 
-			<label>{{ res_top }}</label>
+			
+
+					<a href={{ res_top }}>{{ res_top }}</label>
+
+
 			<!--
+
+
+<label>{{ res_top }}</label>
+
+
+			<a href="{% url 'core:profile' user.username %}">{% url 'core:profile' user.username %}</label>
+
+				<a href="/ascha/">link</label>
+
 			{% for r in res_u %}
 
 			<label>{{ r }}</label>

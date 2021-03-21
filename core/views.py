@@ -139,6 +139,11 @@ def search(request):
                         out_put = User.objects.get(username=str(query))
                         data['res_u'] = User.objects.all()
                         data['res_top'] = out_put
+                        linkMaker = data['res_top'] + " %}"
+                        data['data_url_two'] = "{% url 'core:profile' ascha %}"
+                        data['data_url'] = "{% url 'core:profile' user.username %}"
+                        ascha = "/ascha/"
+                        data['ascha'] = ascha
                         return render(request, 'core/search.html', data)
                     except:
                         return render(request, 'core/search.html', data)
