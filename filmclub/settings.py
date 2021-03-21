@@ -25,7 +25,7 @@ SECRET_KEY = '2dvokcf&(xvmbdyl_=@h$tpytl(_bvod_q6o(2x-wn0+mj&s7m'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0', '[::1]']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0', '[::1]','34.235.120.72'']
 #ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS').split(" ")
 
 
@@ -90,12 +90,12 @@ if(DEBUG == True):
 else:
     DATABASES = {
         'default': {
-            'ENGINE': os.environ.get('ENGINE'),
-            'NAME': os.environ.get('DB_NAME'),
-            'USER': os.environ.get('POSTGRES_USER'),
-            'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
-            'HOST': os.environ.get('DB_HOST'),
-            'PORT': os.environ.get('DB_PORT'),
+            'ENGINE':'django.db.backends.postgresql_psycopg2',
+            'NAME':'postgres',
+            'USER':'postgres',
+            'PASSWORD':'WewW6hxmP2Gof2hCfPVI' ,
+            'HOST': 'database-1.cee6dkwgxnnz.us-east-1.rds.amazonaws.com',
+            'PORT':'5432',
         }
     }
 

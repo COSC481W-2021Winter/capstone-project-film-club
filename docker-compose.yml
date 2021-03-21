@@ -13,7 +13,7 @@ services:
 
   web:
     build: . #build the image for the web service from the dockerfile in parent directory
-    command: sh -c "python manage.py makemigrations &&
+    command: sh -c "python manage.py makemigrations --merge --noinput &&
                     python manage.py migrate &&
                     python manage.py collectstatic --noinput &&
                     gunicorn filmclub.wsgi:application --bind 0.0.0.0:8000"
