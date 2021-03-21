@@ -39,10 +39,18 @@ Resources:
         !Base64 |
         #!/bin/bash
         yum -y update
-        yum -y groupinstall "Develoment tools" 
+        yum groups mark install "Development Tools"
+        yum groups mark convert "Development Tools"
+        yum -y groupinstall "Development Tools"
         yum -y install docker
+        yum install -y python38-setuptools
+        curl -L https://github.com/docker/compose/releases/download/1.20.0/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+        chmod +x /usr/local/bin/docker-compose
         git clone https://github.com/COSC481W-2021Winter/capstone-project-film-club.git
         cd capstone-project-film-club
+        usermod -a -G docker ec2-user
+        service docker start
+        chown $USER /var/run/docker.sock
         docker-compose up --build
       InstanceType: t2.micro
       ImageId:
