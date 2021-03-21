@@ -235,7 +235,8 @@ def register(request):
 
             login(request, new_user)
 
-            return redirect("/welcome")
+            #return redirect("/welcome") Disable until we find a work around.
+            return redirect("/genres")
     else:
         register_form = RegisterForm()
         profile_pic_form = ProfilePicForm()

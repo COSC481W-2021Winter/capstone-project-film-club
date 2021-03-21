@@ -100,6 +100,7 @@ else:
     }
 
 
+
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
 
@@ -163,8 +164,7 @@ if(DEBUG==True):
     EMAIL_HOST_PASSWORD = '5zsVsSFT' #password associated with above email-id 
 else:
     EMAIL_BACKEND = 'django_ses.SESBackend'
-    AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
-    AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+
 ################################################################
 
 CACHES = {
