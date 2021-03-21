@@ -19,17 +19,8 @@ Parameters:
 Mappings:
   RegionMap:
     us-east-1:
-      AMI: ami-1853ac65
-    us-west-1:
-      AMI: ami-bf5540df
-    eu-west-1:
-      AMI: ami-3bfab942
-    ap-southeast-1:
-      AMI: ami-e2adf99e
-    ap-southeast-2:
-      AMI: ami-43874721
-    ap-south-1:
-      AMI: ami-0ebc1ac48dfd14136
+      AMI: ami-042e8287309f5df03 
+
 
 Resources:
   WebServerEC2Instance:
@@ -38,20 +29,17 @@ Resources:
       UserData:
         !Base64 |
         #!/bin/bash
-        yum -y update
-        yum groups mark install "Development Tools"
-        yum groups mark convert "Development Tools"
-        yum -y groupinstall "Development Tools"
-        yum -y install docker
-        yum install -y python38-setuptools
-        curl -L https://github.com/docker/compose/releases/download/1.20.0/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+        snap install docker
+        sudo curl -L "https://github.com/docker/compose/releases/download/1.28.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
         chmod +x /usr/local/bin/docker-compose
+        chown $USER /var/run/docker.sock
+        docker pull nfishel/filmclub
+        docker tag nfishel/filmclub filmclub
+        docker pull nginx
+        docker pull redis
         git clone https://github.com/COSC481W-2021Winter/capstone-project-film-club.git
         cd capstone-project-film-club
-        usermod -a -G docker ec2-user
-        service docker start
-        chown $USER /var/run/docker.sock
-        docker-compose up --build
+        docker-compose up
       InstanceType: t2.micro
       ImageId:
         Fn::FindInMap:
@@ -73,7 +61,7 @@ Resources:
   SecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
-      GroupDescription: Open Port 22 for ssh and port 8080 for http
+      GroupDescription: Open Port 22 for ssh and port 1300 for the webserver
       VpcId: !Ref VPC
       SecurityGroupIngress:
         - IpProtocol: tcp
@@ -83,4 +71,8 @@ Resources:
         - IpProtocol: tcp
           FromPort: 80
           ToPort: 80
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 1300
+          ToPort: 1300
           CidrIp: 0.0.0.0/0
