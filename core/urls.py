@@ -31,12 +31,12 @@ urlpatterns = [
     path('m/<int:id>/', views.movie, name = 'movie'),  # Movie profile screen
     path("welcome/", views.welcome, name = "send welcome email"),
     path('reviews/<int:page>/', views.get_home_reviews, name = 'home_reviews'),
-    path('<str:username>/', views.profile, name='profile'),  # Profile screen
+    path('u/<str:username>/', views.profile, name='profile'),  # Profile screen
     path('accounts/', include('django.contrib.auth.urls')),  # Enable Django auth app
 
     path('watch/', views.watch, name = 'watch'),
     path('friend/', views.friend, name = 'friend'),
-    path('<str:username>/edit/', views.edit_profile, name='edit_profile'),
+    path('u/<str:username>/edit/', views.edit_profile, name='edit_profile'),
 ]
 
 
