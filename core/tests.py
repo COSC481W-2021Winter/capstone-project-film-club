@@ -24,7 +24,6 @@ class ParentTestCase(LiveServerTestCase):
 
     def tearDown(self):
         self.selenium.quit()
-        super(LogoutTestCase, self).tearDown()
 
     def signup(self):
         selenium = self.selenium
@@ -161,16 +160,10 @@ class UserSearchTestCase(LiveServerTestCase):
 
 class LogoutTestCase(ParentTestCase):
     def setUp(self):
-        super().setUp()
+        ParentTestCase.setUp(self)
 
     def tearDown(self):
-        super().tearDown()
-
-    def signup(self):
-        super().signup()
-
-    def pick_genres(self):
-        super().pick_genres()
+        ParentTestCase.tearDown(self)
 
     def test_logout(self):
         selenium = self.selenium
