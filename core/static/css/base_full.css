@@ -125,8 +125,6 @@
 }
 
 .tile{
-	--tile-padding: 15px;
-	
 	width: 100%;
 	
 	display: flex;
@@ -163,6 +161,12 @@
 	padding: var(--tile-padding);
 	
 	font-size: 12px;
+}
+.tile-inline-title{
+	font-family: Roboto-Medium;
+	font-size: 16px;
+	
+	padding-bottom: var(--tile-padding);
 }
 
 #user-container{
@@ -202,6 +206,8 @@
 	border: 1px solid #ccc;
 }
 #edit-name input{
+	width: 120px; 
+	
 	padding: 1px;
 	margin: 0 var(--tile-padding) 0 1px;
 	
@@ -327,10 +333,7 @@
 	text-decoration: underline;
 }
 
-.review{
-	//border-color: var(--blue);
-}
-.review:not(:first-child){
+.review:not(:first-child):not(.barebones){
 	margin-top: var(--gap);
 }
 .tile-header{
@@ -416,6 +419,9 @@
 	
 	overflow: hidden;
 }
+.barebones .review-main{
+	padding: 0;
+}
 .review-media{
 	width: 80px;
 	
@@ -449,6 +455,12 @@
 	
 	box-sizing: border-box;
 }
+.barebones .review-score{
+	width: 60px;
+	height: 60px;
+	
+	margin: 0;
+}
 .review-details{
 	display: flex;
 	flex-direction: column;
@@ -467,8 +479,23 @@
 	font-size: 20px;
 	line-height: 20px;
 }
+.review-author{
+	display: flex;
+	align-items: baseline;
+	
+	margin-top: 3px;
+	
+	font-size: 10px;
+	color: #555;
+	line-height: 12px;
+}
+.review-username{
+	font-size: 12px;
+}
 .review-body{
-	margin-top: 5px;
+	margin-top: 6px;
+	
+	font-size: 14px;
 	
 	overflow: hidden;
 }

@@ -28,7 +28,7 @@ Resources:
       TemplateURL: !Sub 'https://s3.${AWS::Region}.amazonaws.com/${CloudToolsBucket}/cloudformation/ec2.yml'
       Parameters:
         EnvironmentName: !Ref Environment
-        KeyName: FilmClubKey
+        KeyName: Capstone
         PublicSubnet1: !GetAtt VPC.Outputs.PublicSubnet1
         VPC: !GetAtt VPC.Outputs.VPC
 

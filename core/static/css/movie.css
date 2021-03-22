@@ -128,3 +128,167 @@
 	font-family: Roboto-Medium;
 	font-size: 24px;
 }
+
+#review-container{
+	display: grid;
+	grid-template-areas: "aggregate self	  self 		self"
+						 "community community community community";
+	grid-template-columns: 1fr 1fr 1fr 1fr;
+	grid-gap: var(--tile-padding);
+	
+	margin-top: var(--tile-padding);
+}
+
+#aggregate-container{
+	grid-area: aggregate;
+	
+	min-width: 250px;
+	
+	display: flex;
+	
+	padding: var(--tile-padding);
+	
+	box-sizing: border-box;
+}
+#score-wrapper{
+	width: 100%;
+	height: max-content;
+	
+	display: flex;
+}
+#aggregate-score{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	
+	padding: 20px;
+	
+	font-family: Roboto-Medium;
+	font-size: 32px;
+	color: white;
+	
+	border-bottom: 4px solid rgba(0, 0, 0, .3);
+	
+	box-sizing: border-box;
+}
+#aggregate-breakdown{
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	
+	margin-left: 5px;
+	
+	box-sizing: border-box;
+}
+.score-category{
+	display: flex;
+	align-items: center;
+}
+.category-label, .category-amount{
+	width: 20px;
+	
+	text-align: center;
+}
+.category-label{
+	font-family: Roboto-Medium;
+	font-size: 14px;
+}
+.category-visual{
+	height: 6px;
+	
+	flex: 1;
+	
+	position: relative;
+	
+	margin: 0 5px;
+	
+	background-color: #ddd;
+	
+	border-radius: 3px;
+	
+	overflow: hidden;
+}
+.category-visual:before{
+	content: '';
+	
+	width: var(--proportion);
+	min-width: 6px;
+	height: 100%;
+	
+	position: absolute;
+	top: 0;
+	left: 0;
+	
+	background-color: var(--score-color);
+	
+	border-radius: 3px;
+}
+.category-amount{
+	font-size: 14px;
+}
+
+#self-review{
+	grid-area: self;
+	
+	padding: var(--tile-padding);
+	
+	box-sizing: border-box;
+}
+#community-reviews{
+	grid-area: community;
+	
+	box-sizing: border-box;
+}
+
+#post-review{
+	display: flex;
+	flex-direction: column;
+}
+#post-review > *:not(#post-review-title){
+	margin-top: var(--tile-padding);
+}
+
+#post-review-title, #post-review-score, #post-review-text, #post-review-submit{
+	padding: 8px;
+	
+	border: 1px solid #ddd;
+	outline: none;
+	
+	box-sizing: border-box;
+}
+#post-review-title:focus, #post-review-score:focus, #post-review-text:focus{
+	border-color: var(--red);
+}
+#post-review-score{
+	width: 200px;
+}
+#post-review-text{
+	height: 100px;
+	
+	font-family: Roboto-Regular;
+	
+	resize: vertical;
+}
+#post-review-submit{
+	align-self: flex-end;
+	
+	padding: 8px 40px;
+	
+	font-family: Roboto-Medium;
+	text-transform: uppercase;
+	
+	cursor: pointer;
+	
+	transition: all .1s ease;
+}
+#post-review-submit:hover{
+	background-color: var(--red);
+	
+	color: white;
+}
+
+#review-count{
+	font-size: 12px;
+	
+	color: #777;
+}

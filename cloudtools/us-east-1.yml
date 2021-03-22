@@ -10,19 +10,19 @@ global:
     '.git',
     '.swo'
   ]
-  sync_dest_bucket: filmclubcloud
+  sync_dest_bucket: filmclub-cloudformation
   tags:
     Project: AWS-Practice
     Environment: Dev
   parameters:
     Project: AWS-Practice
     Environment: Dev
-    CloudToolsBucket: filmclubcloud
+    CloudToolsBucket: filmclub-cloudformation
 
 Top:
   stack_name: top
-  CloudToolsBucket: filmclubcloud
+  CloudToolsBucket: filmclub-cloudformation
   template: ./cloudformation/top.yml
   parameters:
     Environment: Dev
-    CloudToolsBucket: filmclubcloud
+    CloudToolsBucket: filmclub-cloudformation
