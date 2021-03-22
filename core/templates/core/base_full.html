@@ -8,6 +8,7 @@
 {% block css %}
 
 	<link rel = "stylesheet" type = "text/css" href = "{% static 'css/base_full.css' %}">
+	<link rel = "stylesheet" type = "text/css" href = "{% static 'css/footer.css' %}">
 
 {% endblock %}
 
@@ -52,8 +53,8 @@
 	
 	{% block content %}
 	{% endblock %}
-	
-	<!-- FOOTER -->
+
+	{% include "./footer.html" %}
 	
 {% endblock %}
 
