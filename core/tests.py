@@ -44,6 +44,7 @@ class ParentTestCase(LiveServerTestCase):
         password2.send_keys('moviepass')
         submit.click()
 
+    #Needs to select option from the drop down
     def pick_genres(self):
         selenium = self.selenium
         genre1 = Select(selenium.find_element_by_id('id_firstGenre'))
@@ -56,74 +57,18 @@ class ParentTestCase(LiveServerTestCase):
 
 
 
-class UserSearchTestCase(LiveServerTestCase):
+class UserSearchTestCase(ParentTestCase):
     def setUp(self):
-        self.selenium = webdriver.Chrome()
-        self.signup()
-    
+        ParentTestCase.setUp(self)
+
     def tearDown(self):
-        self.selenium.quit()
-        super(UserSearchTestCase, self).tearDown()
-    
-    def signup(self):
-        selenium = self.selenium
-        selenium.get(self.live_server_url + '/register')
-        
-        username = selenium.find_element_by_id('id_username')
-        email = selenium.find_element_by_id('id_email')
-        password1 = selenium.find_element_by_id('id_password1')
-        password2 = selenium.find_element_by_id('id_password2')
-        first_name = selenium.find_element_by_id('id_first_name')
-        last_name = selenium.find_element_by_id('id_last_name')
-        
-        submit = selenium.find_element_by_id('id_register')
-        
-        username.send_keys('Test123')
-        email.send_keys('test123@test.com')
-        password1.send_keys('homepagepass')
-        password2.send_keys('homepagepass')
-        first_name.send_keys('Phil')
-        last_name.send_keys('Smith')
-        
-        submit.send_keys(Keys.RETURN)
-        
-        assert 'favorite movie genre' in selenium.page_source
-
-
-    def testSignUP(self):
-        selenium = self.selenium
-        selenium.get(self.live_server_url + '/register')
-        
-        username = selenium.find_element_by_id('id_username')
-        email = selenium.find_element_by_id('id_email')
-        password1 = selenium.find_element_by_id('id_password1')
-        password2 = selenium.find_element_by_id('id_password2')
-        first_name = selenium.find_element_by_id('id_first_name')
-        last_name = selenium.find_element_by_id('id_last_name')
-        
-        submit = selenium.find_element_by_id('id_register')
-        
-        username.send_keys('Test1')
-        email.send_keys('test1@test.com')
-        password1.send_keys('homepagepass1')
-        password2.send_keys('homepagepass1')
-        first_name.send_keys('Phil1')
-        last_name.send_keys('Smith1')
-        
-        submit.send_keys(Keys.RETURN)
-        
-        assert 'favorite movie genre' in selenium.page_source
+        ParentTestCase.tearDown(self)
 
     def testSearchingStuff(self):
         selenium = self.selenium
-
         assert 'Search Movies' in selenium.page_source
-
         username = selenium.find_element_by_id('search-box')
         sel = selenium.find_element_by_id('movie_or_users')
-        
-
-
         username.clear()
         username.click()
         username.send_keys('woman')
@@ -134,28 +79,21 @@ class UserSearchTestCase(LiveServerTestCase):
 
     def testSearchUserandMovie(self):
         selenium = self.selenium
-
         selenium.get(self.live_server_url + "/search?q=woman&search_user_or_movie=Users")
         assert "woman" in selenium.page_source
         assert len(selenium.find_elements_by_tag_name("label")) <= 1
-        
         selenium.get(self.live_server_url + "/search?q=dumb&search_user_or_movie=Users")
         assert "dumb" in selenium.page_source
         assert len(selenium.find_elements_by_tag_name("label")) <= 1
-
         selenium.get(self.live_server_url + "/search?q=Test1&search_user_or_movie=Movies")
         assert "Test1" in selenium.page_source
         assert len(selenium.find_elements_by_tag_name("label")) <= 1
-
         selenium.get(self.live_server_url + "/search?q=Test2&search_user_or_movie=Movies")
         assert "Test2" in selenium.page_source
         assert len(selenium.find_elements_by_tag_name("label")) <= 1
-
-
         selenium.get(self.live_server_url + "/search?q=Test123&search_user_or_movie=Movies")
         assert "Test123" in selenium.page_source
         element = selenium.find_element_by_tag_name("label")
-        
         assert len(selenium.find_elements_by_tag_name("label")) > 0
 
 class LogoutTestCase(ParentTestCase):
@@ -200,24 +138,17 @@ class HomePageTestCase(LiveServerTestCase):
 
         first_name = selenium.find_element_by_id('id_first_name')
         last_name = selenium.find_element_by_id('id_last_name')
-        
         submit = selenium.find_element_by_id('id_register')
-        
-
         submit = selenium.find_element_by_class_name('btn')
-
         username.send_keys('Test123')
         email.send_keys('test123@test.com')
         password1.send_keys('homepagepass')
         password2.send_keys('homepagepass')
         first_name.send_keys('Phil')
         last_name.send_keys('Smith')
-        
         submit.send_keys(Keys.RETURN)
-        
         assert 'favorite movie genre' in selenium.page_source
 
-        
     def pick_genres(self):
         '''
 
@@ -227,13 +158,9 @@ class HomePageTestCase(LiveServerTestCase):
         selenium = self.selenium
         genre2 = Select(selenium.find_element_by_id('id_secondGenre'))
         genre3 = Select(selenium.find_element_by_id('id_thirdGenre'))
-        
-        
         submit = selenium.find_element_by_tag_name('button')
-        
-        
         submit.send_keys(Keys.RETURN)
-        
+
     def test_loggingIN(self):
         selenium = self.selenium
         selenium.get(self.live_server_url + '/accounts/login')
@@ -242,7 +169,7 @@ class HomePageTestCase(LiveServerTestCase):
         button = selenium.find_element_by_id('myBtn')
         assert '/accounts/password_reset/' in selenium.page_source
         assert 'login' in selenium.page_source 
-        
+
     def test_home_success(self):
         selenium = self.selenium
         selenium.get(self.live_server_url + '/accounts/login')
@@ -253,7 +180,6 @@ class HomePageTestCase(LiveServerTestCase):
         password.send_keys('homepagepass')
         button.send_keys(Keys.RETURN)
         selenium.get(self.live_server_url + '/Test123')
-        
         assert 'Home' in selenium.page_source
 
         #time.sleep(15)
@@ -268,14 +194,11 @@ class HomePageTestCase(LiveServerTestCase):
         password.send_keys('Sha')
         button.send_keys(Keys.RETURN)
         selenium.get(self.live_server_url + '/asch')
-        
         assert '500' in selenium.page_source
 
-    
 
     def test_resetBasic(self):
         selenium = self.selenium
-
         selenium.get(self.live_server_url + '/accounts/password_reset')
         EMAIL = selenium.find_element_by_id('id_email')
         submit = selenium.find_element_by_xpath("//input[@type='submit']")
@@ -322,40 +245,16 @@ class HomePageTestCase(LiveServerTestCase):
         submit.send_keys(Keys.RETURN)
         assert 'We’ve emailed you instructions for setting your password,' in selenium.page_source
 
-    
 
 
 
-
-class MoviePageTest(LiveServerTestCase):
+class MoviePageTest(ParentTestCase):
     def setUp(self):
-        self.selenium = webdriver.Chrome()
+        ParentTestCase.setUp(self)
 
-        self.signup()
-
-        super(MoviePageTest, self).setUp()
     def tearDown(self):
-        self.selenium.quit()
+        ParentTestCase.tearDown(self)
 
-        super(MoviePageTest, self).tearDown()
-    def signup(self):
-        selenium = self.selenium
-        selenium.get(self.live_server_url + '/register')
-        firstName = selenium.find_element_by_id('id_first_name')
-        lastName = selenium.find_element_by_id('id_last_name')
-        username = selenium.find_element_by_id('id_username')
-        email = selenium.find_element_by_id('id_email')
-        password1 = selenium.find_element_by_id('id_password1')
-        password2 = selenium.find_element_by_id('id_password2')
-        submit = selenium.find_element_by_id('id_register')
-
-        firstName.send_keys('Test')
-        lastName.send_keys('Tester')
-        username.send_keys('Test123')
-        email.send_keys('test123@test.com')
-        password1.send_keys('moviepass')
-        password2.send_keys('moviepass')
-        submit.click()
     def test_home_page(self):
         selenium = self.selenium
         selenium.get(self.live_server_url + '/m/252')
