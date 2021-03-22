@@ -350,6 +350,11 @@ class MoviePageTest(LiveServerTestCase):
         password1.send_keys('moviepass')
         password2.send_keys('moviepass')
         submit.click()
+        genre1 = Select(selenium.find_element_by_id('id_firstGenre'))
+        genre2 = Select(selenium.find_element_by_id('id_secondGenre'))
+        genre3 = Select(selenium.find_element_by_id('id_thirdGenre'))
+        submit = selenium.find_element_by_class_name('btn')
+        submit.click()
     def test_home_page(self):
         selenium = self.selenium
         selenium.get(self.live_server_url + '/m/252')

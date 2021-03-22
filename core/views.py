@@ -48,7 +48,8 @@ def home(request):
         'recently_watched': recently_watched,
         'reviews': reviews['reviews']
     })
-
+def about(request):
+    return render(request, 'core/about.html')
 def profile(request, username):
     reviews_json = []
 

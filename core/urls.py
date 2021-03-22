@@ -24,6 +24,7 @@ urlpatterns = [
     
     path('admin/', admin.site.urls),
     path('', views.home, name = 'home'),  # Home/landing screen
+    path('about/', views.about, name='about'), # about us page
     path('register/', views.register, name='register'),  # New user signup screen
     path('genres/', views.genres, name = 'genres'),  # Genre selection screen
     path('search', views.search, name = 'search'),  # Search screen
