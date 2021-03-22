@@ -1,43 +1,59 @@
 {% load util %}
 
-<div class = "review tile">
-	<div class = "tile-type">
-		Review
-	</div>
-	<div class = "tile-header">
-		<div class = "user-image">
-			
+<div class = "review {% if barebones == True %}barebones{% else %}tile{% endif %}">
+	{% if barebones == None %}
+	
+		<div class = "tile-type">
+			Review
 		</div>
-		<div class = "review-user-info">
-			<div class = "review-user-details">
-				<p class = "review-name">{{ review.user.username }}<p>
-				<p style = "margin: 0 4px">reviewed</p>
-				<a href = "{% url 'core:movie' id=review.movie.id|add:'0' %}"><p class = "movie-title">{{ review.movie.title }}</p></a>
-				<p class = "review-added">{{ review.added }}</p>
-			</div>
-			<div class = "review-date">
+		<div class = "tile-header">
+			<div class = "user-image">
 				
 			</div>
+			<div class = "review-user-info">
+				<div class = "review-user-details">
+					<p class = "review-name">{{ review.user.username }}<p>
+					<p style = "margin: 0 4px">reviewed</p>
+					<a href = "{% url 'core:movie' id=review.movie.id|add:'0' %}"><p class = "movie-title">{{ review.movie.title }}</p></a>
+					<p class = "review-added">{{ review.added }}</p>
+				</div>
+				<div class = "review-date">
+					
+				</div>
+			</div>
 		</div>
-	</div>
+		
+	{% endif %}
+	
 	<div class = "review-main">
 		<div class = "review-media">
-			<a href = "{% url 'core:movie' id=review.movie.id|add:'0' %}"><img class = "review-image" src = "{{ review.movie.poster_url }}"></a>
-			<div class = "review-score">
+			{% if barebones == None %}
+				
+				<a href = "{% url 'core:movie' id=review.movie.id|add:'0' %}"><img class = "review-image" src = "{{ review.movie.poster_url }}"></a>
+			
+			{% endif %}
+			
+			<div class = "review-score" style = "background-color: {% get_review_color review.score %};">
 				{{ review.score }}
 			</div>
 		</div>
 		<div class = "review-details">
 			<p class = "review-title">{{ review.title }}</p>
+			<span class = "review-author">by @<p class = "review-username">{{ review.user.username }}</p></span>
 			<p class = "review-body">{{ review.text }}</p>
 		</div>
 	</div>
-	<div class = "review-options">
-		<div class = "review-option">
-			<p>Like</p>
+	
+	{% if barebones == None %}
+		
+		<div class = "review-options">
+			<div class = "review-option">
+				<p>Like</p>
+			</div>
+			<div class = "review-option">
+				<p>Comment</p>
+			</div>
 		</div>
-		<div class = "review-option">
-			<p>Comment</p>
-		</div>
-	</div>
+	
+	{% endif %}
 </div>

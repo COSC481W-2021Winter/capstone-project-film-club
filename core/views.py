@@ -10,6 +10,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.views.decorators.cache import cache_page
 from django.core.cache.backends.base import DEFAULT_TIMEOUT
+from django.db.models import Sum
 
 from .forms import *
 from .models import *
@@ -47,7 +48,8 @@ def home(request):
         'recently_watched': recently_watched,
         'reviews': reviews['reviews']
     })
-
+def about(request):
+    return render(request, 'core/about.html')
 def profile(request, username):
     reviews_json = []
 
@@ -80,11 +82,20 @@ def edit_profile(request, username):
 
 def movie(request, id):
     movie = get_movie(id)
+
+    aggregate = {
+
+    }
+
     review = None
-    friends = request.user.userprofile.friends.filter(pk = movie.pk)
     reviewed = False
+
+    friends = request.user.userprofile.friends.filter(pk = movie.pk)
+
     fstring = "None of your friends have watched this"
+
     if movie:
+        # If user just reviewed the movie
         if request.POST:
             title = request.POST.get('title')
             score = request.POST.get('score')
@@ -107,8 +118,52 @@ def movie(request, id):
         similar_movies = get_similar(id)
 
         if friends.count() > 0:
-            fstring = ""
-            fstring = friend[0].username + "has watched this"
+            fstring = friend[0].username + " has watched this"
+
+        # Aggregate work
+        movie_reviews = Review.objects.filter(movie = movie)
+
+        one_count = movie_reviews.filter(score__range = (1, 1.5)).count()
+        two_count = movie_reviews.filter(score__range = (2, 2.5)).count()
+        three_count = movie_reviews.filter(score__range = (3, 3.5)).count()
+        four_count = movie_reviews.filter(score__range = (4, 4.5)).count()
+        five_count = movie_reviews.filter(score = 5).count()
+
+        review_count = movie_reviews.count() if movie_reviews.exists() else 1
+
+        if movie_reviews.exists():
+            aggregate['score'] = movie_reviews.aggregate(Sum('score'))['score__sum'] / review_count
+        else:
+            aggregate['score'] = 'N/A'
+
+        aggregate['total'] = review_count
+        aggregate['breakdown'] = {
+            '1': {
+                'amount': one_count,
+                'proportion': float(one_count) / review_count * 100,
+                'color': util.get_review_color(1)
+            },
+            '2': {
+                'amount': two_count,
+                'proportion': float(two_count) / review_count * 100,
+                'color': util.get_review_color(2)
+            },
+            '3': {
+                'amount': three_count,
+                'proportion': float(three_count) / review_count * 100,
+                'color': util.get_review_color(3)
+            },
+            '4': {
+                'amount': four_count,
+                'proportion': float(four_count) / review_count * 100,
+                'color': util.get_review_color(4)
+            },
+            '5': {
+                'amount': five_count,
+                'proportion': float(five_count) / review_count * 100,
+                'color': util.get_review_color(5)
+            },
+        }
 
         return render(request, 'core/movie.html', {
             'movie': movie,
@@ -116,11 +171,11 @@ def movie(request, id):
             'review': review,
             'reviewed': reviewed,
             'similar_movies': similar_movies,
-            'fstring': fstring
+            'fstring': fstring,
+            'aggregate': aggregate
         })
 
 def search(request):
-
     data = {}
 
     query = ''
@@ -139,6 +194,11 @@ def search(request):
                         out_put = User.objects.get(username=str(query))
                         data['res_u'] = User.objects.all()
                         data['res_top'] = out_put
+                        linkMaker = data['res_top'] + " %}"
+                        data['data_url_two'] = "{% url 'core:profile' ascha %}"
+                        data['data_url'] = "{% url 'core:profile' user.username %}"
+                        ascha = "/ascha/"
+                        data['ascha'] = ascha
                         return render(request, 'core/search.html', data)
                     except:
                         return render(request, 'core/search.html', data)
