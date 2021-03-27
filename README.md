@@ -38,11 +38,11 @@ Run the following commands in the root directory:
       ```
       pip install -r requirements.txt
       ```
-5. Install SQLITEN (Optional on Most Systens)
+5. Install SQLite (Optional on Most Systems)
       ```
-      On some sytems SQLITE is not installed with the python.
-      Please check if SQLITE is on your system.
-      Please check waht you need to do to get SQLITE on your system.  
+      On some systems, SQLite is not installed with Python.
+      Please check if SQLite is on your system.
+      Please check what you would need to do to get SQLite on your system.  
       ```
 7. Migrate any changes
       ```
@@ -57,15 +57,15 @@ After starting the server, you can access it at localhost:8000
 
 # File Structure Standard
 
-Django is built to make the jump from installation to development as quick as possible. In doing this, Django does a lot of the work for you. For example, it organizes the entire project by default. The [Django tutorial](https://docs.djangoproject.com/en/3.1/intro/tutorial01/#creating-a-project) gives a brief overview of the file structure.
+Django is built to make the jump from installation to development as quickly as possible. In doing this, Django does a lot of the work for you. For example, it organizes the entire project by default. The [Django tutorial](https://docs.djangoproject.com/en/3.1/intro/tutorial01/#creating-a-project) gives a brief overview of the file structure.
 
 # Description of Prototype
 
 1. Landing Screen - A screen with the film club logo and information about the product
 2. Login Screen - A screen where the user will enter their login credentials or select create account 
-3. New Account Screen - A screen where new users will enter information about  themselves and create a profile. The user will go through a new user process where they enter media categories they like to help create their profile. 
-4. Home Screen - The screen users are directed to this page on sign in, this is where the recommendation feed lives. For the prototype the recommendations will be based on the users media selections. It will also show friends and watch history.  
-5. Movie Profile Screen - The users data on media they have viewed  and reviewed can be viewed, edited and deleted here.
+3. New Account Screen - A screen where new users will enter information about themselves and create a profile. The user will go through a new user process where they enter media categories they like to help create their profile. 
+4. Home Screen - The screen users are directed to this page on sign-in, this is where the recommendation feed lives. For the prototype, the recommendations will be based on the user’s media selections. It will also show friends and watch history.  
+5. Movie Profile Screen - The user’s data on media they have viewed and reviewed can be viewed, edited, and deleted here.
 6. Upload Data Screen - the user can add new media to their profile here
 7. User Profile Screen - the user can view/edit/delete information from their personal profile
 8. Reset Password/Email Screen - users who forgot their passwords/emails can reset them here.
@@ -104,4 +104,4 @@ Tyler is a movie enthusiast.  But because he has viewed so many films on his str
 - We hope to establish a safe and interactive space for our customers to help share their thoughts and ideas.
 - We value our people and their uniqueness across boundaries. 
 
-Our film recommendation app will allow our customers to enjoy movie recommendations from friends and family. It fills their need of finding new film recommendations.  Our application will provide the recomendations based off of a calculated rating using their previous viewing habits and those of other users.    
+Our film recommendation app will allow our customers to enjoy movie recommendations from friends and family. It fills their need of finding new film recommendations.  Our application will provide the recommendations based on a calculated rating using their previous viewing habits and those of other users.    
