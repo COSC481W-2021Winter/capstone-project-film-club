@@ -154,12 +154,21 @@ CRISPY_TEMPLATE_PACK="bootstrap4"
 ###################################
 
 #### EMAIL SETTINGS ##############
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_USE_TLS = True
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'filmclubbot@gmail.com' #sender's email-id 
-EMAIL_HOST_PASSWORD = '5zsVsSFT' #password associated with above email-id 
+#sender's email-id (gmail) - 'filmclubbot@gmail.com'
+#password associated with above email-id (gmail) - '5zsVsSFT'
+#EMAIL_HOST = 'smtp.gmail.com'
+#EMAIL_PORT = 587
+
+
+if(DEBUG==True):
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_HOST = 'smtp.elasticemail.com'
+    EMAIL_USE_TLS = True
+    EMAIL_PORT = 2525
+    EMAIL_HOST_USER = 'filmclubbot@gmail.com'  #sender's email-id 
+    EMAIL_HOST_PASSWORD = '4180E76550C2169E2CF9C88D31739A7F0A05'  #password associated with above email-id 
+else:
+    EMAIL_BACKEND = 'django_ses.SESBackend'
 ################################################################
 
 CACHES = {

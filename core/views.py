@@ -311,6 +311,7 @@ def welcome(request):
     email_from = settings.EMAIL_HOST_USER
     recipient_list = [user.email, ]
 
+    print("Email sent...")
     send_mail(subject, message, email_from, recipient_list)
 
     return redirect("/genres") 
