@@ -144,6 +144,13 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 # MEDIA_ROOT = os.path.join(BASE_DIR, "static/images")
 
+#### S3 settings ####
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_STORAGE_BUCKET_NAME = 'filmclub-storage' 
+
+#####################
+
 ##### Authentication stuff
 #SITE_ID = 1
 LOGIN_REDIRECT_URL = '/' #redirect users on sign in to the home page
