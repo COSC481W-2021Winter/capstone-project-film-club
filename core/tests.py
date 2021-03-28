@@ -252,8 +252,41 @@ class MoviePageTest(ParentTestCase):
     def setUp(self):
         ParentTestCase.setUp(self)
 
+        User.objects.all().delete()
+
     def tearDown(self):
         ParentTestCase.tearDown(self)
+
+    def numbered_signup(self, num):
+        selenium = self.selenium
+
+        num = str(num)
+
+        username = 'TestUsername_' + num
+        first_name = 'TestFirstName_' + num
+        last_name = 'TestLastName_' + num
+        email = username + '@test.com'
+
+        selenium.get(self.live_server_url + '/accounts/logout')
+        selenium.get(self.live_server_url + '/register')
+
+        e_first_name = selenium.find_element_by_id('id_first_name')
+        e_last_name = selenium.find_element_by_id('id_last_name')
+        e_username = selenium.find_element_by_id('id_username')
+        e_email = selenium.find_element_by_id('id_email')
+        e_password1 = selenium.find_element_by_id('id_password1')
+        e_password2 = selenium.find_element_by_id('id_password2')
+        e_submit = selenium.find_element_by_id('id_register')
+        e_profile_pic = selenium.find_element_by_xpath("//input[@type='file']")
+
+        e_first_name.send_keys(username)
+        e_last_name.send_keys(first_name)
+        e_username.send_keys(last_name)
+        e_email.send_keys(email)
+        e_password1.send_keys('08t7yQW3ERIUGHSADF')
+        e_password2.send_keys('08t7yQW3ERIUGHSADF')
+        e_profile_pic.send_keys(os.getcwd() + '\\core\\static\\img\\icons\\logo\\filmClubLogo.png')
+        e_submit.click()
 
     def test_home_page(self):
         selenium = self.selenium
@@ -261,15 +294,50 @@ class MoviePageTest(ParentTestCase):
         assert "Willy Wonka" in selenium.page_source
         assert "Write A Review" in selenium.page_source
         assert "None of your friends have watched this" in selenium.page_source
-        ##add friends
-        ##reviewbox.send_keys('Great movie! Gene Wilder is great!')
-        ##submitreview.send_keys(Keys.RETURN)
-        ##assert "John doe has watched this" in selenium.page_source
-        ##assert 'Great movie! Gene Wilder is great!' in selenium.page_source
-        ##markwatch = reviewbox = selenium.find_element_by_id("mark-watched")
-        ##markwatch.send_keys(Keys.RETURN)
-        ##add markwatch detection
 
+    def test_reviews(self):
+        selenium = self.selenium
+
+        for x in range(5):
+            self.numbered_signup(x)
+
+            selenium.get(self.live_server_url + '/m/420818')
+
+            assert 'Write a Review' in selenium.page_source
+
+            score = selenium.find_element_by_id('aggregate-score').text
+
+            title = selenium.find_element_by_id('post-review-title')
+            score = selenium.find_element_by_id('post-review-score')
+            text = selenium.find_element_by_id('post-review-text')
+            submit = selenium.find_element_by_id('post-review-submit')
+
+            title.send_keys('Test Review ' + str(x + 1))
+            score.send_keys(x + 1)
+            text.send_keys('Test review ' + str(x + 1) + '\'s text')
+            submit.send_keys(Keys.RETURN)
+
+            assert 'Test Review ' + str(x + 1) in selenium.page_source
+
+            movie_reviews = Review.objects.filter(movie = Movie.objects.get(api_id = 420818))
+
+            e_aggregate_score = selenium.find_element_by_id('aggregate-score').text
+            aggregate_score = movie_reviews.aggregate(Sum('score'))['score__sum'] / movie_reviews.count()
+
+            assert e_aggregate_score == str(aggregate_score)
+
+            one_count = movie_reviews.filter(score__range=(1, 1.5)).count()
+            two_count = movie_reviews.filter(score__range=(2, 2.5)).count()
+            three_count = movie_reviews.filter(score__range=(3, 3.5)).count()
+            four_count = movie_reviews.filter(score__range=(4, 4.5)).count()
+            five_count = movie_reviews.filter(score=5).count()
+
+            counts = [five_count, four_count, three_count, two_count, one_count]
+
+            e_counts = selenium.find_elements_by_class_name('category-amount')
+
+            for i in range(len(e_counts)):
+                assert int(e_counts[i].text) == counts[i]
 
 class HomePageProfileTestCase(LiveServerTestCase):
     def setUp(self):

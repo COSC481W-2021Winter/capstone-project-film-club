@@ -538,7 +538,11 @@ def create_movie(movie_json):
             if genre.exists():
                 genre = genre[0]
             else:
-                genre = Genre(name=movie_genre['name'], api_id=movie_genre['id'])
+                try:
+                    genre = Genre(name=movie_genre['name'], api_id=movie_genre['id'])
+                except:
+                    genre = Genre(name='Not Available', api_id=movie_genre)
+
                 genre.save()
 
             movie.genres.add(genre)
