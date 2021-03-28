@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '2dvokcf&(xvmbdyl_=@h$tpytl(_bvod_q6o(2x-wn0+mj&s7m'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0', '[::1]']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0', '[::1]','34.235.120.72']
 #ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS').split(" ")
 
 
@@ -100,6 +100,7 @@ else:
     }
 
 
+
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
 
@@ -143,6 +144,13 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 # MEDIA_ROOT = os.path.join(BASE_DIR, "static/images")
 
+#### S3 settings ####
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_STORAGE_BUCKET_NAME = 'filmclub-storage' 
+
+#####################
+
 ##### Authentication stuff
 #SITE_ID = 1
 LOGIN_REDIRECT_URL = '/' #redirect users on sign in to the home page
@@ -169,6 +177,7 @@ if(DEBUG==True):
     EMAIL_HOST_PASSWORD = '4180E76550C2169E2CF9C88D31739A7F0A05'  #password associated with above email-id 
 else:
     EMAIL_BACKEND = 'django_ses.SESBackend'
+
 ################################################################
 
 CACHES = {
