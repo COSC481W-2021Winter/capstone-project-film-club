@@ -4,18 +4,6 @@ body {
     background: rgba(0, 0, 0, 0.5); 
 }
 
-.content {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: rgba(0, 0, 0, 0.5);
-    color: lightgray;
-    width: 45%;
-    padding: 20px;
-    text-align: center;
-}
-
 .btn {
     background-color:#A37c27;
     

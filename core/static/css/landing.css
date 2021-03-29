@@ -1,15 +1,5 @@
 /*CSS For Landing Page*/
 
-* {
-    box-sizing: border-box;
-}
-
-body {
-    margin: 0;
-    font-family: Arial;
-    font-size: 17px;
-}
-
 #myVideo {
     position: fixed;
     right: 0;
@@ -17,39 +7,4 @@ body {
     width: 100%;
     height: 100%;
     object-fit: fill;
-}
-
-.content {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: rgba(0, 0, 0, 0.5);
-    color: lightgray;
-    width: 45%;
-    padding: 20px;
-    text-align: center;
-    font-family: Arial Narrow, Arial, sans-serif;
-    letter-spacing: 7px;
-}
-
-.logo {
-    border-radius: 50%;
-    width: 200px;
-}
-
-#myBtn {
-    width: 200px;
-    font-size: 18px;
-    padding: 10px;
-    border: none;
-    background: #A7414A;
-    color: lightgray;
-    cursor: pointer;
-    margin-bottom: 20px;
-}
-
-#myBtn:hover {
-    background: #ddd;
-    color: black;
 }
