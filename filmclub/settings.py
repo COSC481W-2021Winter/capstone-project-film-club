@@ -181,7 +181,7 @@ if(DEBUG==True):
     EMAIL_USE_TLS = True
     EMAIL_PORT = 2525
     EMAIL_HOST_USER = 'filmclubbot@gmail.com'  #sender's email-id 
-    EMAIL_HOST_PASSWORD = '4180E76550C2169E2CF9C88D31739A7F0A05'  #password associated with above email-id 
+    EMAIL_HOST_PASSWORD = '5C9C91E46AE92A8BE1C9C336E285EEF5E5BB'  #password associated with above email-id 
 else:
     EMAIL_BACKEND = 'django_ses.SESBackend'
 
