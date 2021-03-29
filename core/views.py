@@ -295,7 +295,8 @@ def register(request):
 
             login(request, new_user)
 
-            return redirect("/welcome")
+            #return redirect("/welcome") Disable until we find a work around.
+            return redirect("/genres")
     else:
         register_form = RegisterForm()
         profile_pic_form = ProfilePicForm()
@@ -311,6 +312,7 @@ def welcome(request):
     email_from = settings.EMAIL_HOST_USER
     recipient_list = [user.email, ]
 
+    print("Email sent...")
     send_mail(subject, message, email_from, recipient_list)
 
     return redirect("/genres") 
@@ -538,7 +540,11 @@ def create_movie(movie_json):
             if genre.exists():
                 genre = genre[0]
             else:
-                genre = Genre(name=movie_genre['name'], api_id=movie_genre['id'])
+                try:
+                    genre = Genre(name=movie_genre['name'], api_id=movie_genre['id'])
+                except:
+                    genre = Genre(name='Not Available', api_id=movie_genre)
+
                 genre.save()
 
             movie.genres.add(genre)
