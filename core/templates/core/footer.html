@@ -1,33 +1,21 @@
-
 {% load static %}
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
-
-    <footer class="site-footer">
-
-      <div class="container">
-        <div class="row">
-          <div style="width: 20%; float:left; margin-left:-100px" class="col-sm-4">
-            <h6><img class="logo" src="{% static 'img/icons/logo/filmClubLogo.png'%}" alt="FilmClubLogo"></h6>
-          </div>
-          <div style="margin-left:250px;margin-top:30px" class="col-sm-4">
-            <h6>About Us</h6>
-            <p class="text-justify">Film Club's goal is to be the go-to space for people to connect and discuss their passion for movies and entertainment. It is intended to be a place to discover and share experiences with friends, old and new alike, in a respectful and interactive way. We hope you find it as fun and useful as we do!  </p>
-          </div>
-
-          <div style="width: 10%; float:right; margin-top:30px;" class="col-sm-4">
-            <h6>Quick Links</h6>
-            <ul class="footer-links">
-              <li><a href = "{% url 'core:home' %}">Home</a></li>
-              <li><a href ="% url 'core:about' %">More About Us</a></li>
-              <li><a href = "% url 'core:genes' %">Choose Genres</a></li>
-              <li><a href = "{% url 'core:logout' %}">Logout</a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-            <p>Copyright &copy; 2020 by Film Club</p>
-
-
+<footer id = "footer">
+	<img id = "logo" src = "{% static 'img/icons/logo/filmClubLogo.png'%}" alt = "Film Club Logo">
+	<div id = "footer-mid">
+		<div id = "footer-about">
+			<p class = "footer-label">About Us</p>
+			<p class = "footer-text">Film Club's goal is to be the go-to space for people to connect and discuss their passion for movies and entertainment. It is intended to be a place to discover and share experiences with friends, old and new alike, in a respectful and interactive way. We hope you find it as fun and useful as we do!  </p>
+		</div>
+		<p id = "copyright" class = "footer-text dark">Copyright &copy; 2020 by Film Club</p>
+	</div>
+	<div>
+		<p class = "footer-label">Quick Links</p>
+		<ul id = "footer-links">
+			<li class = "footer-text"><a href = "{% url 'core:home' %}">Home</a></li>
+			<li class = "footer-text"><a href = "{% url 'core:about' %}">More About Us</a></li>
+			<li class = "footer-text"><a href = "{% url 'core:genres' %}">Choose Genres</a></li>
+			<li class = "footer-text"><a href = "{% url 'core:logout' %}">Logout</a></li>
+		</ul>
+	</div>
 </footer>
