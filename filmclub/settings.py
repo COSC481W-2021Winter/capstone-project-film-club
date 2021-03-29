@@ -116,7 +116,7 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
     },
     {
-        'N=AME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
 
@@ -137,33 +137,31 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
-#if(DEBUG == True):
-    ##STATIC_URL = '/static/'
-    # MEDIA_URL = '/images/'
-    ##MEDIA_URL = '/media/'
-    ##STATIC_ROOT = os.path.join(BASE_DIR, "static")
-    ##MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-    # MEDIA_ROOT = os.path.join(BASE_DIR, "static/images")
-#else:
-    #### S3 settings ####
-        # aws settings
-AWS_ACCESS_KEY_ID = 'AKIA43CN5C6HPCUWYX4Y'
-AWS_SECRET_ACCESS_KEY = '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'
-AWS_STORAGE_BUCKET_NAME = 'filmclub-storage'
-AWS_DEFAULT_ACL = 'public-read'
-AWS_S3_CUSTOM_DOMAIN = 'filmclub-storage.s3.amazonaws.com'
-AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
-    # s3 static settings
-STATIC_LOCATION = 'static'
-STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{STATIC_LOCATION}/'
-STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-# s3 public media settings
-PUBLIC_MEDIA_LOCATION = 'media'
-MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{PUBLIC_MEDIA_LOCATION}/'
-DEFAULT_FILE_STORAGE = 'hello_django.storage_backends.PublicMediaStorage'
-# s3 private media settings
-PRIVATE_MEDIA_LOCATION = 'private'
-PRIVATE_FILE_STORAGE = 'hello_django.storage_backends.PrivateMediaStorage'
+if(DEBUG == True):
+    STATIC_URL = '/static/'
+    MEDIA_URL = '/media/'
+    STATIC_ROOT = os.path.join(BASE_DIR, "static")
+    MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+else:
+#### S3 settings ####
+# aws settings
+    AWS_ACCESS_KEY_ID = 'AKIA43CN5C6HPCUWYX4Y'
+    AWS_SECRET_ACCESS_KEY = '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'
+    AWS_STORAGE_BUCKET_NAME = 'filmclub-storage'
+    AWS_DEFAULT_ACL = 'public-read'
+    AWS_S3_CUSTOM_DOMAIN = 'filmclub-storage.s3.amazonaws.com'
+    AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
+        # s3 static settings
+    STATIC_LOCATION = 'static'
+    STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{STATIC_LOCATION}/'
+    STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+    # s3 public media settings
+    PUBLIC_MEDIA_LOCATION = 'media'
+    MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{PUBLIC_MEDIA_LOCATION}/'
+    DEFAULT_FILE_STORAGE = 'hello_django.storage_backends.PublicMediaStorage'
+    # s3 private media settings
+    PRIVATE_MEDIA_LOCATION = 'private'
+    PRIVATE_FILE_STORAGE = 'hello_django.storage_backends.PrivateMediaStorage'
 #####################
 
 ##### Authentication stuff
