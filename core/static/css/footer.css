@@ -1,0 +1,43 @@
+#footer{
+	width: 100%;
+	
+	display: grid;
+	grid-template-columns: max-content 1fr max-content;
+	grid-gap: 100px;
+	
+	padding: 40px calc((100% - var(--inner-width)) / 2);
+	
+	background-color: var(--black);
+	
+	box-sizing: border-box;
+}
+
+#logo{
+	width: 150px;
+}
+.footer-label{
+	margin-bottom: 5px;
+	
+	font-size: 12px;
+	text-transform: uppercase;
+	color: white;
+}
+.footer-text{
+	font-size: 12px;
+	color: #aaa;
+}
+.footer-text.dark{
+	color: #777;
+}
+
+#footer-mid{
+	display: flex;
+	justify-content: space-between;
+	flex-direction: column;
+}
+
+#footer-links{
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}

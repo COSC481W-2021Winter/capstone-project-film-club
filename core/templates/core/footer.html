@@ -1,0 +1,21 @@
+{% load static %}
+
+<footer id = "footer">
+	<img id = "logo" src = "{% static 'img/icons/logo/filmClubLogo.png'%}" alt = "Film Club Logo">
+	<div id = "footer-mid">
+		<div id = "footer-about">
+			<p class = "footer-label">About Us</p>
+			<p class = "footer-text">Film Club's goal is to be the go-to space for people to connect and discuss their passion for movies and entertainment. It is intended to be a place to discover and share experiences with friends, old and new alike, in a respectful and interactive way. We hope you find it as fun and useful as we do!  </p>
+		</div>
+		<p id = "copyright" class = "footer-text dark">Copyright &copy; 2020 by Film Club</p>
+	</div>
+	<div>
+		<p class = "footer-label">Quick Links</p>
+		<ul id = "footer-links">
+			<li class = "footer-text"><a href = "{% url 'core:home' %}">Home</a></li>
+			<li class = "footer-text"><a href = "{% url 'core:about' %}">More About Us</a></li>
+			<li class = "footer-text"><a href = "{% url 'core:genres' %}">Choose Genres</a></li>
+			<li class = "footer-text"><a href = "{% url 'core:logout' %}">Logout</a></li>
+		</ul>
+	</div>
+</footer>

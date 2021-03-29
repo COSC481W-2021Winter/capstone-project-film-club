@@ -193,7 +193,7 @@ def search(request):
                     try:
                         out_put = User.objects.get(username=str(query))
                         data['res_u'] = User.objects.all()
-                        data['res_top'] = out_put
+                        data['res_top'] = out_put 
                         linkMaker = data['res_top'] + " %}"
                         data['data_url_two'] = "{% url 'core:profile' ascha %}"
                         data['data_url'] = "{% url 'core:profile' user.username %}"
@@ -312,6 +312,7 @@ def welcome(request):
     email_from = settings.EMAIL_HOST_USER
     recipient_list = [user.email, ]
 
+    print("Email sent...")
     send_mail(subject, message, email_from, recipient_list)
 
     return redirect("/genres") 
@@ -539,7 +540,11 @@ def create_movie(movie_json):
             if genre.exists():
                 genre = genre[0]
             else:
-                genre = Genre(name=movie_genre['name'], api_id=movie_genre['id'])
+                try:
+                    genre = Genre(name=movie_genre['name'], api_id=movie_genre['id'])
+                except:
+                    genre = Genre(name='Not Available', api_id=movie_genre)
+
                 genre.save()
 
             movie.genres.add(genre)
