@@ -5,32 +5,49 @@
 
 {% block css %}
 
-	<link rel="stylesheet" type="text/css" href="{% static 'css/landing.css'%}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/landing.css'%}">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.1/css/materialize.min.css"
+	integrity="sha256-qj3p6P1fJIV+Ndv7RW1ovZI2UhOuboj9GcODzcNFIN8=" crossorigin="anonymous" />
 
 {% endblock %}
 
 {% block full_content %}
-<video autoplay muted loop id="myVideo">
-	<source src="{% static 'videos/FilmLandingBackground.mp4'%}" type="video/mp4">
-	Your browser does not support HTML5 video.
-</video>
 
-<div class="content">
-	<img class="logo" src="{% static 'img/icons/logo/filmClubLogo.png'%}" alt="FilmClubLogo">
-	<br><br>
-	<p>CREATED BY MOVIE LOVERS FOR MOVIE LOVERS</p>
-	<br>
-	<a href="{% url 'core:about' %}"><button id="myBtn">About Us</button></a> <a href="{% url 'core:login' %}"><button id="myBtn">Log In</button></a> <a href="{% url 'core:register' %}"><button
-			id="myBtn">Sign Up</button></a>
-	<br>
-	<a href="{% url 'core:password_reset' %}">
-		<p>Forgot your password?</p>
-	</a>
-</div>
+<body style="min-height: 100vh; display: flex; align-items: center; justify-content: center;">
+	<video style="z-index: -1;" autoplay muted loop id="myVideo">
+		<source src="{% static 'videos/FilmLandingBackground.mp4'%}" type="video/mp4">
+		Your browser does not support HTML5 video.
+	</video>
+
+	<div class="container" style="width:60%; justify-content: center; align-content: center; padding: 3%; background: rgba(0, 0, 0, 0.5);
+	color: lightgray; font-family: Arial Narrow, Arial, sans-serif; letter-spacing: 7px; text-align: center;">
+		<img class="circle responsive-img" src="{% static 'img/icons/logo/filmClubLogo.png'%}" alt="FilmClubLogo"
+			style="width: 30%;">
+		<br><br>
+		<p>CREATED BY MOVIE LOVERS FOR MOVIE LOVERS</p>
+		<br>
+		<a href="{% url 'core:about' %}"><button class="waves-effect waves-light btn" style="background: #A7414A;
+		color: lightgray;">About Us</button></a> <a href="{% url 'core:login' %}"><button
+				class="waves-effect waves-light btn" style="background: #A7414A;
+		color: lightgray;">Log In</button></a> <a href="{% url 'core:register' %}"><button
+				class="waves-effect waves-light btn" style="background: #A7414A;
+		color: lightgray;">Sign Up</button></a>
+		<br><br>
+		<a href="{% url 'core:password_reset' %}">
+			<p>Forgot your password?</p>
+		</a>
+	</div>
+</body>
 {% endblock %}}
 
 {% block js %}
 
 <script src="{% static 'js/index.js'%}"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+	integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.1/js/materialize.min.js"
+	integrity="sha256-SrBfGi+Zp2LhAvy9M1bWOCXztRU9Ztztxmu5BcYPcPE=" crossorigin="anonymous"></script>
 
 {% endblock %}
