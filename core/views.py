@@ -193,7 +193,7 @@ def search(request):
                     try:
                         out_put = User.objects.get(username=str(query))
                         data['res_u'] = User.objects.all()
-                        data['res_top'] = out_put
+                        data['res_top'] = out_put 
                         linkMaker = data['res_top'] + " %}"
                         data['data_url_two'] = "{% url 'core:profile' ascha %}"
                         data['data_url'] = "{% url 'core:profile' user.username %}"
