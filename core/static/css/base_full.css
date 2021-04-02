@@ -330,7 +330,7 @@
 	text-decoration: underline;
 }
 
-.1:not(:first-child):not(.barebones){
+.review:not(:first-child):not(.barebones){
 	margin-top: var(--gap);
 }
 .tile-header{
@@ -356,9 +356,6 @@
 .tile .user-image img{
 	width: 100%;
 	height: 100%;
-}
-.review:not(:first-child){
-	margin-top: var(--gap);
 }
 .review-user-info{
 	display: flex;
