@@ -59,7 +59,7 @@ def profile(request, username):
     reviews = Review.objects.filter(user = profile).order_by('-added')
 
     for review in reviews:
-        reviews_json.append(get_review_json(review))
+        reviews_json.append(get_review_json(review, request.user))
 
     return render(request, 'core/profile.html', {
         'profile': profile,
@@ -80,12 +80,71 @@ def edit_profile(request, username):
 
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
+def review(request, review_id):
+    review = Review.objects.filter(id = review_id)
+
+    if not review.exists():
+        return home(request)
+
+    review = review[0]
+
+    return render(request, 'core/review.html', {
+        'review': get_review_json(review, request.user, False),
+        'review_poster': review.user
+    })
+
+def review_like(request, review_id):
+    data = {
+        'success': True
+    }
+
+    review = Review.objects.filter(id=review_id)
+
+    if review.exists():
+        review = review[0]
+
+        if review in request.user.userprofile.liked_reviews.all():
+            request.user.userprofile.liked_reviews.remove(review)
+        else:
+            request.user.userprofile.liked_reviews.add(review)
+
+        data['liked'] = review in request.user.userprofile.liked_reviews.all()
+    else:
+        data['success'] = False
+        data['error_message'] = 'Review not found'
+
+    return JsonResponse(data)
+
+def review_comment(request, review_id):
+    data = {
+        'success': True
+    }
+
+    review = Review.objects.filter(id=review_id)
+
+    if review.exists():
+        review = review[0]
+
+        comment = ReviewComment(user = request.user, review = review, text = request.POST.get('text'))
+        comment.save()
+
+        data['comment'] = {
+            'user': {
+                'username': request.user.username,
+                'image_url': request.user.userprofile.profile_pic.url
+            },
+            'text': comment.text
+        }
+    else:
+        data['success'] = False
+        data['error_message'] = 'Review not found'
+
+    return JsonResponse(data)
+
 def movie(request, id):
     movie = get_movie(id)
 
-    aggregate = {
-
-    }
+    aggregate = {}
 
     review = None
     reviewed = False
@@ -164,6 +223,8 @@ def movie(request, id):
                 'color': util.get_review_color(5)
             },
         }
+
+        review = get_review_json(review, request.user)
 
         return render(request, 'core/movie.html', {
             'movie': movie,
@@ -430,7 +491,7 @@ def get_home_reviews(request, page = 1):
     reviews = Review.objects.filter(user__userprofile__friends = request.user).order_by('-added').all()[(page - 1) * home_reviews_amount:page * home_reviews_amount]
 
     for review in reviews:
-        reviews_json.append(get_review_json(review))
+        reviews_json.append(get_review_json(review, request.user))
 
     return JsonResponse({
         'reviews': reviews_json,
@@ -497,22 +558,52 @@ def get_movie(id):
 
     return None
 
-def get_review_json(review):
-    return {
+def get_review_json(review, user, capped_comments = True, comment_cap = 2):
+    comments = ReviewComment.objects.filter(review = review).order_by('-added')
+
+    if capped_comments:
+        comments = comments[:comment_cap]
+
+    comments = list(comments.all())
+
+    if capped_comments and len(comments) == 2:
+        temp_comment = comments[0]
+
+        comments[0] = comments[1]
+        comments[1] = temp_comment
+
+    for x in range(len(comments)):
+        comment = comments[x]
+
+        comments[x] = {
             'user': {
-                'username': review.user.username,
+                'username': comment.user.username,
+                'image_url': comment.user.userprofile.profile_pic.url
             },
-            'movie': {
-                'id': review.movie.get_absolute_id(),
-                'title': review.movie.title,
-                'description': review.movie.description,
-                'poster_url': get_poster_url(review.movie)
-            },
-            'score': review.score,
-            'title': review.title,
-            'text': review.text,
-            'added': util.get_normal_time(str(review.added))
+            'text': comment.text
         }
+
+    return {
+        'id': review.id,
+        'user': {
+            'username': review.user.username,
+            'image_url': review.user.userprofile.profile_pic.url
+        },
+        'movie': {
+            'id': review.movie.get_absolute_id(),
+            'title': review.movie.title,
+            'description': review.movie.description,
+            'poster_url': get_poster_url(review.movie)
+        },
+        'score': review.score,
+        'title': review.title,
+        'text': review.text,
+        'added': util.get_normal_time(str(review.added)),
+        'liked': review in user.userprofile.liked_reviews.all(),
+        'like_count': UserProfile.objects.filter(liked_reviews = review).count(),
+        'comment_count': ReviewComment.objects.filter(review = review).count(),
+        'comments': comments
+    }
 
 def create_movie(movie_json):
     movie = Movie.objects.filter(api_id=movie_json['id'])

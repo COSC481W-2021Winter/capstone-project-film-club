@@ -66,15 +66,13 @@
 		</div>
 	</div>
 	
-	<div id = "review-html" style = "display: none">{% include 'core/blocks/tiles/review.html' %}</div>
+	<div id = "review-html" style = "display: none">{% include 'core/blocks/tiles/review.html' with markup=True %}</div>
 	
 {% endblock %}
 
 {% block js %}
 
 	<script src = "{% static 'js/home.js'%}"></script>
-	<script>
-	
-	</script>
+	<script src = "{% static 'js/review.js'%}"></script>
 
 {% endblock %}

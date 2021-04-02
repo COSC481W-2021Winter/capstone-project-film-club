@@ -231,6 +231,7 @@
 	grid-area: self;
 	
 	padding: var(--tile-padding);
+	padding-bottom: 0;
 	
 	box-sizing: border-box;
 }
