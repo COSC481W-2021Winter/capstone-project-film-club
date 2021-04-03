@@ -1,0 +1,24 @@
+{% extends 'core/base_full.html' %}
+{% load static %}
+
+{% block title %}Film Club - Bug Reporting{% endblock %}
+
+{% block css %}
+	{{ block.super }}
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.1/css/materialize.min.css"
+		integrity="sha256-qj3p6P1fJIV+Ndv7RW1ovZI2UhOuboj9GcODzcNFIN8=" crossorigin="anonymous" />
+{% endblock %}
+
+{% block content %}
+
+<div class="container" style="
+    align-content: center;
+	margin-top: 2%;
+	margin-bottom: 2%;
+	padding: 2%;
+    text-align: center;">
+<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfhz6EJHdo1VDQUr9mSXd-CebBZQn79v86HYbJB4w42HjhzFQ/viewform?embedded=true" width="1000" height="1007" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+</div>
+
+{% endblock %}
