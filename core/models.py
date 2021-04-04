@@ -8,6 +8,9 @@ class UserProfile(models.Model):
     profile_pic = models.ImageField(default='users/person_icon.png', null=True, blank=True, upload_to="users/")
     watched_movies = models.ManyToManyField('Movie', blank = True, related_name = 'watched_movies')
     friends = models.ManyToManyField(User, blank = True, related_name = 'friends')
+    #isPrivate = models.BooleanField(blank=False)
+    #isPrivate = models.BooleanField(initital=False)
+    isPrivate = False
 
 class Genre(models.Model):
     name = models.CharField(max_length = 50)
