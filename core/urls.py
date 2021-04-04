@@ -38,7 +38,10 @@ urlpatterns = [
     path('friend/', views.friend, name = 'friend'),
     path('u/<str:username>/edit/', views.edit_profile, name='edit_profile'),
 ]
-
+handler404 = 'core.views.error_404'
+handler500 = 'core.views.error_500'
+handler403 = 'core.views.error_403'
+handler400 = 'core.views.error_400'
 
 #### URL'S INCLUDED BY USING DJANGO AUTH ####################
 # accounts/login/ [name='login']
