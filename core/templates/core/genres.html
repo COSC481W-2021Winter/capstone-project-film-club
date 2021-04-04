@@ -6,12 +6,13 @@
 
 {% block content %}
 
-	<div>
-		<h1>Please select your favorite movie genres</h1>
+	<div class="gdiv">
+		<h1>Please select your favorite movie genres:</h1>
+		<h4 style="margin-bottom:20px">This will allow us to provide content better suited to your interests!</h4>
 		<form method="POST" class="form-group">
 		{% csrf_token %}
 		{{ form|crispy }}
-		<button id = "submit" name = "submit" type="submit" class="btn btn-success">Enter</button>
+		<button class = "button" id = "submit" name = "submit" type="submit" class="btn btn-success">Enter</button>
 		</form>
 	</div>
 

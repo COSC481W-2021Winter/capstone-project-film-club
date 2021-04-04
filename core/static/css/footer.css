@@ -1,6 +1,7 @@
 #footer{
 	width: 100%;
-	
+	position: fixed;
+	bottom:0;
 	display: grid;
 	grid-template-columns: max-content 1fr max-content;
 	grid-gap: 100px;
