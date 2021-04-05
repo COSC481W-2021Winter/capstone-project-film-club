@@ -56,19 +56,43 @@ def bug_reporting_page(request):
 
 def profile(request, username):
     reviews_json = []
-
     profile = User.objects.get(username = username)
-    # Add the information from the register form...
-    # form = Register
     reviews = Review.objects.filter(user = profile).order_by('-added')
-
     for review in reviews:
-        reviews_json.append(get_review_json(review, request.user))
+        reviews_json.append(get_review_json(review))
+    if request.method == "POST":
+        profile_pic_form = ProfilePicForm(request.POST, request.FILES)
+        # Add the information from the register form...
+        # form = Register
 
-    return render(request, 'core/profile.html', {
-        'profile': profile,
-        'reviews': reviews_json
-    })
+        if profile_pic_form.is_valid():
+                    pic = profile_pic_form.cleaned_data['profile_pic']
+                    if not pic:
+                        pic = 'users/person_icon.png'
+        userprofile = UserProfile(user=profile, profile_pic = pic)
+        userprofile.set_profile_pic(pic)
+
+        return render(request, 'core/profile.html', {
+            'profile': profile,
+            'reviews': reviews_json
+        })
+    else:
+        reviews_json = []
+        profile_pic_form = ProfilePicForm()
+        profile = User.objects.get(username = username)
+        # Add the information from the register form...
+        # form = Register
+        reviews = Review.objects.filter(user = profile).order_by('-added')
+
+        for review in reviews:
+            reviews_json.append(get_review_json(review))
+
+        return render(request, 'core/profile.html', {
+            'profile': profile,
+            'reviews': reviews_json,
+            "profile_pic_form": profile_pic_form
+        })
+
 
 def edit_profile(request, username):
     if request.method == 'POST':
@@ -391,7 +415,9 @@ def register(request):
         register_form = RegisterForm()
         profile_pic_form = ProfilePicForm()
 
-    return render(request, "registration/register.html", {"register_form":register_form, "profile_pic_form": profile_pic_form})
+    return render(request, "registration/register.html", {
+        "register_form":register_form, 
+        "profile_pic_form": profile_pic_form})
 
 @login_required
 def welcome(request):

@@ -1,13 +1,16 @@
 {% extends 'core/base_full.html' %}
 {% load static %}
+{% load crispy_forms_tags %}
+{% load materializecss %}
 
 {% block title %}{{ profile.get_full_name }}{% endblock %}
 
 {% block css %}
 	{{ block.super }}
-
 	<link rel = "stylesheet" type = "text/css" href = "{% static 'css/profile.css'%}">
-
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.1/css/materialize.min.css"
+		integrity="sha256-qj3p6P1fJIV+Ndv7RW1ovZI2UhOuboj9GcODzcNFIN8=" crossorigin="anonymous" />
 {% endblock %}
 
 {% block content %}
@@ -17,6 +20,17 @@
 			{% include 'core/blocks/tiles/user-container.html' with profile=profile %}
 		</div>
 		<div class = "cont-section">
+			<h5>Friends list</h5>
+			{{ profile.userprofile.friends.all|unordered_list }}
+			<h5>Watched Movies</h5>
+			{{ profile.userprofile.watched_movies.all|unordered_list }}
+			<h5>Change profile picture</h5>
+			<form method="POST" enctype="multipart/form-data">
+				{% csrf_token %}
+				{{ profile_pic_form }}
+				<button type="submit" name="register" id="id_register" class="btn btn-success">Change</button>
+			</form>
+			<h5>Reviews</h5>
 			{% for review in reviews %}
 			
 				{% include 'core/blocks/tiles/review.html' with review=review %}
@@ -33,6 +47,10 @@
 {% block js %}
 
 	<script src = "{% static 'js/profile.js'%}"></script>
+		<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+		integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.1/js/materialize.min.js"
+		integrity="sha256-SrBfGi+Zp2LhAvy9M1bWOCXztRU9Ztztxmu5BcYPcPE=" crossorigin="anonymous"></script>
 	<script src = "{% static 'js/review.js'%}"></script>
 
 {% endblock %}

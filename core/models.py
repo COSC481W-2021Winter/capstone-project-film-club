@@ -13,6 +13,9 @@ class UserProfile(models.Model):
     #isPrivate = models.BooleanField(initital=False)
     isPrivate = False
 
+    def set_profile_pic(self, pic):
+            self.profile_pic = pic
+
 class Genre(models.Model):
     name = models.CharField(max_length = 50)
     api_id = models.IntegerField()
