@@ -9,6 +9,9 @@ class UserProfile(models.Model):
     watched_movies = models.ManyToManyField('Movie', blank = True, related_name = 'watched_movies')
     friends = models.ManyToManyField(User, blank = True, related_name = 'friends')
 
+    def set_profile_pic(self, pic):
+            self.profile_pic = pic
+
 class Genre(models.Model):
     name = models.CharField(max_length = 50)
     api_id = models.IntegerField()
