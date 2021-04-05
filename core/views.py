@@ -648,3 +648,11 @@ def create_movie(movie_json):
 
 def get_poster_url(movie):
     return 'https://image.tmdb.org/t/p/w500' + movie.poster_path
+def error_404(request, exception):
+    return render('404.html')
+def error_500(request):
+    return render('500.html')
+def error_403(request, exception):
+    return render('403.html')
+def error_400(request, exception):
+    return render('400.html')

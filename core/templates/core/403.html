@@ -1,0 +1,8 @@
+{% block title %}403 Error{% endblock %}
+{% block content %}
+<div>
+	<h1>HTTP Forbidden</h1>
+	<p>access to the requested resource is forbidden</p>
+	<a href="{% url 'core:home' %}"><button id="myBtn">Return Home</button></a>
+</div>
+{% endblock %}
