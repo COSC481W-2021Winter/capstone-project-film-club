@@ -50,6 +50,10 @@ def home(request):
     })
 def about(request):
     return render(request, 'core/about.html')
+
+def bug_reporting_page(request):
+    return render(request, 'core/bug_reporting_page.html')
+
 def profile(request, username):
     reviews_json = []
 
