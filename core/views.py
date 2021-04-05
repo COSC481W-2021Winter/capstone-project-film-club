@@ -250,11 +250,14 @@ def search(request):
         if 'search_user_or_movie' in request.GET:
             search_user_or_movie = str(request.GET['search_user_or_movie'])
 
-            if search_user_or_movie == "Users":
+            if search_user_or_movie == "PrivacySetting":
+                if UserProfile.isPrivate:
+                    UserProfile.isPrivate = False
+                else:
+                    UserProfile.isPrivate = True
                 if 'q' in request.GET:
-                    query = request.GET['q']
-                    data['query'] = request.GET['q']
-                    #out_put = User.objects.get(username="asch")
+                    query = ''
+                    data['query'] = str(UserProfile.__name__) + " is now " + str(UserProfile.isPrivate)
                     try:
                         out_put = User.objects.get(username=str(query))
                         data['res_u'] = User.objects.all()
@@ -262,8 +265,30 @@ def search(request):
                         linkMaker = data['res_top'] + " %}"
                         data['data_url_two'] = "{% url 'core:profile' ascha %}"
                         data['data_url'] = "{% url 'core:profile' user.username %}"
-                        ascha = "/ascha/"
-                        data['ascha'] = ascha
+                        return render(request, 'core/search.html', data)
+                        #return redirect('core:home')
+                    except:
+                        #return redirect('core:home')
+                        return render(request, 'core/search.html', data)
+
+
+
+            if search_user_or_movie == "Users":
+                if 'q' in request.GET:
+                    query = request.GET['q']
+                    data['query'] = request.GET['q']
+
+
+                    #out_put = User.objects.get(username="asch")
+                    try:
+                        out_put = User.objects.get(username=str(query))
+                        data['query'] = str(out_put) + " ---------- " + str()
+                        data['res_u'] = User.objects.all()
+                        data['res_top'] = out_put 
+                        linkMaker = data['res_top'] + " %}"
+                        data['data_url_two'] = "{% url 'core:profile' ascha %}"
+                        data['data_url'] = "{% url 'core:profile' user.username %}"
+                        data['query'] = str(out_put.isPrivate)
                         return render(request, 'core/search.html', data)
                     except:
                         return render(request, 'core/search.html', data)

@@ -9,6 +9,9 @@ class UserProfile(models.Model):
     watched_movies = models.ManyToManyField('Movie', blank = True, related_name = 'watched_movies')
     liked_reviews = models.ManyToManyField('Review', blank = True, related_name = 'liked_reviews')
     friends = models.ManyToManyField(User, blank = True, related_name = 'friends')
+    #isPrivate = models.BooleanField(blank=False)
+    #isPrivate = models.BooleanField(initital=False)
+    isPrivate = False
 
 class Genre(models.Model):
     name = models.CharField(max_length = 50)
