@@ -32,6 +32,9 @@ urlpatterns = [
     path("welcome/", views.welcome, name = "send welcome email"),
     path('reviews/<int:page>/', views.get_home_reviews, name = 'home_reviews'),
     path('u/<str:username>/', views.profile, name='profile'),  # Profile screen
+    path('r/<int:review_id>/', views.review, name='review'),  # Review screen
+    path('r/<int:review_id>/like', views.review_like, name='review_like'),  # Review like action
+    path('r/<int:review_id>/comment', views.review_comment, name='review_comment'),  # Review comment action
     path('accounts/', include('django.contrib.auth.urls')),  # Enable Django auth app
 
     path('watch/', views.watch, name = 'watch'),

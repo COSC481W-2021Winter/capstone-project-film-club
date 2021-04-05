@@ -1,0 +1,33 @@
+{% extends 'core/base_full.html' %}
+{% load static %}
+
+{% block title %}{{ review.title }} - Film Club{% endblock %}
+
+{% block css %}
+	{{ block.super }}
+
+	<link rel = "stylesheet" type = "text/css" href = "{% static 'css/home.css'%}">
+
+{% endblock %}
+
+{% block content %}
+	
+	<div class = "container grid">
+		<div class = "cont-section">
+			{% include 'core/blocks/tiles/user-container.html' with profile=review_poster show_view_button=True %}
+		</div>
+		<div id = "main-feed" class = "cont-section">
+			{% include 'core/blocks/tiles/review.html' with review=review %}
+		</div>
+		<div class = "cont-section">
+			
+		</div>
+	</div>
+	
+{% endblock %}
+
+{% block js %}
+
+	<script src = "{% static 'js/review.js'%}"></script>
+
+{% endblock %}
