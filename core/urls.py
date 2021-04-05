@@ -32,13 +32,20 @@ urlpatterns = [
     path("welcome/", views.welcome, name = "send welcome email"),
     path('reviews/<int:page>/', views.get_home_reviews, name = 'home_reviews'),
     path('u/<str:username>/', views.profile, name='profile'),  # Profile screen
+    path('r/<int:review_id>/', views.review, name='review'),  # Review screen
+    path('r/<int:review_id>/like', views.review_like, name='review_like'),  # Review like action
+    path('r/<int:review_id>/comment', views.review_comment, name='review_comment'),  # Review comment action
     path('accounts/', include('django.contrib.auth.urls')),  # Enable Django auth app
 
+    path('bug_reporting_page/', views.bug_reporting_page, name='bug_reporting_page'), # Bug reporting page
     path('watch/', views.watch, name = 'watch'),
     path('friend/', views.friend, name = 'friend'),
     path('u/<str:username>/edit/', views.edit_profile, name='edit_profile'),
 ]
-
+handler404 = 'core.views.error_404'
+handler500 = 'core.views.error_500'
+handler403 = 'core.views.error_403'
+handler400 = 'core.views.error_400'
 
 #### URL'S INCLUDED BY USING DJANGO AUTH ####################
 # accounts/login/ [name='login']

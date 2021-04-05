@@ -7,7 +7,11 @@ class UserProfile(models.Model):
     genres = models.ManyToManyField('Genre', blank = True, related_name = 'genres')
     profile_pic = models.ImageField(default='users/person_icon.png', null=True, blank=True, upload_to="users/")
     watched_movies = models.ManyToManyField('Movie', blank = True, related_name = 'watched_movies')
+    liked_reviews = models.ManyToManyField('Review', blank = True, related_name = 'liked_reviews')
     friends = models.ManyToManyField(User, blank = True, related_name = 'friends')
+    #isPrivate = models.BooleanField(blank=False)
+    #isPrivate = models.BooleanField(initital=False)
+    isPrivate = False
 
     def set_profile_pic(self, pic):
             self.profile_pic = pic
@@ -42,4 +46,10 @@ class Review(models.Model):
     title = models.CharField(max_length = 200)
     text = models.TextField()
     score = models.FloatField()
+    added = models.DateTimeField(auto_now_add = True)
+
+class ReviewComment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    review = models.ForeignKey(Review, on_delete=models.CASCADE)
+    text = models.TextField()
     added = models.DateTimeField(auto_now_add = True)

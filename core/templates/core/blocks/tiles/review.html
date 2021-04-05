@@ -1,6 +1,9 @@
+{% load static %}
 {% load util %}
 
 <div class = "review {% if barebones == True %}barebones{% else %}tile{% endif %}">
+	<input class = "review-id" type = "text" value = "{{ review.id }}" hidden>
+
 	{% if barebones == None %}
 	
 		<div class = "tile-type">
@@ -8,11 +11,24 @@
 		</div>
 		<div class = "tile-header">
 			<div class = "user-image">
-				
+				<img src = "{{ review.user.image_url }}">
 			</div>
 			<div class = "review-user-info">
 				<div class = "review-user-details">
-					<p class = "review-name">{{ review.user.username }}<p>
+					{% if markup != True %}
+				
+					<a href = "{% url 'core:profile' username=review.user.username %}">
+						
+					{% endif %}
+				
+						<p class = "review-name">{{ review.user.username }}<p>
+					
+					{% if markup != True %}
+				
+					</a>
+						
+					{% endif %}
+					
 					<p style = "margin: 0 4px">reviewed</p>
 					<a href = "{% url 'core:movie' id=review.movie.id|add:'0' %}"><p class = "movie-title">{{ review.movie.title }}</p></a>
 					<p class = "review-added">{{ review.added }}</p>
@@ -38,22 +54,90 @@
 			</div>
 		</div>
 		<div class = "review-details">
-			<p class = "review-title">{{ review.title }}</p>
+			{% if markup != True %}
+				
+			<a href = "{% url 'core:review' review_id=review.id %}">
+			
+			{% endif %}
+			
+				<p class = "review-title">{{ review.title }}</p>
+			
+			{% if markup != True %}
+			
+			</a>
+				
+			{% endif %}
 			<span class = "review-author">by @<p class = "review-username">{{ review.user.username }}</p></span>
 			<p class = "review-body">{{ review.text }}</p>
 		</div>
 	</div>
 	
-	{% if barebones == None %}
-		
-		<div class = "review-options">
-			<div class = "review-option">
-				<p>Like</p>
-			</div>
-			<div class = "review-option">
-				<p>Comment</p>
-			</div>
+	<div class = "review-options">
+		<div class = "review-option like">
+			{% if review.liked == True %}
+				
+				<img src = "{% static 'img/icons/like-red-22.png' %}">
+				
+			{% else %}
+			
+				<img src = "{% static 'img/icons/like-22.png' %}">
+			
+			{% endif %}
+			
+			<p class = "review-like-count">{{ review.like_count }}</p>
 		</div>
+		<div class = "review-option comment">
+			<img src = "{% static 'img/icons/comment-22.png' %}">
+			
+			{% if markup != True %}
+			
+			<a href = "{% url 'core:review' review_id=review.id %}">
+			
+			{% endif %}
+			
+				<p class = "review-comment-count">{{ review.comment_count }}</p>
+			
+			{% if markup != True %}
+			
+			</a>
+				
+			{% endif %}
+		</div>
+	</div>
 	
-	{% endif %}
+	<div class = "review-comment-container">
+		<div class = "review-comments">
+			{% for comment in review.comments %}
+			
+				<div class = "review-comment">
+					<img class = "review-commenter-image" src = "{{ comment.user.image_url }}">
+					<div class = "review-comment-info">
+						{% if markup != True %}
+				
+						<a href = "{% url 'core:profile' username=comment.user.username %}">
+							
+						{% endif %}
+					
+							<p class = "review-commenter-name">{{ comment.user.username }}</p>
+						
+						{% if markup != True %}
+					
+						</a>
+							
+						{% endif %}
+					
+						<div class = "review-comment-text">
+							{{ comment.text }}
+						</div>
+					</div>
+				</div>
+			
+			{% endfor %}
+		</div>
+		<div class = "review-add-comment">
+			<img class = "review-add-image" src = "{{ user.userprofile.profile_pic.url }}">
+			<textarea class = "review-comment-box" rows = 1 placeholder = "Write a comment..."></textarea>
+			<img class = "review-comment-post" src = "{% static 'img/icons/send-white-24.png' %}">
+		</div>
+	</div>
 </div>
