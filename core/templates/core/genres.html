@@ -1,8 +1,15 @@
 {% extends 'core/base_full.html' %}
 {% load static %}
 
-{% block title %}Home{% endblock %}
+{% block title %}Choose Genres{% endblock %}
 {% load crispy_forms_tags %} 
+
+{% block css %}
+	{{ block.super }}
+
+	<link rel = "stylesheet" type = "text/css" href = "{% static 'css/genres.css'%}">
+
+{% endblock %}
 
 {% block content %}
 
