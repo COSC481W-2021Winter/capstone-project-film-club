@@ -25,7 +25,7 @@ SECRET_KEY = '2dvokcf&(xvmbdyl_=@h$tpytl(_bvod_q6o(2x-wn0+mj&s7m'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0', '[::1]','34.235.120.72','3.223.1.183']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0', '[::1]','34.235.120.72','3.223.1.183', 'emufilmclub.com', 'www.emufilmclub.com']
 #ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS').split(" ")
 
 
