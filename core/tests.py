@@ -50,10 +50,10 @@ class ParentTestCase(LiveServerTestCase):
         genre1 = Select(selenium.find_element_by_id('id_firstGenre'))
         genre2 = Select(selenium.find_element_by_id('id_secondGenre'))
         genre3 = Select(selenium.find_element_by_id('id_thirdGenre'))
-        submit = selenium.find_element_by_class_name('btn')
+        submit = selenium.find_element_by_id('submit')
         submit.send_keys(Keys.RETURN)
-        Url = self.live_server_url + '/genre'
-        self.assertNotEquals(self.live_server_url, Url)
+        url = self.live_server_url + '/genre'
+        self.assertNotEquals(self.live_server_url, url)
 
 
 
@@ -288,18 +288,20 @@ class MoviePageTest(ParentTestCase):
         e_profile_pic.send_keys(os.getcwd() + '\\core\\static\\img\\icons\\logo\\filmClubLogo.png')
         e_submit.click()
 
+        return User.objects.get(username = username)
+
     def test_home_page(self):
         selenium = self.selenium
         selenium.get(self.live_server_url + '/m/252')
+
         assert "Willy Wonka" in selenium.page_source
-        assert "Write A Review" in selenium.page_source
-        assert "None of your friends have watched this" in selenium.page_source
+        assert "Write a Review" in selenium.page_source
 
     def test_reviews(self):
         selenium = self.selenium
 
         for x in range(5):
-            self.numbered_signup(x)
+            user = self.numbered_signup(x)
 
             selenium.get(self.live_server_url + '/m/420818')
 
@@ -318,6 +320,8 @@ class MoviePageTest(ParentTestCase):
             submit.send_keys(Keys.RETURN)
 
             assert 'Test Review ' + str(x + 1) in selenium.page_source
+
+            last_review = Review.objects.latest()
 
             movie_reviews = Review.objects.filter(movie = Movie.objects.get(api_id = 420818))
 
@@ -338,6 +342,19 @@ class MoviePageTest(ParentTestCase):
 
             for i in range(len(e_counts)):
                 assert int(e_counts[i].text) == counts[i]
+
+            like_button = selenium.find_elements_by_class_name('like')[0]
+            comment_box = selenium.find_elements_by_class_name('review-comment-box')[0]
+            post_button = selenium.find_elements_by_class_name('review-comment-post')[0]
+
+            like_button.click()
+
+            assert last_review in user.userprofile.liked_reviews.all()
+
+            comment_box.send_keys('Test Comment ' + str(x))
+            post_button.click()
+
+            assert ReviewComment.objects.filter(review = last_review).exists()
 
 class HomePageProfileTestCase(LiveServerTestCase):
     def setUp(self):

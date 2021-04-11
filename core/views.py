@@ -219,7 +219,7 @@ def movie(request, id):
 
                 reviewed = True
 
-        similar_movies = get_similar(id)
+        #similar_movies = get_similar(id)
 
         # Aggregate work
         movie_reviews = Review.objects.filter(movie = movie)
@@ -274,7 +274,7 @@ def movie(request, id):
             'watched': request.user.userprofile.watched_movies.filter(pk = movie.pk).exists(),
             'review': review,
             'reviewed': reviewed,
-            'similar_movies': similar_movies,
+            #'similar_movies': similar_movies,
             'followers_watched': following_watched,
             'following_watched_other': following_watched_string,
             'following_watched_count': following_watched_other.count(),
