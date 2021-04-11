@@ -30,6 +30,11 @@
 				{{ profile_pic_form }}
 				<button type="submit" name="register" id="id_register" class="btn btn-success">Change</button>
 			</form>
+
+
+
+		<a href="{% url 'core:change_settings' %}">Click to change privacy settings: + "{{ isPrivate }}"</a>
+
 			<h5>Reviews</h5>
 			{% for review in reviews %}
 			
