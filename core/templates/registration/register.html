@@ -36,7 +36,10 @@
 		{{ profile_pic_form|materializecss}}
 		<button type="submit" name="register" id="id_register" class="btn btn-success">Register</button>
 	</form>
+	
+	<a href="{% url 'core:home' %}"><button type="submit" class="btn btn-success">Back</button></a>
 </div>
+
 {% endblock %}
 
 {% block js %}
