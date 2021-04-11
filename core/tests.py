@@ -95,6 +95,16 @@ class UserSearchTestCase(ParentTestCase):
         assert "Test123" in selenium.page_source
         element = selenium.find_element_by_tag_name("label")
         assert len(selenium.find_elements_by_tag_name("label")) > 0
+        selenium.get(self.live_server_url + "u/Test123")
+        assert "Change Privacy From: False" in selenium.page_source
+        button_change_priacy = selenium.find_element_by_id("changePrivacy")
+        button_change_priacy.click()
+        selenium.get(self.live_server_url + "u/Test123")
+        assert "Change Privacy From: True" in selenium.page_source
+        selenium.get(self.live_server_url + "/search?q=Test123&search_user_or_movie=Movies")
+        assert len(selenium.find_elements_by_tag_name("label")) <= 0
+
+
 
 class LogoutTestCase(ParentTestCase):
     def setUp(self):
