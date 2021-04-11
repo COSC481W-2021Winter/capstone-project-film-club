@@ -4,7 +4,7 @@
 	<input id = "profile-username" type = "text" value = "{{ profile.username }}" hidden>
 	<div id = "user-cover">
 		<div id = "user-image">
-			<img src="{{ request.user.userprofile.profile_pic.url }}" style="border-radius: 50%; width: 100%; height: 100%;">
+			<img src="{{ profile.userprofile.profile_pic.url }}" style="border-radius: 50%; width: 100%; height: 100%;">
 		</div>
 	</div>
 	<div id = "user-info">
@@ -31,21 +31,29 @@
 	
 	{% if user != profile %}
 	
-		{% is_friend user profile as friended %}
+		{% is_following user profile as following %}
 	
-		<div id = "user-friend" class = "{% if friended %}friend{% endif %}">
-			<p class = "main-label">{% if friended %}Friends{% else %}Add Friend{% endif %}</p>
-			<p class = "second-label">Unfriend</p>
+		<div id = "user-follow" class = "{% if following %}following{% endif %}">
+			<p class = "main-label">{% if following %}Following{% else %}Follow{% endif %}</p>
+			<p class = "second-label">Unfollow</p>
 		</div>
 		
 	{% endif %}
 	<div id = "user-stats">
 		<div class = "user-stat">
-			<p class = "stat-label">Friends</p>
-			<p id = "num-friends" class = "stat-number">{{ profile.userprofile.friends.all|length }}</p>
+			{% get_follower_count profile as follower_count %}
+		
+			<p class = "stat-label">Followers</p>
+			<p id = "num-friends" class = "stat-number">{{ follower_count }}</p>
 		</div>
 		<div class = "user-stat">
-			<p class = "stat-label"># Movies</p>
+			{% get_follower_count profile as follower_count %}
+		
+			<p class = "stat-label">Following</p>
+			<p id = "num-friends" class = "stat-number">{{ profile.userprofile.following.all|length }}</p>
+		</div>
+		<div class = "user-stat">
+			<p class = "stat-label">Movies Watched</p>
 			<p id = "num-movies" class = "stat-number">{{ profile.userprofile.watched_movies.all|length }}</p>
 		</div>
 	</div>
@@ -53,7 +61,7 @@
 	{% if show_view_button %}
 		
 		<a href = "{% url 'core:profile' username=profile.username %}">
-			<div id = "user-options">
+			<div class = "tile-option">
 				<p>View Profile</p>
 			</div>
 		</a>

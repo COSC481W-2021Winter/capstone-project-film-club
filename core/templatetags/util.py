@@ -2,13 +2,19 @@ from django import template
 
 import arrow
 
+from core.models import *
+
 register = template.Library()
 
 colors = [('#41a749', 5), ('#70b73a', 4), ('#d8d21c', 3), ('#d27635', 2), ('#a74141', 1), ('#a74141', 0)]
 
 @register.simple_tag
-def is_friend(user, profile):
-    return user.userprofile.friends.filter(username = profile.username).exists()
+def is_following(user, profile):
+    return user.userprofile.following.filter(username = profile.username).exists()
+
+@register.simple_tag
+def get_follower_count(user):
+    return UserProfile.objects.filter(following = user).count()
 
 @register.simple_tag
 def get_normal_time(datetime):

@@ -40,9 +40,16 @@
 #movie-desc{
 	font-size: 14px;
 }
+#movie-footer{
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+}
 #movie-options{
 	display: flex;
-	justify-content: flex-end;
+	align-items: center;
+	
+	margin-left: 10px;
 }
 .movie-option{
 	position: relative;
@@ -91,6 +98,33 @@
 }
 #mark-watched.watched{
 	background-color: var(--green);
+}
+#watched-following{
+	display: flex;
+}
+.following-user{
+	width: 35px;
+	height: 35px;
+	
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	
+	border-radius: 100%;
+	
+	background-color: black;
+	background-image: var(--profile-picture);
+	background-position: center;
+	background-size: cover;
+	background-repeat: no-repeat;
+	
+	font-size: 14px;
+	color: white;
+	
+	cursor: pointer;
+}
+#watched-following > *:not(:first-child){
+	margin-left: 5px;
 }
 
 #movie-review{

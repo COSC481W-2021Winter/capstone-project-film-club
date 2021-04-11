@@ -23,7 +23,7 @@
 					{% for movie in recommendations %}
 						
 						<a href = "{% url 'core:movie' id=movie.get_absolute_id %}">
-							<div class = "rec-movie" style = "background-image: url({{ movie.get_poster_url }})">
+							<div class = "rec-movie" style = "background-image: url({{ movie.get_poster_url }})" title = "{{ movie.title }}">
 							
 							</div>
 						</a>
@@ -50,7 +50,7 @@
 					{% for movie in recently_watched %}
 						
 						<a href = "{% url 'core:movie' id=movie.get_absolute_id %}">
-							<div class = "rec-movie" style = "background-image: url({{ movie.get_poster_url }})">
+							<div class = "slider-item" style = "background-image: url({{ movie.get_poster_url }})" title = "{{ movie.title }}">
 							
 							</div>
 						</a>

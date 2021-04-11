@@ -8,9 +8,7 @@
 {% block css %}
 	{{ block.super }}
 	<link rel = "stylesheet" type = "text/css" href = "{% static 'css/profile.css'%}">
-	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.1/css/materialize.min.css"
-		integrity="sha256-qj3p6P1fJIV+Ndv7RW1ovZI2UhOuboj9GcODzcNFIN8=" crossorigin="anonymous" />
+
 {% endblock %}
 
 {% block content %}
@@ -18,27 +16,122 @@
 	<div class = "container grid">
 		<div class = "cont-section">
 			{% include 'core/blocks/tiles/user-container.html' with profile=profile %}
+			
+			<div class = "tile">
+				<p class = "tile-title">Followers</p>
+				
+				{% if followers|length == 0 %}
+				
+					<p id = "no-recent" class = "tile-subtitle">This user doesnt have any followers</p>
+				
+				{% else %}
+				
+					<div class = "slider-items circles" style = "--num-columns: 3">
+						{% for follower in followers %}
+							
+							<a href = "{% url 'core:profile' username=follower.user.username %}">
+								<div class = "slider-item circle" style = "background-image: url({{ follower.profile_pic.url }})" title = "{{ follower.user.username }}">
+									
+								</div>
+							</a>
+							
+						{% endfor %}
+					</div>
+				
+				{% endif %}
+				
+				{% if profile.userprofile.watched_movies.all|length > 6 %}
+				
+					<div id = "all-followers" class = "tile-option">
+						<p>See All</p>
+					</div>
+				
+				{% endif %}
+			</div>
+			<div class = "tile">
+				<p class = "tile-title">Following</p>
+				
+				{% if following|length == 0 %}
+				
+					<p id = "no-recent" class = "tile-subtitle">This user hasnt followed anyone</p>
+				
+				{% else %}
+				
+					<div class = "slider-items circles" style = "--num-columns: 3">
+						{% for followee in following %}
+							
+							<a href = "{% url 'core:profile' username=followee.username %}">
+								<div class = "slider-item circle" style = "background-image: url({{ followee.userprofile.profile_pic.url }})" title = "{{ followee.username }}">
+									
+								</div>
+							</a>
+							
+						{% endfor %}
+					</div>
+				
+				{% endif %}
+				
+				{% if profile.userprofile.following.all|length > 6 %}
+				
+					<div id = "all-followees" class = "tile-option">
+						<p>See All</p>
+					</div>
+				
+				{% endif %}
+			</div>
 		</div>
 		<div class = "cont-section">
-			<h5>Friends list</h5>
-			{{ profile.userprofile.friends.all|unordered_list }}
-			<h5>Watched Movies</h5>
-			{{ profile.userprofile.watched_movies.all|unordered_list }}
 			<h5>Change profile picture</h5>
 			<form method="POST" enctype="multipart/form-data">
 				{% csrf_token %}
 				{{ profile_pic_form }}
 				<button type="submit" name="register" id="id_register" class="btn btn-success">Change</button>
 			</form>
-			<h5>Reviews</h5>
+			
 			{% for review in reviews %}
 			
 				{% include 'core/blocks/tiles/review.html' with review=review %}
 			
 			{% endfor %}
+			
+			{% if reviews|length == 0 %}
+				
+				<p class = "tile-subtitle">This user hasnt made any reviews</p>
+			
+			{% endif %}
 		</div>
 		<div class = "cont-section">
-			
+			<div class = "tile">
+				<p class = "tile-title">Watched Movies</p>
+				
+				{% if watched_movies|length == 0 %}
+				
+					<p id = "no-recent" class = "tile-subtitle">This user hasnt watched any movies</p>
+				
+				{% else %}
+				
+					<div class = "slider-items" style = "--num-columns: 3">
+						{% for movie in watched_movies %}
+							
+							<a href = "{% url 'core:movie' id=movie.get_absolute_id %}">
+								<div class = "slider-item" style = "background-image: url({{ movie.get_poster_url }})" title = "{{ movie.title }}">
+								
+								</div>
+							</a>
+							
+						{% endfor %}
+					</div>
+				
+				{% endif %}
+				
+				{% if profile.userprofile.watched_movies.all|length > 3 %}
+				
+					<div id = "all-movies" class = "tile-option">
+						<p>See All</p>
+					</div>
+				
+				{% endif %}
+			</div>
 		</div>
 	</div>
 	
@@ -47,10 +140,6 @@
 {% block js %}
 
 	<script src = "{% static 'js/profile.js'%}"></script>
-		<script src="https://code.jquery.com/jquery-3.3.1.min.js"
-		integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.1/js/materialize.min.js"
-		integrity="sha256-SrBfGi+Zp2LhAvy9M1bWOCXztRU9Ztztxmu5BcYPcPE=" crossorigin="anonymous"></script>
 	<script src = "{% static 'js/review.js'%}"></script>
 
 {% endblock %}

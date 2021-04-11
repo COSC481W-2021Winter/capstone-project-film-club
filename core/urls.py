@@ -39,8 +39,11 @@ urlpatterns = [
 
     path('bug_reporting_page/', views.bug_reporting_page, name='bug_reporting_page'), # Bug reporting page
     path('watch/', views.watch, name = 'watch'),
-    path('friend/', views.friend, name = 'friend'),
+    path('follow/', views.follow, name = 'follow'),
     path('u/<str:username>/edit/', views.edit_profile, name='edit_profile'),
+    path('u/<str:username>/followers/', views.get_followers, name='get_followers'),
+    path('u/<str:username>/followees/', views.get_followees, name='get_followees'),
+    path('u/<str:username>/movies/', views.get_movies, name='get_movies'),
 ]
 handler404 = 'core.views.error_404'
 handler500 = 'core.views.error_500'
