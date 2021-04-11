@@ -648,7 +648,7 @@ def get_review_json(review, user, capped_comments = True, comment_cap = 2):
             'id': review.movie.get_absolute_id(),
             'title': review.movie.title,
             'description': review.movie.description,
-            'poster_url': get_poster_url(review.movie)
+            'poster_url': review.movie.get_poster_url()
         },
         'score': review.score,
         'title': review.title,
@@ -697,8 +697,6 @@ def create_movie(movie_json):
 
     return movie
 
-def get_poster_url(movie):
-    return 'https://image.tmdb.org/t/p/w500' + movie.poster_path
 def error_404(request, exception):
     return render('404.html')
 def error_500(request):
