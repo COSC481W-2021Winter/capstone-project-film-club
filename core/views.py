@@ -74,7 +74,8 @@ def profile(request, username):
 
         return render(request, 'core/profile.html', {
             'profile': profile,
-            'reviews': reviews_json
+            'reviews': reviews_json,
+            "isPrivate" : UserProfile.isPrivate
         })
     else:
         reviews_json = []
@@ -90,7 +91,8 @@ def profile(request, username):
         return render(request, 'core/profile.html', {
             'profile': profile,
             'reviews': reviews_json,
-            "profile_pic_form": profile_pic_form
+            "profile_pic_form": profile_pic_form,
+            "isPrivate" : UserProfile.isPrivate
         })
 
 
@@ -264,6 +266,33 @@ def movie(request, id):
             'aggregate': aggregate
         })
 
+
+
+def goHome(request):
+    if UserProfile.isPrivate:
+        UserProfile.isPrivate = False
+        return redirect('core:home')
+    else:
+        UserProfile.isPrivate = True
+        return redirect('core:home')
+        #edit_profile(request, request.user.username)
+        #return redirect('core:profile')
+
+    '''
+    if(User.objects.get(username=str(request.user.username))):
+        return redirect('core:home')
+    else:
+        return redirect('core:profile')
+
+    '''
+    #return redirect('core:home')
+
+
+
+
+
+
+
 def search(request):
     data = {}
 
@@ -306,13 +335,19 @@ def search(request):
                     #out_put = User.objects.get(username="asch")
                     try:
                         out_put = User.objects.get(username=str(query))
-                        data['query'] = str(out_put) + " ---------- " + str()
+                        userobj = User.objects.get(username=str(query))
+                        jjj = userobj.userprofile.isPrivate
+                        if userobj.userprofile.isPrivate:
+                            return render(request, 'core/search.html', data)
+                            
+                        data['query'] = str(out_put)
                         data['res_u'] = User.objects.all()
-                        data['res_top'] = out_put 
+                        #data['res_top'] = out_put 
+                        data['res_top'] = str(type(userobj))
                         linkMaker = data['res_top'] + " %}"
                         data['data_url_two'] = "{% url 'core:profile' ascha %}"
                         data['data_url'] = "{% url 'core:profile' user.username %}"
-                        data['query'] = str(out_put.isPrivate)
+                        data['query'] = str(type(out_put.isPrivate))
                         return render(request, 'core/search.html', data)
                     except:
                         return render(request, 'core/search.html', data)
