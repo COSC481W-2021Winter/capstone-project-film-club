@@ -2,6 +2,8 @@ from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User
 
+from django.templatetags.static import static
+
 class UserProfile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     genres = models.ManyToManyField('Genre', blank = True, related_name = 'genres')
@@ -33,7 +35,7 @@ class Movie(models.Model):
         return self.title
 
     def get_poster_url(self):
-        return None if self.poster_path is None else 'https://image.tmdb.org/t/p/w500' + self.poster_path
+        return static('img/no-poster.png') if self.poster_path is None else 'https://image.tmdb.org/t/p/w500' + self.poster_path
 
     def get_absolute_id(self):
         return self.pk if self.user_added else self.api_id
