@@ -13,7 +13,8 @@
 		<p class = "footer-label">Quick Links</p>
 		<ul id = "footer-links">
 			<li class = "footer-text"><a href = "{% url 'core:home' %}">Home</a></li>
-			<li class = "footer-text"><a href = "{% url 'core:about' %}">More About Us</a></li>
+			<li class = "footer-text"><a href = "{% url 'core:profile' user.username %}">My Profile</a></li>
+			<li class = "footer-text"><a href = "{% url 'core:about' %}">Meet the Developers</a></li>
 			<li class = "footer-text"><a href = "{% url 'core:bug_reporting_page' %}">Bug Reporting Page</a></li>
 			<li class = "footer-text"><a href = "{% url 'core:logout' %}">Logout</a></li>
 		</ul>

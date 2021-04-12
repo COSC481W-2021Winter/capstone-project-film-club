@@ -37,6 +37,9 @@ urlpatterns = [
     path('r/<int:review_id>/comment', views.review_comment, name='review_comment'),  # Review comment action
     path('accounts/', include('django.contrib.auth.urls')),  # Enable Django auth app
 
+    path('change_settings', views.goHome, name='change_settings'),
+
+
     path('bug_reporting_page/', views.bug_reporting_page, name='bug_reporting_page'), # Bug reporting page
     path('watch/', views.watch, name = 'watch'),
     path('follow/', views.follow, name = 'follow'),
