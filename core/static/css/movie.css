@@ -265,7 +265,6 @@
 	grid-area: self;
 	
 	padding: var(--tile-padding);
-	padding-bottom: 0;
 	
 	box-sizing: border-box;
 }
@@ -326,4 +325,24 @@
 	font-size: 12px;
 	
 	color: #777;
+}
+
+#similar-movies{
+	width: 100%;
+	
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.similar-movie{
+	width: 50%;
+	
+	display: flex;
+	
+	position: relative;
+}
+.similar-movie img{
+	position: absolute;
+	top: calc(50% - 10px);
+	left: 0;
 }

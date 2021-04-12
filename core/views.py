@@ -99,7 +99,7 @@ def profile(request, username):
             "profile_pic_form": profile_pic_form,
             'watched_movies': watched_movies,
             'following': following,
-            'followers': followers
+            'followers': followers,
             "isPrivate" : UserProfile.isPrivate
         })
 
@@ -221,7 +221,7 @@ def movie(request, id):
 
                 reviewed = True
 
-        #similar_movies = get_similar(id)
+        similar_movies = get_similar(id)
 
         # Aggregate work
         movie_reviews = Review.objects.filter(movie = movie)
@@ -276,7 +276,7 @@ def movie(request, id):
             'watched': request.user.userprofile.watched_movies.filter(pk = movie.pk).exists(),
             'review': review,
             'reviewed': reviewed,
-            #'similar_movies': similar_movies,
+            'similar_movies': similar_movies,
             'followers_watched': following_watched,
             'following_watched_other': following_watched_string,
             'following_watched_count': following_watched_other.count(),
@@ -701,7 +701,7 @@ def get_similar(id):
     response = requests.get('https://api.themoviedb.org/3/movie/' + str(id) + '/similar' + '?api_key=a1a486ad19b99d238e92778b9ceb4bb4&language=en-US')
     results = response.json()['results']
     index = 0
-    while index < 4:
+    while index < 5:
         similar_movies.append(create_movie(results[index]))
         index += 1
 

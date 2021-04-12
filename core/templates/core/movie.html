@@ -126,23 +126,17 @@
 		</div>
 	</div>
 	<div class = "container column">
-		<div class = "tile">
-			<p class = "tile-title">Similar Movies</p>
-			<div id = "search-results" style = "padding-top: 0;">
+		<div id = "daily-recs" class = "slider tile">
+			<p class = "tile-title">Daily Recommendations</p>
+			<div class = "slider-items" style = "--num-columns: 5">
 				{% for movie in similar_movies %}
-				
+					
 					<a href = "{% url 'core:movie' id=movie.get_absolute_id %}">
-						<div class = "search-movie">
-							<div class = "movie-poster">
-								<img src = "{{ movie.get_poster_url }}">
-							</div>
-							<div class = "movie-details">
-								<p class = "movie-title">{{ movie.title }}</p>
-								<p class = "movie-description">{{ movie.description }}</p>
-							</div>
+						<div class = "slider-item" style = "background-image: url({{ movie.get_poster_url }})" title = "{{ movie.title }}">
+						
 						</div>
 					</a>
-
+					
 				{% endfor %}
 			</div>
 		</div>
