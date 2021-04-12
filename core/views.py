@@ -35,10 +35,6 @@ def home(request):
             # Data to return to template
         })
 
-    response = requests.get(
-        'https://api.themoviedb.org/3/genre/movie/list?api_key=a1a486ad19b99d238e92778b9ceb4bb4&language=en-US')
-    results = response.json()
-
     recommendations = get_recommendations(request.user)
     recently_watched = list(request.user.userprofile.watched_movies.all())[-3:]
     reviews = json.loads(get_home_reviews(request).content)
@@ -56,19 +52,28 @@ def bug_reporting_page(request):
 
 def profile(request, username):
     reviews_json = []
+
     profile = User.objects.get(username = username)
+
     reviews = Review.objects.filter(user = profile).order_by('-added')
+    watched_movies = profile.userprofile.watched_movies.all()[:3]
+    following = profile.userprofile.following.all()[:6]
+    followers = UserProfile.objects.filter(following = profile).all()[:6]
+
     for review in reviews:
-        reviews_json.append(get_review_json(review))
+        reviews_json.append(get_review_json(review, request.user))
+
     if request.method == "POST":
         profile_pic_form = ProfilePicForm(request.POST, request.FILES)
         # Add the information from the register form...
         # form = Register
 
         if profile_pic_form.is_valid():
-                    pic = profile_pic_form.cleaned_data['profile_pic']
-                    if not pic:
-                        pic = 'users/person_icon.png'
+            pic = profile_pic_form.cleaned_data['profile_pic']
+
+            if not pic:
+                pic = 'users/person_icon.png'
+
         userprofile = UserProfile(user=profile, profile_pic = pic)
         userprofile.set_profile_pic(pic)
 
@@ -86,12 +91,15 @@ def profile(request, username):
         reviews = Review.objects.filter(user = profile).order_by('-added')
 
         for review in reviews:
-            reviews_json.append(get_review_json(review))
+            reviews_json.append(get_review_json(review, request.user))
 
         return render(request, 'core/profile.html', {
             'profile': profile,
             'reviews': reviews_json,
             "profile_pic_form": profile_pic_form,
+            'watched_movies': watched_movies,
+            'following': following,
+            'followers': followers
             "isPrivate" : UserProfile.isPrivate
         })
 
@@ -179,9 +187,18 @@ def movie(request, id):
     review = None
     reviewed = False
 
-    friends = request.user.userprofile.friends.filter(pk = movie.pk)
+    following_watched = request.user.userprofile.following.filter(userprofile__watched_movies = movie.pk)[:3]
+    following_watched_other = request.user.userprofile.following.filter(userprofile__watched_movies=movie.pk)[3:]
 
-    fstring = "None of your friends have watched this"
+    following_watched_count = following_watched_other.count()
+
+    following_watched_string = ''
+
+    if following_watched_other.count() > 0:
+        following_watched_string = following_watched_other.all()[0].username
+
+        for user in following_watched_other[1:]:
+            following_watched_string += '&#x0a' + following_watched_other.all()[0].username
 
     if movie:
         # If user just reviewed the movie
@@ -203,11 +220,8 @@ def movie(request, id):
                 review = review[0]
 
                 reviewed = True
-                
-        similar_movies = get_similar(id)
 
-        if friends.count() > 0:
-            fstring = friend[0].username + " has watched this"
+        similar_movies = get_similar(id)
 
         # Aggregate work
         movie_reviews = Review.objects.filter(movie = movie)
@@ -254,7 +268,8 @@ def movie(request, id):
             },
         }
 
-        review = get_review_json(review, request.user)
+        if reviewed:
+            review = get_review_json(review, request.user)
 
         return render(request, 'core/movie.html', {
             'movie': movie,
@@ -262,7 +277,9 @@ def movie(request, id):
             'review': review,
             'reviewed': reviewed,
             'similar_movies': similar_movies,
-            'fstring': fstring,
+            'followers_watched': following_watched,
+            'following_watched_other': following_watched_string,
+            'following_watched_count': following_watched_other.count(),
             'aggregate': aggregate
         })
 
@@ -314,7 +331,7 @@ def search(request):
                     try:
                         out_put = User.objects.get(username=str(query))
                         data['res_u'] = User.objects.all()
-                        data['res_top'] = out_put 
+                        data['res_top'] = out_put
                         linkMaker = data['res_top'] + " %}"
                         data['data_url_two'] = "{% url 'core:profile' ascha %}"
                         data['data_url'] = "{% url 'core:profile' user.username %}"
@@ -342,7 +359,6 @@ def search(request):
                             
                         data['query'] = str(out_put)
                         data['res_u'] = User.objects.all()
-                        #data['res_top'] = out_put 
                         data['res_top'] = str(type(userobj))
                         linkMaker = data['res_top'] + " %}"
                         data['data_url_two'] = "{% url 'core:profile' ascha %}"
@@ -351,27 +367,27 @@ def search(request):
                         return render(request, 'core/search.html', data)
                     except:
                         return render(request, 'core/search.html', data)
-                    
+
                     #out_put = User.objects.get(username=)
-                
-                
+
+
                 #data['res'] = UserProfile.objects.all() #querey set can not be made into json
                 #data['res_u'] = User.objects.all()
                 #trey
-                #data['res_u'] = 
-                
+                #data['res_u'] =
+
                 #out_put = User.objects.get(username="asch")
                 #out_put_list = []
                 #data['res_m'] = out_put_list.append(out_put)
-                
-                
+
+
                 #data['res_m'] = Movie.objects.all()
                 data['query'] = request.GET['q']
                 data['res_top'] = out_put
                 #data['res_top'] = User.objects.get(first_name='Alex')
                 #return render(request, 'core/search.html', data)
 
-    
+
 
     if request.method == 'GET':
         if 'q' in request.GET:
@@ -380,6 +396,7 @@ def search(request):
         if 'p' in request.GET:
             page = int(request.GET['p'])
 
+        response = requests.get('https://api.themoviedb.org/3/search/movie?api_key=a1a486ad19b99d238e92778b9ceb4bb4&language=en-US&query=' + query + '&page=' + str(page) + '&include_adult=false')
         response = requests.get('https://api.themoviedb.org/3/search/movie?api_key=a1a486ad19b99d238e92778b9ceb4bb4&language=en-US&query=' + query + '&page=' + str(page) + '&include_adult=false')
         raw_results = response.json()['results']
 
@@ -451,7 +468,7 @@ def register(request):
         profile_pic_form = ProfilePicForm()
 
     return render(request, "registration/register.html", {
-        "register_form":register_form, 
+        "register_form":register_form,
         "profile_pic_form": profile_pic_form})
 
 @login_required
@@ -466,7 +483,7 @@ def welcome(request):
     print("Email sent...")
     send_mail(subject, message, email_from, recipient_list)
 
-    return redirect("/genres") 
+    return redirect("/genres")
 
 def genres(request):
     user = request.user
@@ -547,7 +564,7 @@ def watch(request):
         'success': False
     })
 
-def friend(request):
+def follow(request):
     if request.POST:
         username = request.POST['username']
 
@@ -562,12 +579,12 @@ def friend(request):
                     'added': True
                 }
 
-                if request.user.userprofile.friends.filter(username = username).exists():
-                    request.user.userprofile.friends.remove(user)
+                if request.user.userprofile.following.filter(username = username).exists():
+                    request.user.userprofile.following.remove(user)
 
                     data['added'] = False
                 else:
-                    request.user.userprofile.friends.add(user)
+                    request.user.userprofile.following.add(user)
 
                 return JsonResponse(data)
 
@@ -575,10 +592,65 @@ def friend(request):
         'success': False
     })
 
+def get_followers(request, username):
+    profile = User.objects.get(username = username)
+
+    followers = UserProfile.objects.filter(following = profile).all()[6:]
+
+    followers_json = []
+
+    for follower in followers:
+        followers_json.append({
+            'username': follower.user.username,
+            'profile_pic_url': follower.profile_pic.url,
+            'profile_url': reverse('core:profile', kwargs = { 'username': follower.user.username })
+        })
+
+    return JsonResponse({
+        'followers': followers_json
+    })
+
+def get_followees(request, username):
+    profile = User.objects.get(username=username)
+
+    followees = profile.userprofile.following.all()[6:]
+
+    followees_json = []
+
+    for followee in followees:
+        followees_json.append({
+            'username': followee.username,
+            'profile_pic_url': followee.userprofile.profile_pic.url,
+            'profile_url': reverse('core:profile', kwargs={'username': followee.username})
+        })
+
+    return JsonResponse({
+        'followees': followees_json
+    })
+
+def get_movies(request, username):
+    profile = User.objects.get(username=username)
+
+    movies = profile.userprofile.watched_movies.all()[3:]
+
+    movies_json = []
+
+    for movie in movies:
+        movies_json.append({
+            'title': movie.title,
+            'poster_url': get_poster_url(movie),
+            'movie_url': reverse('core:movie', kwargs={'id': movie.api_id})
+        })
+
+    return JsonResponse({
+        'movies': movies_json
+    })
+
+
 def get_home_reviews(request, page = 1):
     reviews_json = []
 
-    reviews = Review.objects.filter(user__userprofile__friends = request.user).order_by('-added').all()[(page - 1) * home_reviews_amount:page * home_reviews_amount]
+    reviews = Review.objects.filter(user__in = request.user.userprofile.following.all()).order_by('-added').all()[(page - 1) * home_reviews_amount:page * home_reviews_amount]
 
     for review in reviews:
         reviews_json.append(get_review_json(review, request.user))
@@ -639,6 +711,11 @@ def get_similar(id):
 
 
 def get_movie(id):
+    movie = Movie.objects.filter(api_id=id)
+
+    if movie.exists():
+        return movie[0]
+
     response = requests.get('https://api.themoviedb.org/3/movie/' + str(id) + '?api_key=a1a486ad19b99d238e92778b9ceb4bb4&language=en-US')
 
     if response.status_code == 200:
@@ -654,7 +731,8 @@ def get_review_json(review, user, capped_comments = True, comment_cap = 2):
     if capped_comments:
         comments = comments[:comment_cap]
 
-    comments = list(comments.all())
+    if comments.exists():
+        comments = list(comments.all())
 
     if capped_comments and len(comments) == 2:
         temp_comment = comments[0]

@@ -24,9 +24,30 @@
 					<p id = "movie-title">{{ movie.title }}</p>
 					<p id = "movie-desc">{{ movie.description }} </p>
 				</div>
-				<div id = "movie-options">
-					<div id = "mark-watched" class = "movie-option {% if watched %}watched{% endif %}">
-						<img src = "{% static 'img/icons/eye-white-24.png' %}">
+				<div id = "movie-footer">
+					<div id = "watched-following">
+						{% for following_user in followers_watched %}
+							
+							<a href = "{% url 'core:profile' following_user.username %}">
+								<div class = "following-user" style = "--profile-picture: url({{ following_user.userprofile.profile_pic.url }})" title = "{{ following_user.username }}">
+									
+								</div>
+							</a>
+							
+						{% endfor %}
+						
+						{% if following_watched_count > 0 %}
+						
+							<div class = "following-user" title = "{{ following_watched_other }}">
+								<p>+{{ following_watched_count }}</p>
+							</div>
+						
+						{% endif %}
+					</div>
+					<div id = "movie-options">
+						<div id = "mark-watched" class = "movie-option {% if watched %}watched{% endif %}">
+							<img src = "{% static 'img/icons/eye-white-24.png' %}">
+						</div>
 					</div>
 				</div>
 			</div>

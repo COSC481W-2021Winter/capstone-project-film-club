@@ -4,26 +4,6 @@
 	
 	margin-bottom: var(--gap);
 }
-.slider-items{
-	--num-columns: 4;
-	
-	width: 100%;
-	
-	display: grid;
-	grid-template-columns: repeat(var(--num-columns), 1fr);
-}
-.rec-movie{
-	width: 100%;
-	
-	padding-top: 150%;
-	
-	background-color: #555;
-	background-position: center;
-	background-size: cover;
-	background-repeat: no-repeat;
-	
-	box-sizing: border-box;
-}
 
 #feed{
 	margin-bottom: var(--gap);
