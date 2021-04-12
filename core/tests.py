@@ -908,7 +908,11 @@ class RegisterTestCase(LiveServerTestCase):
                 selenium.find_element_by_id('id_password2').clear()
             else:
                 assert "favorite movie genres" in selenium.page_source, "Should be on the next page."
-
+    def test_about_page(self):
+        selenium = self.selenium
+        selenium.get(self.live_server_url + '/about/')
+        assert "David" in selenium.page_source
+        assert "Developers" in selenium.page_source
 
 
 
