@@ -19,6 +19,7 @@
 }
 .movie-details{
 	margin-left: var(--gap);
+	width: 175%;
 }
 .movie-title{
 	font-family: Roboto-Medium;

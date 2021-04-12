@@ -50,7 +50,7 @@ class ParentTestCase(LiveServerTestCase):
         genre1 = Select(selenium.find_element_by_id('id_firstGenre'))
         genre2 = Select(selenium.find_element_by_id('id_secondGenre'))
         genre3 = Select(selenium.find_element_by_id('id_thirdGenre'))
-        submit = selenium.find_element_by_class_name('btn')
+        submit = selenium.find_element_by_class_name('button')
         submit.send_keys(Keys.RETURN)
         Url = self.live_server_url + '/genre'
         self.assertNotEquals(self.live_server_url, Url)
@@ -919,8 +919,23 @@ class RegisterTestCase(LiveServerTestCase):
             else:
                 assert "favorite movie genres" in selenium.page_source, "Should be on the next page."
 
+class BugReportingTestCase(ParentTestCase):
+    def setUp(self):
+        ParentTestCase.setUp(self)
 
-
-
-
-
+    def tearDown(self):
+        ParentTestCase.tearDown(self)
+    
+    def test_bug_reporting_page_in_footer(self):
+        selenium = self.selenium
+        time.sleep(3)
+        assert 'Bug Reporting Page' in selenium.page_source
+    
+    def test_bug_reporting_page(self):
+        selenium = self.selenium
+        # Opening the link we want to test
+        selenium.get(self.live_server_url + '/bug_reporting_page/')
+        WebDriverWait(self.selenium, 10).until(
+            EC.presence_of_element_located((By.TAG_NAME, 'body')))
+        time.sleep(3)
+        assert "google_form_bug_report" in selenium.page_source
