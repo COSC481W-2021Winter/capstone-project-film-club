@@ -14,7 +14,21 @@ body, html {
     background-size: cover;
     position: relative;
   }
-  
+	.btn {
+    width: 200px;
+    font-size: 18px;
+    padding: 10px;
+    border: none;
+    background: #A7414A;
+    color: lightgray;
+    cursor: pointer;
+    margin-bottom: 20px;
+	}
+
+	.btn:hover {
+    background: #6a8a82;
+    color: white;
+}
   .about-us-banner-text {
     text-align: center;
     position: absolute;
