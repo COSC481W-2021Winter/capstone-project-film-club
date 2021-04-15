@@ -140,11 +140,19 @@
 					<p class = "tile-outer-title"><span class = "title-block"></span>Top Community Reviews</p>
 				
 					<div id = "top-reviews">
-						{% for top_review in top_reviews %}
+						{% if top_reviews|length == 0 %}
 						
-							{% include 'core/blocks/tiles/review.html' with review=top_review %}
+							<p class = "tile-subtitle">There aren't any public reviews for this movie yet</p>
 						
-						{% endfor %}
+						{% else %}
+						
+							{% for top_review in top_reviews %}
+						
+								{% include 'core/blocks/tiles/review.html' with review=top_review %}
+							
+							{% endfor %}
+						
+						{% endif %}
 					</div>
 				</div>
 			</div>
