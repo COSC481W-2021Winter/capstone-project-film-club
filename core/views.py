@@ -692,10 +692,9 @@ def get_similar(id):
 
     response = requests.get('https://api.themoviedb.org/3/movie/' + str(id) + '/similar' + '?api_key=a1a486ad19b99d238e92778b9ceb4bb4&language=en-US')
     results = response.json()['results']
-    index = 0
-    while index < 5:
-        similar_movies.append(create_movie(results[index]))
-        index += 1
+
+    for result in results[:6]:
+        similar_movies.append(create_movie(result))
 
     return similar_movies
 
