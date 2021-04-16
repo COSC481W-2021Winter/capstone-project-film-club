@@ -63,45 +63,25 @@ def profile(request, username):
     for review in reviews:
         reviews_json.append(get_review_json(review, request.user))
 
-    if request.method == "POST":
-        profile_pic_form = ProfilePicForm(request.POST, request.FILES)
-        # Add the information from the register form...
-        # form = Register
+    reviews_json = []
+    profile_pic_form = ProfilePicForm()
+    profile = User.objects.get(username = username)
+    # Add the information from the register form...
+    # form = Register
+    reviews = Review.objects.filter(user = profile).order_by('-added')
 
-        if profile_pic_form.is_valid():
-            pic = profile_pic_form.cleaned_data['profile_pic']
+    for review in reviews:
+        reviews_json.append(get_review_json(review, request.user))
 
-            if not pic:
-                pic = 'users/person_icon.png'
-
-        userprofile = UserProfile(user=profile, profile_pic = pic)
-        userprofile.set_profile_pic(pic)
-
-        return render(request, 'core/profile.html', {
-            'profile': profile,
-            'reviews': reviews_json,
-            "isPrivate" : UserProfile.isPrivate
-        })
-    else:
-        reviews_json = []
-        profile_pic_form = ProfilePicForm()
-        profile = User.objects.get(username = username)
-        # Add the information from the register form...
-        # form = Register
-        reviews = Review.objects.filter(user = profile).order_by('-added')
-
-        for review in reviews:
-            reviews_json.append(get_review_json(review, request.user))
-
-        return render(request, 'core/profile.html', {
-            'profile': profile,
-            'reviews': reviews_json,
-            "profile_pic_form": profile_pic_form,
-            'watched_movies': watched_movies,
-            'following': following,
-            'followers': followers,
-            "isPrivate" : UserProfile.isPrivate
-        })
+    return render(request, 'core/profile.html', {
+        'profile': profile,
+        'reviews': reviews_json,
+        "profile_pic_form": profile_pic_form,
+        'watched_movies': watched_movies,
+        'following': following,
+        'followers': followers,
+        "isPrivate" : UserProfile.isPrivate
+    })
 
 
 def edit_profile(request, username):
@@ -520,6 +500,24 @@ def sent(request):
         # Data to return to template
     })
 
+def profile_picture_upload(request):
+    if request.POST:
+        print(request.FILES)
+
+        profile_pic_form = ProfilePicForm(request.POST, request.FILES)
+        # Add the information from the register form...
+        # form = Register
+
+        if profile_pic_form.is_valid():
+            pic = request.FILES.get('profile-picture')
+
+            if not pic:
+                pic = 'users/person_icon.png'
+
+            request.user.userprofile.set_profile_pic(pic)
+
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
 def watch(request):
     if request.POST:
         movie_id = request.POST['movie_id']
@@ -638,7 +636,7 @@ def get_movies(request, username):
     for movie in movies:
         movies_json.append({
             'title': movie.title,
-            'poster_url': get_poster_url(movie),
+            'poster_url': movie.get_poster_url(),
             'movie_url': reverse('core:movie', kwargs={'id': movie.api_id})
         })
 

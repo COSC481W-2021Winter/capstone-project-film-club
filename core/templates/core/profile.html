@@ -81,14 +81,7 @@
 			</div>
 		</div>
 		<div class = "cont-section">
-			<h5>Change profile picture</h5>
-			<form method="POST" enctype="multipart/form-data">
-				{% csrf_token %}
-				{{ profile_pic_form }}
-				<button type="submit" name="register" id="id_register" class="btn btn-success">Change</button>
-			</form>
-
-		<a href="{% url 'core:change_settings' %}">Click to change privacy settings from: {{ isPrivate }}</a>
+			<a href="{% url 'core:change_settings' %}">Click to change privacy settings from: {{ isPrivate }}</a>
 
 			<form method = "GET" action = "{% url 'core:change_settings' %}">
 
