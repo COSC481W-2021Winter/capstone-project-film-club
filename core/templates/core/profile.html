@@ -140,6 +140,7 @@
 {% endblock %}
 
 {% block js %}
+	{{ block.super }}
 
 	<script src = "{% static 'js/profile.js'%}"></script>
 	<script src = "{% static 'js/review.js'%}"></script>
