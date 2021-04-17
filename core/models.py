@@ -15,6 +15,7 @@ class UserProfile(models.Model):
 
     def set_profile_pic(self, pic):
         self.profile_pic = pic
+        self.save()
 
 class Genre(models.Model):
     name = models.CharField(max_length = 50)
