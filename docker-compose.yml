@@ -4,7 +4,7 @@ services:
   nginx:
     build: ./filmclub/nginx
     ports:
-      - 1300:80
+      - 80:80
     volumes:
       - static_volume:/home/app/microservice/static
     depends_on:

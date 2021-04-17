@@ -449,7 +449,7 @@ def welcome(request):
     username = user.username
     subject = 'Welcome to FilmClub!'
     message = 'Hi ' + username + ', thank you for registering in FilmClub.'
-    email_from = settings.EMAIL_HOST_USER
+    email_from = settings.DEFAULT_FROM_EMAIL
     recipient_list = [user.email, ]
 
     print("Email sent...")

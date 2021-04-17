@@ -172,15 +172,15 @@ CRISPY_TEMPLATE_PACK="bootstrap4"
 ###################################
 
 #### EMAIL SETTINGS ##############
-if(DEBUG==True):
-    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-    EMAIL_HOST = 'smtp.elasticemail.com'
-    EMAIL_USE_TLS = True
-    EMAIL_PORT = 2525
-    EMAIL_HOST_USER = 'filmclubbot@gmail.com'  #sender's email-id 
-    EMAIL_HOST_PASSWORD = '5C9C91E46AE92A8BE1C9C336E285EEF5E5BB'  #password associated with above email-id 
-else:
-    EMAIL_BACKEND = 'django_ses.SESBackend'
+
+EMAIL_BACKEND = 'django_smtp_ssl.SSLEmailBackend'
+EMAIL_HOST = 'email-smtp.us-east-1.amazonaws.com'
+EMAIL_PORT = 465
+DEFAULT_FROM_EMAIL = 'mailbot@nathanfishel.com'
+EMAIL_HOST_USER = ''  #sender's email-id 
+EMAIL_HOST_PASSWORD = ''  #password associated with above email-id 
+EMAIL_USE_SSL = True
+
 
 ################################################################
 
