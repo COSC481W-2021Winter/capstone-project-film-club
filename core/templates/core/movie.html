@@ -52,92 +52,109 @@
 				</div>
 			</div>
 		</div>
-		<p id ="friendwatch">{{fstring}}</p>
-		<div id = "review-container">
-			<div id = "aggregate-container" class = "tile">
-				<p class = "tile-inline-title">Community Score <span id = "review-count">{{ aggregate.total }} review{% if aggregate.total > 1 %}s{% endif %}</span></p>
-				<div id = "score-wrapper">
-					<div id = "aggregate-score" style = "background-color: {% get_review_color aggregate.score %}">
-						{{ aggregate.score }}
-					</div>
-					<div id = "aggregate-breakdown">
-						<div class = "score-category" style = "--score-color: {{ aggregate.breakdown.5.color }}">
-							<p class = "category-label">5</p>
-							<div class = "category-visual" style = "--proportion: {{ aggregate.breakdown.5.proportion }}%;">
-								
-							</div>
-							<p class = "category-amount">{{ aggregate.breakdown.5.amount }}</p>
+		<div id = "review-info-container">
+			<div id = "left-container">
+				<div id = "aggregate-container">
+					<p class = "tile-outer-title"><span class = "title-block"></span>Community Score <span id = "review-count">{{ aggregate.total }} review{% if aggregate.total > 1 %}s{% endif %}</span></p>
+					<div id = "score-wrapper" class = "tile">
+						<div id = "aggregate-score" style = "background-color: {% get_review_color aggregate.score %}">
+							{{ aggregate.score }}
 						</div>
-						<div class = "score-category" style = "--score-color: {{ aggregate.breakdown.4.color }}">
-							<p class = "category-label">4</p>
-							<div class = "category-visual" style = "--proportion: {{ aggregate.breakdown.4.proportion }}%;">
-								
+						<div id = "aggregate-breakdown">
+							<div class = "score-category" style = "--score-color: {{ aggregate.breakdown.5.color }}">
+								<p class = "category-label">5</p>
+								<div class = "category-visual" style = "--proportion: {{ aggregate.breakdown.5.proportion }}%;">
+									
+								</div>
+								<p class = "category-amount">{{ aggregate.breakdown.5.amount }}</p>
 							</div>
-							<p class = "category-amount">{{ aggregate.breakdown.4.amount }}</p>
-						</div>
-						<div class = "score-category" style = "--score-color: {{ aggregate.breakdown.3.color }};">
-							<p class = "category-label">3</p>
-							<div class = "category-visual" style = "--proportion: {{ aggregate.breakdown.3.proportion }}%;">
-								
+							<div class = "score-category" style = "--score-color: {{ aggregate.breakdown.4.color }}">
+								<p class = "category-label">4</p>
+								<div class = "category-visual" style = "--proportion: {{ aggregate.breakdown.4.proportion }}%;">
+									
+								</div>
+								<p class = "category-amount">{{ aggregate.breakdown.4.amount }}</p>
 							</div>
-							<p class = "category-amount">{{ aggregate.breakdown.3.amount }}</p>
-						</div>
-						<div class = "score-category" style = "--score-color: {{ aggregate.breakdown.2.color }};">
-							<p class = "category-label">2</p>
-							<div class = "category-visual" style = "--proportion: {{ aggregate.breakdown.2.proportion }}%;">
-								
+							<div class = "score-category" style = "--score-color: {{ aggregate.breakdown.3.color }};">
+								<p class = "category-label">3</p>
+								<div class = "category-visual" style = "--proportion: {{ aggregate.breakdown.3.proportion }}%;">
+									
+								</div>
+								<p class = "category-amount">{{ aggregate.breakdown.3.amount }}</p>
 							</div>
-							<p class = "category-amount">{{ aggregate.breakdown.2.amount }}</p>
-						</div>
-						<div class = "score-category" style = "--score-color: {{ aggregate.breakdown.1.color }};">
-							<p class = "category-label">1</p>
-							<div class = "category-visual" style = "--proportion: {{ aggregate.breakdown.1.proportion }}%;">
-								
+							<div class = "score-category" style = "--score-color: {{ aggregate.breakdown.2.color }};">
+								<p class = "category-label">2</p>
+								<div class = "category-visual" style = "--proportion: {{ aggregate.breakdown.2.proportion }}%;">
+									
+								</div>
+								<p class = "category-amount">{{ aggregate.breakdown.2.amount }}</p>
 							</div>
-							<p class = "category-amount">{{ aggregate.breakdown.1.amount }}</p>
+							<div class = "score-category" style = "--score-color: {{ aggregate.breakdown.1.color }};">
+								<p class = "category-label">1</p>
+								<div class = "category-visual" style = "--proportion: {{ aggregate.breakdown.1.proportion }}%;">
+									
+								</div>
+								<p class = "category-amount">{{ aggregate.breakdown.1.amount }}</p>
+							</div>
 						</div>
 					</div>
 				</div>
+				<div id = "similar-movies" class = "slider">
+					<p class = "tile-outer-title"><span class = "title-block"></span>Similar Movies</p>
+					<div class = "slider-items" style = "--num-columns: 3">
+						{% for movie in similar_movies %}
+							
+							<a href = "{% url 'core:movie' id=movie.get_absolute_id %}">
+								<div class = "slider-item" style = "background-image: url({{ movie.get_poster_url }})" title = "{{ movie.title }}">
+								
+								</div>
+							</a>
+							
+						{% endfor %}
+					</div>
+				</div>
 			</div>
-			<div id = "self-review" class = "tile">
-				{% if reviewed %}
-					
-					<p class = "tile-inline-title">Your Review</p>
-				
-					{% include 'core/blocks/tiles/review.html' with review=review barebones=True %}
-				
-				{% else %}
-				
-					<p class = "tile-inline-title">Write a Review</p>
-					<form id = "post-review" method = "POST">
-						{% csrf_token %}
-					
-						<input id = "post-review-title" type = "text" name = "title" placeholder = "Title">
-						<input id = "post-review-score" type = "number" name = "score" placeholder = "Score (1-5 in .5 increments)" min = 1 max = 5 step = .5>
-						<textarea id = "post-review-text" name = "text" placeholder = "Body"></textarea>
-						<input id = "post-review-submit" type = "submit" value = "Post">
-					</form>
-				
-				{% endif %}
-			</div>
-			<div id = "community-reviews">
-				
-			</div>
-		</div>
-	</div>
-	<div class = "container column">
-		<div id = "daily-recs" class = "slider tile">
-			<p class = "tile-title">Similar Movies</p>
-			<div class = "slider-items" style = "--num-columns: 5">
-				{% for movie in similar_movies %}
-					
-					<a href = "{% url 'core:movie' id=movie.get_absolute_id %}">
-						<div class = "slider-item" style = "background-image: url({{ movie.get_poster_url }})" title = "{{ movie.title }}">
+			<div id = "review-container">
+				<div id = "self-review">
+					{% if reviewed %}
 						
-						</div>
-					</a>
+						<p class = "tile-outer-title"><span class = "title-block"></span>Your Review</p>
 					
-				{% endfor %}
+						{% include 'core/blocks/tiles/review.html' with review=review %}
+					
+					{% else %}
+					
+						<p class = "tile-outer-title"><span class = "title-block"></span>Write a Review</p>
+						<form id = "post-review" class = "tile" method = "POST">
+							{% csrf_token %}
+						
+							<input id = "post-review-title" type = "text" name = "title" placeholder = "Title">
+							<input id = "post-review-score" type = "number" name = "score" placeholder = "Score (1-5 in .5 increments)" min = 1 max = 5 step = .5>
+							<textarea id = "post-review-text" name = "text" placeholder = "Body"></textarea>
+							<input id = "post-review-submit" type = "submit" value = "Post">
+						</form>
+					
+					{% endif %}
+				</div>
+				<div id = "top-reviews-container">
+					<p class = "tile-outer-title"><span class = "title-block"></span>Top Community Reviews</p>
+				
+					<div id = "top-reviews">
+						{% if top_reviews|length == 0 %}
+						
+							<p class = "tile-subtitle">There aren't any public reviews for this movie yet</p>
+						
+						{% else %}
+						
+							{% for top_review in top_reviews %}
+						
+								{% include 'core/blocks/tiles/review.html' with review=top_review %}
+							
+							{% endfor %}
+						
+						{% endif %}
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

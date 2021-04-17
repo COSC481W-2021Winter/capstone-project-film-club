@@ -189,6 +189,25 @@ body{
 	
 	padding-bottom: var(--tile-padding);
 }
+.tile-outer-title{
+	font-family: Roboto-Medium;
+	font-size: 20px;
+	
+	margin-bottom: 10px;
+}
+.title-block{
+	width: 4px;
+	height: 18px;
+	
+	display: inline-block;
+	
+	position: relative;
+	top: 2px;
+	
+	margin-right: 5px;
+	
+	background-color: var(--red);
+}
 
 #user-container{
 	--user-image-size: 100px;
@@ -689,6 +708,10 @@ body{
 	border-radius: 100%;
 	
 	padding-top: 100%;
+}
+
+.no-margin{
+	margin: 0 !important;
 }
 
 select {

@@ -248,6 +248,16 @@ def movie(request, id):
             },
         }
 
+        top_reviews = list(Review.objects.filter(movie = movie).all())
+
+        top_reviews.sort(key = lambda x: UserProfile.objects.filter(liked_reviews = x).count())
+        top_reviews.reverse()
+
+        top_reviews = top_reviews[:3]
+
+        for i in range(len(top_reviews)):
+            top_reviews[i] = get_review_json(top_reviews[i], request.user)
+
         if reviewed:
             review = get_review_json(review, request.user)
 
@@ -260,35 +270,17 @@ def movie(request, id):
             'followers_watched': following_watched,
             'following_watched_other': following_watched_string,
             'following_watched_count': following_watched_other.count(),
-            'aggregate': aggregate
+            'aggregate': aggregate,
+            'top_reviews': top_reviews
         })
 
-
-
 def goHome(request):
-    if UserProfile.isPrivate:
-        UserProfile.isPrivate = False
-        return redirect('core:home')
+    if request.user.userprofile.isPrivate:
+        request.user.userprofile.isPrivate = False
     else:
-        UserProfile.isPrivate = True
-        return redirect('core:home')
-        #edit_profile(request, request.user.username)
-        #return redirect('core:profile')
+        request.user.userprofile.isPrivate = True
 
-    '''
-    if(User.objects.get(username=str(request.user.username))):
-        return redirect('core:home')
-    else:
-        return redirect('core:profile')
-
-    '''
-    #return redirect('core:home')
-
-
-
-
-
-
+    return redirect('core:home')
 
 def search(request):
     data = {}
@@ -698,10 +690,9 @@ def get_similar(id):
 
     response = requests.get('https://api.themoviedb.org/3/movie/' + str(id) + '/similar' + '?api_key=a1a486ad19b99d238e92778b9ceb4bb4&language=en-US')
     results = response.json()['results']
-    index = 0
-    while index < 5:
-        similar_movies.append(create_movie(results[index]))
-        index += 1
+
+    for result in results[:6]:
+        similar_movies.append(create_movie(result))
 
     return similar_movies
 
@@ -726,11 +717,10 @@ def get_movie(id):
 def get_review_json(review, user, capped_comments = True, comment_cap = 2):
     comments = ReviewComment.objects.filter(review = review).order_by('-added')
 
+    comments = list(comments.all())
+
     if capped_comments:
         comments = comments[:comment_cap]
-
-    if comments.exists():
-        comments = list(comments.all())
 
     if capped_comments and len(comments) == 2:
         temp_comment = comments[0]
