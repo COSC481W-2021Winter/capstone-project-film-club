@@ -665,8 +665,6 @@ def get_recommendations(user):
     if len(genres) == 0:
         return recommendations
 
-    recommendations_list = []
-
     for x in range(num_recommendations): 
         genre = genres[x % len(genres)].api_id
 

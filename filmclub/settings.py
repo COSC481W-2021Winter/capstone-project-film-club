@@ -177,8 +177,8 @@ EMAIL_BACKEND = 'django_smtp_ssl.SSLEmailBackend'
 EMAIL_HOST = 'email-smtp.us-east-1.amazonaws.com'
 EMAIL_PORT = 465
 DEFAULT_FROM_EMAIL = 'mailbot@nathanfishel.com'
-EMAIL_HOST_USER = ''  #sender's email-id 
-EMAIL_HOST_PASSWORD = ''  #password associated with above email-id 
+EMAIL_HOST_USER = 'AKIA43CN5C6HMX45AYVB'  #sender's email-id 
+EMAIL_HOST_PASSWORD = 'BOsZ/+i7N8d4fsKXAQlxzztMkXHSh9x/4n2kGyPF4K7y'  #password associated with above email-id 
 EMAIL_USE_SSL = True
 
 
