@@ -1,6 +1,7 @@
 import json
 import math
 import requests
+import random
 
 from django.http import JsonResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect, reverse
@@ -664,19 +665,21 @@ def get_recommendations(user):
     if len(genres) == 0:
         return recommendations
 
-    for x in range(num_recommendations):
+    recommendations_list = []
+
+    for x in range(num_recommendations): 
         genre = genres[x % len(genres)].api_id
 
-        response = requests.get('https://api.themoviedb.org/3/discover/movie?api_key=a1a486ad19b99d238e92778b9ceb4bb4&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=' + str(genre))
+        response = requests.get('https://api.themoviedb.org/3/discover/movie?api_key=a1a486ad19b99d238e92778b9ceb4bb4&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=' + str(random.randint(1,100)) +'&with_genres=' + str(genre))
         results = response.json()['results']
 
         index = 0
 
-        while True:
+        while index < 5:
             if index >= len(results):
                 break
 
-            if results[index]['id'] not in rec_ids:
+            if results[random.randint(0,3)]['id'] not in rec_ids:
                 recommendations.append(create_movie(results[index]))
                 rec_ids.append(results[index]['id'])
 
