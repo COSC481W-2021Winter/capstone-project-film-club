@@ -8,6 +8,7 @@ class UserProfile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     genres = models.ManyToManyField('Genre', blank = True, related_name = 'genres')
     profile_pic = models.ImageField(default='users/person_icon.png', null=True, blank=True, upload_to="users/")
+    user_bio = models.CharField(blank=True, default="This is your bio.", max_length = 150)
     watched_movies = models.ManyToManyField('Movie', blank = True, related_name = 'watched_movies')
     liked_reviews = models.ManyToManyField('Review', blank = True, related_name = 'liked_reviews')
     following = models.ManyToManyField(User, blank = True, related_name = 'friends')

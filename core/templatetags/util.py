@@ -13,6 +13,10 @@ def is_following(user, profile):
     return user.userprofile.following.filter(username = profile.username).exists()
 
 @register.simple_tag
+def get_user_bio(user, profile):
+    return user.userprofile.user_bio.filter(username = profile.username).exists()
+
+@register.simple_tag
 def get_follower_count(user):
     return UserProfile.objects.filter(following = user).count()
 

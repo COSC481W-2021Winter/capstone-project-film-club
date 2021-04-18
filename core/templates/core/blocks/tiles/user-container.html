@@ -42,6 +42,13 @@
 		
 		<span id = "username-container">@<p id = "user-username">{{ profile.username }}</p></span>
 	</div>
+
+	<div id = "user-bio" style="text-align:center; padding-top: 20px; padding-bottom: 10px;">
+		{% if user == profile %}
+			{{ profile.get_user_bio}}
+		{% endif %}
+			<p>My bio</p>
+	</div>
 	
 	{% if user != profile %}
 	

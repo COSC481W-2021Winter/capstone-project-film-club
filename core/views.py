@@ -73,6 +73,16 @@ def profile(request, username):
     for review in reviews:
         reviews_json.append(get_review_json(review, request.user))
 
+    # bio_form = BioForm()
+    # if request.method == "POST":
+    #     bio_form = BioForm(request.POST)
+    #     if bio_form.is_valid():
+    #         new_bio = bio_form.save()
+    #         userprofile = UserProfile(user_bio = new_bio)
+    #         userprofile.save()
+    # else:
+    #     bio_form = BioForm()
+
     return render(request, 'core/profile.html', {
         'profile': profile,
         'reviews': reviews_json,
@@ -81,6 +91,7 @@ def profile(request, username):
         'following': following,
         'followers': followers,
         "isPrivate" : UserProfile.isPrivate
+        # "bio_form": bio_form
     })
 
 
@@ -806,3 +817,14 @@ def error_403(request, exception):
     return render('403.html')
 def error_400(request, exception):
     return render('400.html')
+
+def edit_user_bio(request):
+    if request.POST:
+        bio_form = BioForm(request.POST)
+
+        if bio_form.is_valid():
+            bio = request.POST.get('user-bio')
+
+            request.user.userprofile.set_user_bio(bio)
+
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
