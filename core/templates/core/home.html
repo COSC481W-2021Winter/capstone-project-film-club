@@ -29,7 +29,16 @@
 						</a>
 						
 					{% endfor %}
+
 				</div>
+			
+				<button type="button" onClick="refreshRecomendations()">Get New Recs</button>
+				<script>
+					function refreshRecomendations(){
+						window.location.reload();
+					} 
+				</script>
+				
 			</div>
 			<div id = "feed">
 				{% for review in reviews %}

@@ -1,6 +1,7 @@
 import json
 import math
 import requests
+import random
 
 from django.http import JsonResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect, reverse
@@ -15,6 +16,8 @@ from django.db.models import Sum
 from .forms import *
 from .models import *
 from .templatetags import util
+
+
 
 search_load_amount = 20
 home_reviews_amount = 5
@@ -306,7 +309,8 @@ def goHome(request):
 
 
 
-
+def updateRecsNoTimer(request):
+    return redirect('core:genres')
 
 
 
@@ -677,10 +681,14 @@ def get_recommendations(user):
     for x in range(num_recommendations):
         genre = genres[x % len(genres)].api_id
 
-        response = requests.get('https://api.themoviedb.org/3/discover/movie?api_key=a1a486ad19b99d238e92778b9ceb4bb4&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=' + str(genre))
+        #response = requests.get('https://api.themoviedb.org/3/discover/movie?api_key=a1a486ad19b99d238e92778b9ceb4bb4&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=' + str(genre))
+        response = requests.get('https://api.themoviedb.org/3/discover/movie?api_key=a1a486ad19b99d238e92778b9ceb4bb4&include_adult=false&include_video=false&page=1&with_genres=' + str(genre))
         results = response.json()['results']
 
-        index = 0
+        #print(random.randrange(20, 50, 3))
+        selection_index = random.randrange(0, len(results))
+
+        index = selection_index
 
         while True:
             if index >= len(results):
@@ -693,6 +701,8 @@ def get_recommendations(user):
                 break
 
             index += 1
+
+    #recommendations = []
 
     return recommendations
 def get_similar(id):
