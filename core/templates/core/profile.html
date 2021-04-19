@@ -82,15 +82,12 @@
 		</div>
 		<div class = "cont-section">
 			<a href="{% url 'core:change_settings' %}">Click to change privacy settings from: {{ isPrivate }}</a>
-
 			<form method = "GET" action = "{% url 'core:change_settings' %}">
-
 				<button type="submit" id="changePrivacy">Change Privacy From: {{ isPrivate }}</button>
 			</form>
 
-
 			<p class = "tile-outer-title no-margin"><span class = "title-block"></span>Reviews</p>
-			
+
 			{% for review in reviews %}
 			
 				{% include 'core/blocks/tiles/review.html' with review=review %}
