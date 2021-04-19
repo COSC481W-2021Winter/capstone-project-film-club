@@ -1,6 +1,7 @@
 import json
 import math
 import requests
+import random
 
 from django.http import JsonResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect, reverse
@@ -15,6 +16,8 @@ from django.db.models import Sum
 from .forms import *
 from .models import *
 from .templatetags import util
+
+
 
 search_load_amount = 20
 home_reviews_amount = 5
@@ -306,6 +309,11 @@ def goHome(request):
 
     return redirect('core:home')
 
+
+
+def updateRecsNoTimer(request):
+    return redirect('core:genres')
+
 def search(request):
     data = {}
 
@@ -473,7 +481,7 @@ def welcome(request):
     username = user.username
     subject = 'Welcome to FilmClub!'
     message = 'Hi ' + username + ', thank you for registering in FilmClub.'
-    email_from = settings.EMAIL_HOST_USER
+    email_from = settings.DEFAULT_FROM_EMAIL
     recipient_list = [user.email, ]
 
     print("Email sent...")
@@ -688,25 +696,30 @@ def get_recommendations(user):
     if len(genres) == 0:
         return recommendations
 
-    for x in range(num_recommendations):
+    for x in range(num_recommendations): 
         genre = genres[x % len(genres)].api_id
 
-        response = requests.get('https://api.themoviedb.org/3/discover/movie?api_key=a1a486ad19b99d238e92778b9ceb4bb4&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=' + str(genre))
+        response = requests.get('https://api.themoviedb.org/3/discover/movie?api_key=a1a486ad19b99d238e92778b9ceb4bb4&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=' + str(random.randint(1,100)) +'&with_genres=' + str(genre))
         results = response.json()['results']
 
-        index = 0
+        #print(random.randrange(20, 50, 3))
+        selection_index = random.randrange(0, len(results))
 
-        while True:
+        index = selection_index
+
+        while index < 5:
             if index >= len(results):
                 break
 
-            if results[index]['id'] not in rec_ids:
+            if results[random.randint(0,3)]['id'] not in rec_ids:
                 recommendations.append(create_movie(results[index]))
                 rec_ids.append(results[index]['id'])
 
                 break
 
             index += 1
+
+    #recommendations = []
 
     return recommendations
 def get_similar(id):
