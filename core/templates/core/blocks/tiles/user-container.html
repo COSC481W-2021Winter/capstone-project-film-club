@@ -21,34 +21,42 @@
 			{% endif %}
 		</div>
 	</div>
-	<div id = "user-info">
-		{% if user == profile %}
-			
-			<form id = "edit-name" method = "POST" action = "{% url 'core:edit_profile' profile.username %}">
-				{% csrf_token %}
-			
-				<input class = "browser-default" type = "text" name = "first-name" value = "{{ profile.first_name }}">
-				<input class = "browser-default" type = "text" name = "last-name" value = "{{ profile.last_name }}">
-				<input id = "name-submit" type="submit" style="display: none">
-			</form>
-			
-		{% else %}
-			
-			<p id = "user-full-name">
-				{{ profile.get_full_name }}
-			</p>
-			
-		{% endif %}
+	<form id = "edit-info" method = "POST" action = "{% url 'core:edit_profile' profile.username %}">
+		{% csrf_token %}
 		
-		<span id = "username-container">@<p id = "user-username">{{ profile.username }}</p></span>
-	</div>
+		<div id = "user-info">
+			{% if user == profile %}
+				
+				<div id = "user-edit-name">
+					<input class = "browser-default" type = "text" name = "first-name" value = "{{ profile.first_name }}">
+					<input class = "browser-default" type = "text" name = "last-name" value = "{{ profile.last_name }}">
+					<input id = "name-submit" type="submit" style="display: none">
+				</div>
+				
+			{% else %}
+				
+				<p id = "user-full-name">
+					{{ profile.get_full_name }}
+				</p>
+				
+			{% endif %}
+			
+			<span id = "username-container">@<p id = "user-username">{{ profile.username }}</p></span>
+		</div>
 
-	<div id = "user-bio" style="text-align:center; padding-top: 20px; padding-bottom: 10px;">
-		{% if user == profile %}
-			{{ profile.get_user_bio}}
-		{% endif %}
-			<p>My bio</p>
-	</div>
+		<div id = "user-bio" style="text-align:center; padding-top: 20px; padding-bottom: 10px;">
+			{% if user == profile %}
+			
+				<textarea id = "update-user-bio" class = "browser-default" name = "user-bio" type = "text" maxlength = 150 rows = 1>{{ profile.userprofile.user_bio }}</textarea>
+				<input type = "submit" value = "UPDATE">
+			
+			{% else %}
+			
+				<p>{{ profile.userprofile.user_bio }}</p>
+			
+			{% endif %}
+		</div>
+	</form>
 	
 	{% if user != profile %}
 	

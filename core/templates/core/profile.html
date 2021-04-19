@@ -83,17 +83,10 @@
 		<div class = "cont-section">
 			<a href="{% url 'core:change_settings' %}">Click to change privacy settings from: {{ isPrivate }}</a>
 
-			<form method = "GET" action = "{% url 'core:change_settings' %}">
+			<form method = "GET" action = "{% url 'core:change_settings' %}" style = "margin-bottom: 10px">
 
 				<button type="submit" id="changePrivacy">Change Privacy From: {{ isPrivate }}</button>
 			</form>
-
-			<form id = "user-bio-form" method = "POST" action = "{% url 'core:user_bio_update' %}" enctype="multipart/form-data">
-				{% csrf_token %}
-				<input id = "update-user-bio" name = "user-bio" type = "text">
-				<button type='submit'>Update</button>
-			</form>
-
 
 			<p class = "tile-outer-title no-margin"><span class = "title-block"></span>Reviews</p>
 			

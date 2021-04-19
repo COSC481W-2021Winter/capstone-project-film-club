@@ -270,13 +270,13 @@ body{
 	
 	font-family: Roboto-Medium;
 }
-#edit-name{
+#user-edit-name{
 	display: flex;
 }
-#edit-name:hover .browser-default, #edit-name:focus-within > .browser-default{
+#edit-info:hover .browser-default, #edit-info:focus-within > .browser-default{
 	border: 1px solid #ccc;
 }
-#edit-name input{
+#edit-info input, #edit-info textarea{
 	width: 120px; 
 	
 	padding: 1px;
@@ -290,10 +290,54 @@ body{
 	
 	box-sizing: border-box;
 }
-#edit-name input:nth-child(2){
+#user-edit-name input:nth-child(1){
 	margin: 0 1px 0 var(--tile-padding);
 	
 	text-align: right;
+}
+#user-bio{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	
+	margin: 0 var(--tile-padding) !important;
+}
+#update-user-bio{
+	width: calc(100% - var(--tile-padding) * 2) !important;
+	height: fit-content;
+	
+	margin: 0 !important;
+	
+	font-family: Roboto-Regular !important;
+	text-align: center;
+	
+	box-sizing: border-box;
+}
+#user-bio input{
+	width: unset;
+	
+	display: none;
+	
+	margin: 0;
+	margin-top: 10px;
+	padding: 4px 6px;
+	
+	font-family: Roboto-Regular;
+	font-size: 12px;
+	
+	border: 1px solid var(--red);
+	
+	background-color: white;
+	
+	color: black;
+	
+	cursor: pointer;
+}
+#user-bio input:hover{
+	background-color: var(--red);
+	
+	color: white;
 }
 #username-container{
 	display: flex;

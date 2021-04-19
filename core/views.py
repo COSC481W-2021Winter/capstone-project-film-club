@@ -96,16 +96,29 @@ def profile(request, username):
 
 
 def edit_profile(request, username):
+    print(request.POST)
+
     if request.method == 'POST':
-        if 'first-name' in request.POST and 'last-name' in request.POST:
+        if 'first-name' in request.POST or 'last-name' in request.POST or 'user-bio' in request.POST:
             first_name = request.POST.get('first-name')
             last_name = request.POST.get('last-name')
+            bio = request.POST.get('user-bio')
 
-            if len(first_name) > 0 and len(last_name) > 0:
+            if first_name is not None and len(first_name) > 0:
                 request.user.first_name = first_name
+
+            if last_name is not None and len(last_name) > 0:
                 request.user.last_name = last_name
 
-                request.user.save()
+            if bio is not None and len(bio) > 0:
+                request.user.userprofile.user_bio = bio
+
+            request.user.save()
+            request.user.userprofile.save()
+
+            print(bio)
+            print(bio is not None)
+            print(len(bio) > 0)
 
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
