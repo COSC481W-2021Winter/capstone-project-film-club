@@ -184,8 +184,6 @@ EMAIL_USE_SSL = True
 
 ################################################################
 
-GOOGLE_RECAPTCHA_SECRET_KEY = '6LelxrAaAAAAANtPMRWzlNBjpdv5EPNQbtsL4FpW'
-
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",

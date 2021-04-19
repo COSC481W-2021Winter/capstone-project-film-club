@@ -366,15 +366,6 @@ def register(request):
         profile_pic_form = ProfilePicForm(request.POST, request.FILES)
 
         if register_form.is_valid() and profile_pic_form.is_valid():
-            ''' Begin reCAPTCHA validation '''
-            recaptcha_response = request.POST.get('g-recaptcha-response')
-            data = {
-                'secret': settings.GOOGLE_RECAPTCHA_SECRET_KEY,
-                'response': recaptcha_response
-            }
-            r = requests.post('https://www.google.com/recaptcha/api/siteverify', data=data)
-            result = r.json()
-            ''' End reCAPTCHA validation '''
             new_user = register_form.save()
 
             if profile_pic_form.is_valid():
@@ -391,8 +382,8 @@ def register(request):
 
             login(request, new_user)
 
-            #return redirect("/welcome") #Disable until we find a work around.
-            return redirect("/genres")
+            return redirect("/welcome") #Disable until we find a work around.
+            # return redirect("/genres")
     else:
         register_form = RegisterForm()
         profile_pic_form = ProfilePicForm()
@@ -401,19 +392,19 @@ def register(request):
         "register_form":register_form,
         "profile_pic_form": profile_pic_form})
 
-# @login_required
-# def welcome(request):
-#     user = request.user
-#     username = user.username
-#     subject = 'Welcome to FilmClub!'
-#     message = 'Hi ' + username + ', thank you for registering in FilmClub.'
-#     email_from = settings.DEFAULT_FROM_EMAIL
-#     recipient_list = [user.email, ]
+@login_required
+def welcome(request):
+    user = request.user
+    username = user.username
+    subject = 'Welcome to FilmClub!'
+    message = 'Hi ' + username + ', thank you for registering in FilmClub.'
+    email_from = settings.DEFAULT_FROM_EMAIL
+    recipient_list = [user.email, ]
 
-#     print("Email sent...")
-#     send_mail(subject, message, email_from, recipient_list)
+    print("Email sent...")
+    send_mail(subject, message, email_from, recipient_list)
 
-#     return redirect("/genres")
+    return redirect("/genres")
 
 def genres(request):
     user = request.user

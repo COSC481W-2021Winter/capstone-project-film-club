@@ -32,11 +32,8 @@
 		{% csrf_token %}
 		<!-- {{ form|crispy }} -->
 		{{ register_form|materializecss}}
-		<script src='https://www.google.com/recaptcha/api.js'></script>
-    	<div class="g-recaptcha" data-sitekey="6LelxrAaAAAAAAKSe4e4PlyAW5PN89WDKjszZYdy"></div>
 		{% csrf_token %}
 		{{ profile_pic_form|materializecss}}
-		
 		<button type="submit" name="register" id="id_register" class="btn btn-success">Register</button>
 	</form>
 	
