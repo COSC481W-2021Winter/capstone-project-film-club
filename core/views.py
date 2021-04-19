@@ -622,15 +622,16 @@ def get_recommendations(user):
     if len(genres) == 0:
         return recommendations
 
-    recommendations_list = []
-
     for x in range(num_recommendations): 
         genre = genres[x % len(genres)].api_id
 
         response = requests.get('https://api.themoviedb.org/3/discover/movie?api_key=a1a486ad19b99d238e92778b9ceb4bb4&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=' + str(random.randint(1,100)) +'&with_genres=' + str(genre))
         results = response.json()['results']
 
-        index = 0
+        #print(random.randrange(20, 50, 3))
+        selection_index = random.randrange(0, len(results))
+
+        index = selection_index
 
         while index < 5:
             if index >= len(results):
@@ -643,6 +644,8 @@ def get_recommendations(user):
                 break
 
             index += 1
+
+    #recommendations = []
 
     return recommendations
 def get_similar(id):

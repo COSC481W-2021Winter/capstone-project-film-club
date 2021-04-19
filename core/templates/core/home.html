@@ -20,7 +20,7 @@
 			<div id = "daily-recs" class = "slider tile">
 				<div class = "tile-title">
 					<p>Recommendations</p>
-					<img src = "{% static 'img/icons/refresh-48.png' %}" onClick="window.location.reload();">
+					<img src = "{% static 'img/icons/refresh-48.png' %}" onClick="refreshRecomendations()">
 				</div>
 				<div class = "slider-items">
 					{% for movie in recommendations %}
