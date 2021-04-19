@@ -82,7 +82,7 @@
 		</div>
 		<div class = "cont-section">
 			<a href="{% url 'core:change_settings' %}">Click to change privacy settings from: {{ isPrivate }}</a>
-			<form method = "GET" action = "{% url 'core:change_settings' %}">
+			<form method = "GET" action = "{% url 'core:change_settings' %}" style = "margin-bottom: 10px">
 				<button type="submit" id="changePrivacy">Change Privacy From: {{ isPrivate }}</button>
 			</form>
 

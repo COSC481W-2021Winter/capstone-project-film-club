@@ -31,6 +31,12 @@ GENRE_CHOICES = (
 class ProfilePicForm(forms.Form):
     profile_pic = forms.ImageField(required=False)
 
+class BioForm(forms.ModelForm):
+    user_bio = forms.CharField(max_length=150, required=False)
+    class Meta:
+        model = UserProfile
+        fields = ["user_bio"]
+
 class RegisterForm(UserCreationForm):
     first_name = forms.CharField(max_length=50, required=True)
     last_name = forms.CharField(max_length=50, required=True)
