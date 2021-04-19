@@ -66,45 +66,25 @@ def profile(request, username):
     for review in reviews:
         reviews_json.append(get_review_json(review, request.user))
 
-    if request.method == "POST":
-        profile_pic_form = ProfilePicForm(request.POST, request.FILES)
-        # Add the information from the register form...
-        # form = Register
+    reviews_json = []
+    profile_pic_form = ProfilePicForm()
+    profile = User.objects.get(username = username)
+    # Add the information from the register form...
+    # form = Register
+    reviews = Review.objects.filter(user = profile).order_by('-added')
 
-        if profile_pic_form.is_valid():
-            pic = profile_pic_form.cleaned_data['profile_pic']
+    for review in reviews:
+        reviews_json.append(get_review_json(review, request.user))
 
-            if not pic:
-                pic = 'users/person_icon.png'
-
-        userprofile = UserProfile(user=profile, profile_pic = pic)
-        userprofile.set_profile_pic(pic)
-
-        return render(request, 'core/profile.html', {
-            'profile': profile,
-            'reviews': reviews_json,
-            "isPrivate" : UserProfile.isPrivate
-        })
-    else:
-        reviews_json = []
-        profile_pic_form = ProfilePicForm()
-        profile = User.objects.get(username = username)
-        # Add the information from the register form...
-        # form = Register
-        reviews = Review.objects.filter(user = profile).order_by('-added')
-
-        for review in reviews:
-            reviews_json.append(get_review_json(review, request.user))
-
-        return render(request, 'core/profile.html', {
-            'profile': profile,
-            'reviews': reviews_json,
-            "profile_pic_form": profile_pic_form,
-            'watched_movies': watched_movies,
-            'following': following,
-            'followers': followers,
-            "isPrivate" : UserProfile.isPrivate
-        })
+    return render(request, 'core/profile.html', {
+        'profile': profile,
+        'reviews': reviews_json,
+        "profile_pic_form": profile_pic_form,
+        'watched_movies': watched_movies,
+        'following': following,
+        'followers': followers,
+        "isPrivate" : UserProfile.isPrivate
+    })
 
 
 def edit_profile(request, username):
@@ -271,6 +251,16 @@ def movie(request, id):
             },
         }
 
+        top_reviews = list(Review.objects.filter(movie = movie).all())
+
+        top_reviews.sort(key = lambda x: UserProfile.objects.filter(liked_reviews = x).count())
+        top_reviews.reverse()
+
+        top_reviews = top_reviews[:3]
+
+        for i in range(len(top_reviews)):
+            top_reviews[i] = get_review_json(top_reviews[i], request.user)
+
         if reviewed:
             review = get_review_json(review, request.user)
 
@@ -283,36 +273,22 @@ def movie(request, id):
             'followers_watched': following_watched,
             'following_watched_other': following_watched_string,
             'following_watched_count': following_watched_other.count(),
-            'aggregate': aggregate
+            'aggregate': aggregate,
+            'top_reviews': top_reviews
         })
 
-
-
 def goHome(request):
-    if UserProfile.isPrivate:
-        UserProfile.isPrivate = False
-        return redirect('core:home')
+    if request.user.userprofile.isPrivate:
+        request.user.userprofile.isPrivate = False
     else:
-        UserProfile.isPrivate = True
-        return redirect('core:home')
-        #edit_profile(request, request.user.username)
-        #return redirect('core:profile')
+        request.user.userprofile.isPrivate = True
 
-    '''
-    if(User.objects.get(username=str(request.user.username))):
-        return redirect('core:home')
-    else:
-        return redirect('core:profile')
-
-    '''
-    #return redirect('core:home')
+    return redirect('core:home')
 
 
 
 def updateRecsNoTimer(request):
     return redirect('core:genres')
-
-
 
 def search(request):
     data = {}
@@ -481,7 +457,7 @@ def welcome(request):
     username = user.username
     subject = 'Welcome to FilmClub!'
     message = 'Hi ' + username + ', thank you for registering in FilmClub.'
-    email_from = settings.EMAIL_HOST_USER
+    email_from = settings.DEFAULT_FROM_EMAIL
     recipient_list = [user.email, ]
 
     print("Email sent...")
@@ -523,6 +499,24 @@ def sent(request):
     return render(request, 'registration/password_reset_sent.html', {
         # Data to return to template
     })
+
+def profile_picture_upload(request):
+    if request.POST:
+        print(request.FILES)
+
+        profile_pic_form = ProfilePicForm(request.POST, request.FILES)
+        # Add the information from the register form...
+        # form = Register
+
+        if profile_pic_form.is_valid():
+            pic = request.FILES.get('profile-picture')
+
+            if not pic:
+                pic = 'users/person_icon.png'
+
+            request.user.userprofile.set_profile_pic(pic)
+
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
 def watch(request):
     if request.POST:
@@ -642,7 +636,7 @@ def get_movies(request, username):
     for movie in movies:
         movies_json.append({
             'title': movie.title,
-            'poster_url': get_poster_url(movie),
+            'poster_url': movie.get_poster_url(),
             'movie_url': reverse('core:movie', kwargs={'id': movie.api_id})
         })
 
@@ -678,11 +672,10 @@ def get_recommendations(user):
     if len(genres) == 0:
         return recommendations
 
-    for x in range(num_recommendations):
+    for x in range(num_recommendations): 
         genre = genres[x % len(genres)].api_id
 
-        #response = requests.get('https://api.themoviedb.org/3/discover/movie?api_key=a1a486ad19b99d238e92778b9ceb4bb4&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=' + str(genre))
-        response = requests.get('https://api.themoviedb.org/3/discover/movie?api_key=a1a486ad19b99d238e92778b9ceb4bb4&include_adult=false&include_video=false&page=1&with_genres=' + str(genre))
+        response = requests.get('https://api.themoviedb.org/3/discover/movie?api_key=a1a486ad19b99d238e92778b9ceb4bb4&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=' + str(random.randint(1,100)) +'&with_genres=' + str(genre))
         results = response.json()['results']
 
         #print(random.randrange(20, 50, 3))
@@ -690,11 +683,11 @@ def get_recommendations(user):
 
         index = selection_index
 
-        while True:
+        while index < 5:
             if index >= len(results):
                 break
 
-            if results[index]['id'] not in rec_ids:
+            if results[random.randint(0,3)]['id'] not in rec_ids:
                 recommendations.append(create_movie(results[index]))
                 rec_ids.append(results[index]['id'])
 
@@ -710,10 +703,9 @@ def get_similar(id):
 
     response = requests.get('https://api.themoviedb.org/3/movie/' + str(id) + '/similar' + '?api_key=a1a486ad19b99d238e92778b9ceb4bb4&language=en-US')
     results = response.json()['results']
-    index = 0
-    while index < 5:
-        similar_movies.append(create_movie(results[index]))
-        index += 1
+
+    for result in results[:6]:
+        similar_movies.append(create_movie(result))
 
     return similar_movies
 
@@ -738,11 +730,10 @@ def get_movie(id):
 def get_review_json(review, user, capped_comments = True, comment_cap = 2):
     comments = ReviewComment.objects.filter(review = review).order_by('-added')
 
+    comments = list(comments.all())
+
     if capped_comments:
         comments = comments[:comment_cap]
-
-    if comments.exists():
-        comments = list(comments.all())
 
     if capped_comments and len(comments) == 2:
         temp_comment = comments[0]

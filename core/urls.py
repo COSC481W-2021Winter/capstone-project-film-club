@@ -41,6 +41,7 @@ urlpatterns = [
 
 
     path('bug_reporting_page/', views.bug_reporting_page, name='bug_reporting_page'), # Bug reporting page
+    path('picture_upload/', views.profile_picture_upload, name = 'profile_picture_upload'),
     path('watch/', views.watch, name = 'watch'),
     path('follow/', views.follow, name = 'follow'),
     path('u/<str:username>/edit/', views.edit_profile, name='edit_profile'),

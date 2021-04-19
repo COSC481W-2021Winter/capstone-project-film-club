@@ -3,8 +3,22 @@
 <div id = "user-container" class = "tile">
 	<input id = "profile-username" type = "text" value = "{{ profile.username }}" hidden>
 	<div id = "user-cover">
-		<div id = "user-image">
-			<img src="{{ profile.userprofile.profile_pic.url }}" style="border-radius: 50%; width: 100%; height: 100%;">
+		<div id = "user-image-container">
+			<div id = "profile-picture" style = "--profile-picture: url({{ profile.userprofile.profile_pic.url }})">
+				
+			</div>
+			{% if user == profile %}
+			
+				<div id = "profile-picture-upload">
+					
+				</div>
+				<form id = "profile-picture-form" method = "POST" action = "{% url 'core:profile_picture_upload' %}" enctype="multipart/form-data">
+					{% csrf_token %}
+				
+					<input id = "upload-profile-picture" name = "profile-picture" type = "file" style = "opacity: 0">
+				</form>
+				
+			{% endif %}
 		</div>
 	</div>
 	<div id = "user-info">

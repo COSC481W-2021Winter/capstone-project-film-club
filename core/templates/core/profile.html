@@ -81,21 +81,13 @@
 			</div>
 		</div>
 		<div class = "cont-section">
-			<h5>Change profile picture</h5>
-			<form method="POST" enctype="multipart/form-data">
-				{% csrf_token %}
-				{{ profile_pic_form }}
-				<button type="submit" name="register" id="id_register" class="btn btn-success">Change</button>
-			</form>
-
-		
+			<a href="{% url 'core:change_settings' %}">Click to change privacy settings from: {{ isPrivate }}</a>
 			<form method = "GET" action = "{% url 'core:change_settings' %}">
-
 				<button type="submit" id="changePrivacy">Change Privacy From: {{ isPrivate }}</button>
 			</form>
 
-			
-			<h5>Reviews</h5>
+			<p class = "tile-outer-title no-margin"><span class = "title-block"></span>Reviews</p>
+
 			{% for review in reviews %}
 			
 				{% include 'core/blocks/tiles/review.html' with review=review %}
@@ -146,6 +138,7 @@
 {% endblock %}
 
 {% block js %}
+	{{ block.super }}
 
 	<script src = "{% static 'js/profile.js'%}"></script>
 	<script src = "{% static 'js/review.js'%}"></script>
