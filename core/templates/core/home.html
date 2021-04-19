@@ -18,7 +18,10 @@
 		</div>
 		<div id = "main-feed" class = "cont-section">
 			<div id = "daily-recs" class = "slider tile">
-				<p class = "tile-title">Daily Recommendations</p>
+				<div class = "tile-title">
+					<p>Recommendations</p>
+					<img src = "{% static 'img/icons/refresh-48.png' %}" onClick="refreshRecomendations()">
+				</div>
 				<div class = "slider-items">
 					{% for movie in recommendations %}
 						
@@ -31,13 +34,6 @@
 					{% endfor %}
 
 				</div>
-			
-				<button type="button" onClick="refreshRecomendations()">Get New Recs</button>
-				<script>
-					function refreshRecomendations(){
-						window.location.reload();
-					} 
-				</script>
 				
 			</div>
 			<div id = "feed">

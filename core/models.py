@@ -12,7 +12,7 @@ class UserProfile(models.Model):
     watched_movies = models.ManyToManyField('Movie', blank = True, related_name = 'watched_movies')
     liked_reviews = models.ManyToManyField('Review', blank = True, related_name = 'liked_reviews')
     following = models.ManyToManyField(User, blank = True, related_name = 'friends')
-    isPrivate = False
+    is_private = models.BooleanField(default = False, blank = True)
 
     def set_profile_pic(self, pic):
         self.profile_pic = pic

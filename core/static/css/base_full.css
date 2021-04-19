@@ -171,10 +171,28 @@ body{
 	border-left: 4px solid var(--blue);
 }
 .tile-title{
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	
 	padding: var(--tile-padding);
 	
 	font-family: Roboto-Medium;
 	font-size: 16px;
+}
+.tile-title img{
+	height: 16px;
+
+	padding: 5px;
+
+	border-radius: 100%;
+
+	cursor: pointer;
+
+	transition: all .05s ease;
+}
+.tile-title img:hover{
+	background-color: rgba(0, 0, 0, .2);
 }
 .tile-subtitle{
 	align-self: center;
@@ -328,6 +346,8 @@ body{
 	
 	border: 1px solid var(--red);
 	
+	border-radius: 10px;
+	
 	background-color: white;
 	
 	color: black;
@@ -339,6 +359,35 @@ body{
 	
 	color: white;
 }
+#user-privacy{
+	width: max-content;
+	
+	margin: 4px auto 0 auto;
+	padding: 3px 7px;
+	
+	font-size: 12px;
+	color: white;
+	
+	border-radius: 10px;
+	
+	box-sizing: border-box;
+	
+	cursor: pointer;
+	
+	user-select: none;
+	
+	transition: all .1s ease;
+}
+#user-privacy.public{
+	background-color: var(--green);
+}
+#user-privacy.private{
+	background-color: var(--red);
+}
+#user-privacy:hover{
+	opacity: .8;
+}
+
 #username-container{
 	display: flex;
 	align-items: baseline;
@@ -350,6 +399,8 @@ body{
 	line-height: 12px;
 }
 #user-username{
+	margin-left: 1px;
+	
 	font-size: 12px;
 }
 #user-follow{

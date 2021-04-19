@@ -13,19 +13,38 @@
 {% block content %}
 
 	<div class = "container column">
-		<p class = "tile-title">Results for '{{ query }}'</p>
+		<p class = "tile-outer-title"><span class = "title-block"></span>Results for '{{ query }}'</p>
 		<div id = "search-results" class = "slider tile">
-			<a href="u/{{ res_top }}">{{ res_top }}</a>
 			<div class = "slider-items" style = "--num-columns: 5">
-				{% for movie in results %}
-					
-					<a href = "{% url 'core:movie' id=movie.get_absolute_id %}">
-						<div class = "slider-item" style = "background-image: url({{ movie.get_poster_url }})" title = "{{ movie.title }}">
+				{% if type == 'movies' %}
+					{% for movie in results %}
 						
+						<a href = "{% url 'core:movie' id=movie.get_absolute_id %}">
+							<div class = "slider-item" style = "background-image: url({{ movie.get_poster_url }})" title = "{{ movie.title }}">
+							
+							</div>
+						</a>
+						
+					{% endfor %}
+				{% elif type == 'users' %}
+					{% for user in results %}
+						
+						<div class = "search-user">
+							<a href = "{% url 'core:profile' username=user.username %}">
+								<div class = "search-profile-picture" style = "--profile-picture: url({{ user.userprofile.profile_pic.url }})">
+									
+								</div>
+							</a>
+							<a href = "{% url 'core:profile' username=user.username %}">
+								<p class = "search-profile-name">{{ user.get_full_name }}</p>
+							</a>
+							<a href = "{% url 'core:profile' username=user.username %}">
+								<span class = "username-container">@<p class = "user-username">{{ user.username }}</p></span>
+							</a>
 						</div>
-					</a>
-					
-				{% endfor %}
+						
+					{% endfor %}
+				{% endif %}
 			</div>
 		</div>
 	</div>

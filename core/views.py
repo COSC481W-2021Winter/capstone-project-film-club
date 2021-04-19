@@ -93,7 +93,6 @@ def profile(request, username):
         'watched_movies': watched_movies,
         'following': following,
         'followers': followers,
-        "isPrivate" : UserProfile.isPrivate
         # "bio_form": bio_form
     })
 
@@ -102,10 +101,11 @@ def edit_profile(request, username):
     print(request.POST)
 
     if request.method == 'POST':
-        if 'first-name' in request.POST or 'last-name' in request.POST or 'user-bio' in request.POST:
+        if 'first-name' in request.POST or 'last-name' in request.POST or 'user-bio' in request.POST or 'privacy' in request.POST:
             first_name = request.POST.get('first-name')
             last_name = request.POST.get('last-name')
             bio = request.POST.get('user-bio')
+            privacy = request.POST.get('privacy')
 
             if first_name is not None and len(first_name) > 0:
                 request.user.first_name = first_name
@@ -116,12 +116,11 @@ def edit_profile(request, username):
             if bio is not None and len(bio) > 0:
                 request.user.userprofile.user_bio = bio
 
+            if privacy is not None and len(privacy) > 0:
+                request.user.userprofile.is_private = privacy == 'True'
+
             request.user.save()
             request.user.userprofile.save()
-
-            print(bio)
-            print(bio is not None)
-            print(len(bio) > 0)
 
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
@@ -275,7 +274,7 @@ def movie(request, id):
             },
         }
 
-        top_reviews = list(Review.objects.filter(movie = movie).all())
+        top_reviews = list(Review.objects.filter(movie = movie, user__userprofile__is_private = False).all())
 
         top_reviews.sort(key = lambda x: UserProfile.objects.filter(liked_reviews = x).count())
         top_reviews.reverse()
@@ -301,15 +300,6 @@ def movie(request, id):
             'top_reviews': top_reviews
         })
 
-def goHome(request):
-    if request.user.userprofile.isPrivate:
-        request.user.userprofile.isPrivate = False
-    else:
-        request.user.userprofile.isPrivate = True
-
-    return redirect('core:home')
-
-
 
 def updateRecsNoTimer(request):
     return redirect('core:genres')
@@ -317,109 +307,35 @@ def updateRecsNoTimer(request):
 def search(request):
     data = {}
 
+    results = []
+
     query = ''
     page = 1
-
-    if request.method == 'GET':
-        if 'search_user_or_movie' in request.GET:
-            search_user_or_movie = str(request.GET['search_user_or_movie'])
-
-            if search_user_or_movie == "PrivacySetting":
-                if UserProfile.isPrivate:
-                    UserProfile.isPrivate = False
-                else:
-                    UserProfile.isPrivate = True
-                if 'q' in request.GET:
-                    query = ''
-                    data['query'] = str(UserProfile.__name__) + " is now " + str(UserProfile.isPrivate)
-                    try:
-                        out_put = User.objects.get(username=str(query))
-                        data['res_u'] = User.objects.all()
-                        data['res_top'] = out_put
-                        linkMaker = data['res_top'] + " %}"
-                        data['data_url_two'] = "{% url 'core:profile' ascha %}"
-                        data['data_url'] = "{% url 'core:profile' user.username %}"
-                        return render(request, 'core/search.html', data)
-                        #return redirect('core:home')
-                    except:
-                        #return redirect('core:home')
-                        return render(request, 'core/search.html', data)
-
-
-
-            if search_user_or_movie == "Users":
-                if 'q' in request.GET:
-                    query = request.GET['q']
-                    data['query'] = request.GET['q']
-
-
-                    #out_put = User.objects.get(username="asch")
-                    try:
-                        out_put = User.objects.get(username=str(query))
-                        userobj = User.objects.get(username=str(query))
-                        jjj = userobj.userprofile.isPrivate
-                        if userobj.userprofile.isPrivate:
-                            return render(request, 'core/search.html', data)
-                            
-                        data['query'] = str(out_put)
-                        data['res_u'] = User.objects.all()
-                        data['res_top'] = str(type(userobj))
-                        linkMaker = data['res_top'] + " %}"
-                        data['data_url_two'] = "{% url 'core:profile' ascha %}"
-                        data['data_url'] = "{% url 'core:profile' user.username %}"
-                        data['query'] = str(type(out_put.isPrivate))
-                        return render(request, 'core/search.html', data)
-                    except:
-                        return render(request, 'core/search.html', data)
-
-                    #out_put = User.objects.get(username=)
-
-
-                #data['res'] = UserProfile.objects.all() #querey set can not be made into json
-                #data['res_u'] = User.objects.all()
-                #trey
-                #data['res_u'] =
-
-                #out_put = User.objects.get(username="asch")
-                #out_put_list = []
-                #data['res_m'] = out_put_list.append(out_put)
-
-
-                #data['res_m'] = Movie.objects.all()
-                data['query'] = request.GET['q']
-                data['res_top'] = out_put
-                #data['res_top'] = User.objects.get(first_name='Alex')
-                #return render(request, 'core/search.html', data)
-
-
 
     if request.method == 'GET':
         if 'q' in request.GET:
             query = request.GET['q']
 
+        if 't' in request.GET:
+            type = request.GET['t']
+
         if 'p' in request.GET:
             page = int(request.GET['p'])
 
-        response = requests.get('https://api.themoviedb.org/3/search/movie?api_key=a1a486ad19b99d238e92778b9ceb4bb4&language=en-US&query=' + query + '&page=' + str(page) + '&include_adult=false')
-        response = requests.get('https://api.themoviedb.org/3/search/movie?api_key=a1a486ad19b99d238e92778b9ceb4bb4&language=en-US&query=' + query + '&page=' + str(page) + '&include_adult=false')
-        raw_results = response.json()['results']
+        if type == 'movies':
+            response = requests.get(
+                'https://api.themoviedb.org/3/search/movie?api_key=a1a486ad19b99d238e92778b9ceb4bb4&language=en-US&query=' + query + '&page=' + str(
+                    page) + '&include_adult=false')
 
-        print('\n\n\n' + str(len(raw_results)))
+            raw_results = response.json()['results']
 
-        results = []
+            for result in raw_results:
+                results.append(create_movie(result))
+        elif type == 'users':
+            users = User.objects.filter(username__contains = query, userprofile__is_private = False)
 
-        for result in raw_results:
-            results.append(create_movie(result))
-
-    '''
-    return_data_for_users_one = User.objects.all()
-    return_data_for_users = UserProfile.objects.all()
-    '''
-    #print(return_data_for_users)
-
-    #return_data_for_users = Movie.objects.all()
-    #user = User.objects.get(username='asc')
-    #return_data_for_users = UserProfile.objects.all()
+            if users.exists():
+                results = list(users.all())
 
     total_pages = math.ceil(len(results) / search_load_amount)
 
@@ -430,6 +346,7 @@ def search(request):
     shown_upper = page * search_load_amount
 
     data['query'] = query
+    data['type'] = type
     data['page_num'] = page
 
     data['total_pages'] = total_pages

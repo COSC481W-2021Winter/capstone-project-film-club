@@ -3,4 +3,58 @@
 	
 	display: flex;
 	flex-wrap: flex-wrap;
+	
+	margin-top: 0;
+}
+
+.search-user a:not(:first-child){
+	align-self: center;
+}
+.search-user a:hover{
+	text-decoration: underline;
+}
+.search-user{
+	display: flex;
+	flex-direction: column;
+	
+	padding: var(--tile-padding);
+	
+	box-sizing: border-box;
+}
+.search-profile-picture{
+	width: 100%;
+	
+	position: relative;
+	
+	padding-top: 100%;
+	
+	background-image: var(--profile-picture);
+	background-position: center;
+	background-size: cover;
+	background-repeat: no-repeat;
+	
+	border-radius: 100%;
+}
+.search-profile-name{
+	align-self: center;
+	
+	margin-top: 5px;
+	
+	font-family: Roboto-Medium;
+}
+.username-container{
+	display: flex;
+	align-items: baseline;
+	align-self: center;
+	
+	font-family: Roboto-Regular;
+	font-size: 10px;
+	color: #777;
+	
+	line-height: 12px;
+}
+.user-username{
+	margin-left: 1px;
+	
+	font-size: 12px;
 }

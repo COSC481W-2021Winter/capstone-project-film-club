@@ -30,9 +30,9 @@
 				<img src = "{% static 'img/icons/search-white-20.png' %}">
 				<input id = "search-box" type = "text" name = "q" value = "{{ query }}">
 
-				<select name="search_user_or_movie" id="movie_or_users">
-					<option value="Movies">Search Movies</option>
-					<option value="Users">Search Users</option>
+				<select name = "t" id = "movie_or_users">
+					<option value = "movies" {% if type == 'movies' %}selected{% endif %}>Movies</option>
+					<option value = "users" {% if type == 'users' %}selected{% endif %}>Users</option>
 				</select>
 			</form>
 		</div>

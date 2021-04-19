@@ -43,7 +43,14 @@
 			
 			<span id = "username-container">@<p id = "user-username">{{ profile.username }}</p></span>
 		</div>
-
+		
+		{% if user == profile %}
+			
+			<input id = "user-privacy-setting" type = "hidden" name = "privacy" value = "{{ profile.userprofile.is_private }}">
+		<div id = "user-privacy" class = "{% if profile.userprofile.is_private %}private{% else %}public{% endif %}">{% if profile.userprofile.is_private %}Private{% else %}Public{% endif %}</div>
+		
+		{% endif %}
+		
 		<div id = "user-bio" style="text-align:center; padding-top: 20px; padding-bottom: 10px;">
 			{% if user == profile %}
 			

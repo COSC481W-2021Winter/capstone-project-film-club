@@ -42,3 +42,7 @@ $(document).ready(function(){
 		});
 	});
 });
+
+function refreshRecomendations(){
+	window.location.reload();
+} 

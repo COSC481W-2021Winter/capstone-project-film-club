@@ -27,7 +27,7 @@ urlpatterns = [
     path('about/', views.about, name='about'), # about us page
     path('register/', views.register, name='register'),  # New user signup screen
     path('genres/', views.genres, name = 'genres'),  # Genre selection screen
-    path('search', views.search, name = 'search'),  # Search screen
+    path('search/', views.search, name = 'search'),  # Search screen
     path('m/<int:id>/', views.movie, name = 'movie'),  # Movie profile screen
     path("welcome/", views.welcome, name = "send welcome email"),
     path('reviews/<int:page>/', views.get_home_reviews, name = 'home_reviews'),
@@ -36,9 +36,6 @@ urlpatterns = [
     path('r/<int:review_id>/like', views.review_like, name='review_like'),  # Review like action
     path('r/<int:review_id>/comment', views.review_comment, name='review_comment'),  # Review comment action
     path('accounts/', include('django.contrib.auth.urls')),  # Enable Django auth app
-
-    path('change_settings', views.goHome, name='change_settings'),
-
 
     path('bug_reporting_page/', views.bug_reporting_page, name='bug_reporting_page'), # Bug reporting page
     path('picture_upload/', views.profile_picture_upload, name = 'profile_picture_upload'),
